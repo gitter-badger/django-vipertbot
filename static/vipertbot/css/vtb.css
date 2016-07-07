@@ -1,0 +1,18 @@
+body {
+    background-color: #BABABA;
+}
+
+.main_content_wrapper {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.jumbotron {
+    background-color: #664D91;
+    color: #fff;
+    height: 500px;
+}
+
+.jumbotron .container {
+    padding-top: 75px;
+}
