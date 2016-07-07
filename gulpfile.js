@@ -83,4 +83,4 @@ gulp.task('watchify', function() {
     }
 });
 
-gulp.task('default', ['styles', 'browserify']);
+gulp.task('default', ['styles', 'browserify', 'fa_fonts', 'vendorCSS', 'vendorJS']);
