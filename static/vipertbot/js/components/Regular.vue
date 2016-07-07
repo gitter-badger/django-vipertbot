@@ -22,15 +22,15 @@
     export default {
         data: function() {
             return {
-                Name: this.item.fields.name
+                ID: this.item.id,
+                Name: this.item.name
             }
         },
 
         methods: {
 
             remove: function() {
-                var id = this.item.pk;
-                this.$http.delete('api/app/regulars/'+id+'/').then(function(response) {
+                this.$http.delete(window.location.origin + '/api/regulars/'+this.ID+'/delete').then(function(response) {
                     this.$dispatch('refreshRequested');
                 }).catch(function(response) {
                     console.log(response);

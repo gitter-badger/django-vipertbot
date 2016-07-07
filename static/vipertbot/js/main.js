@@ -35,4 +35,4 @@ new Vue({
     ready() {
         //alert('Ready to go ...');
     }
-})
+});

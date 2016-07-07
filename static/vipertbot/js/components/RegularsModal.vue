@@ -81,8 +81,8 @@
         methods: {
             getRegulars: function() {
                 this.isLoading = true;
-                this.$http.get('api/app/regulars/').then(function(response) {
-                    this.regulars = response.data;
+                this.$http.get(window.location.origin + '/api/regulars/').then(function(response) {
+                    this.regulars = response.data.results;
                     this.isLoading = false
                 }.bind(this)).catch(function(response) {
                     this.isLoading = false
