@@ -4,6 +4,7 @@ from rest_framework.serializers import (
     SerializerMethodField,
     HyperlinkedIdentityField
 )
+from accounts.api.serializers import UserDetailSerializer
 
 from site_regulars.models import Regular
 
@@ -11,7 +12,7 @@ from twitch.api import v3 as twitch
 from twitch.exceptions import ResourceUnavailableException
 
 class RegularListSerializer(ModelSerializer):
-    user = SerializerMethodField()
+    user = UserDetailSerializer(read_only=True)
 
     url = HyperlinkedIdentityField(
         view_name='regulars-detail',
@@ -22,33 +23,36 @@ class RegularListSerializer(ModelSerializer):
         model = Regular
         fields = [
             'id',
-            'user',
+            'url',
             'name',
-            'url'
+            'user'
         ]
 
     def get_user(self, obj):
         return obj.user.username
 
 class RegularDetailSerializer(ModelSerializer):
-    user = SerializerMethodField()
+    user = UserDetailSerializer(read_only=True)
 
     class Meta:
         model = Regular
         fields = [
             'id',
-            'user',
-            'name'
+            'name',
+            'user'
         ]
 
     def get_user(self, obj):
         return obj.user.username
 
 class RegularCreateUpdateSerializer(ModelSerializer):
+    user = UserDetailSerializer(read_only=True)
+
     class Meta:
         model = Regular
         fields = [
-            'name'
+            'name',
+            'user'
         ]
 
     def validate_name(self, value):
