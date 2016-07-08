@@ -109,3 +109,4 @@ pip-selfcheck.json
 /static/compiled/css/*
 /static/compiled/fonts/*
 /static/compiled/js/*
+/twitch_bot/moobot-0.7.0/
