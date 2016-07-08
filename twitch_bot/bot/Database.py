@@ -4,7 +4,7 @@ from tools.termcolor import cprint
 class database:
 
     def __init__(self):
-        self.sqlite_database = '../database/vtb_database.sqlite'
+        self.sqlite_database = '../../db.sqlite3'
         self.cur = False
         self.con = False
 
