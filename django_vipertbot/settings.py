@@ -154,6 +154,6 @@ SOCIAL_AUTH_USER_MODEL = env_settings.SOCIAL_AUTH_USER_MODEL
 SOCIAL_AUTH_TWITCH_SCOPE = env_settings.SOCIAL_AUTH_TWITCH_SCOPE
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    'PAGE_SIZE': 10
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    'PAGE_SIZE': 50
 }
