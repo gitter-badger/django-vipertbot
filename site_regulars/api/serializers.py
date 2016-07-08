@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import (
     ModelSerializer,
     SerializerMethodField,
@@ -5,6 +6,9 @@ from rest_framework.serializers import (
 )
 
 from site_regulars.models import Regular
+
+from twitch.api import v3 as twitch
+from twitch.exceptions import ResourceUnavailableException
 
 class RegularListSerializer(ModelSerializer):
     user = SerializerMethodField()
@@ -46,3 +50,11 @@ class RegularCreateUpdateSerializer(ModelSerializer):
         fields = [
             'name'
         ]
+
+    def validate_name(self, value):
+        try:
+            data = twitch.users.by_name(value)
+        except ResourceUnavailableException:
+            raise ValidationError("Not a valid Twitch User or not confirmed.")
+
+        return value
