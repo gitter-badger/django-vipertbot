@@ -32,7 +32,13 @@ from .serializers import (
 class RegularListApiView(ListAPIView):
     serializer_class = RegularListSerializer
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['name', 'created_at', 'user__first_name', 'user__last_name', 'user__email']
+    search_fields = [
+        'name',
+        'user__username',
+        'user__first_name',
+        'user__last_name',
+        'user__email'
+    ]
 
     def get_queryset(self, *args, **kwargs):
         queryset_list = Regular.objects.filter(user=self.request.user)
@@ -40,13 +46,12 @@ class RegularListApiView(ListAPIView):
         if query:
             queryset_list = queryset_list.filter(
                 Q(name__icontains=query)|
+                Q(user__username=query)|
                 Q(user__first_name__icontains=query)|
                 Q(user__last_name__icontains=query)
             ).distinct()
 
         return queryset_list
-
-
 
 class RegularDetailApiView(RetrieveAPIView):
     queryset = Regular.objects.all()
@@ -73,4 +78,5 @@ class RegularUpdateApiView(RetrieveUpdateAPIView):
 class RegularDeleteApiView(DestroyAPIView):
     queryset = Regular.objects.all()
     serializer_class = RegularDetailSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     lookup_field = 'id'
