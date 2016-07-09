@@ -41,21 +41,21 @@
 
         methods: {
             getFollowing: function() {
-                this.$http.get('api/twitch/following/'+this.item.user.name+'/').then(function(response) {
+                this.$http.get(window.location.origin + '/api/followers/following/'+this.item.user.name+'/').then(function(response) {
                     this.isFollowing = true;
                 }).catch(function(response) {
                     this.isFollowing = false
                 });
             },
             followChannel: function() {
-                this.$http.get('api/twitch/follow/'+this.item.user.name+'/').then(function(response) {
+                this.$http.get(window.location.origin + '/api/followers/follow/'+this.item.user.name+'/').then(function(response) {
                     this.isFollowing = true;
                 }).catch(function(response) {
                     this.isFollowing = false
                 });
             },
             stopFollowing: function() {
-                this.$http.get('api/twitch/unfollow/'+this.item.user.name+'/').then(function(response) {
+                this.$http.get(window.location.origin + '/api/followers/unfollow/'+this.item.user.name+'/').then(function(response) {
                     this.isFollowing = false;
                 }).catch(function(response) {
                     this.isFollowing = true

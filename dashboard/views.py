@@ -7,6 +7,12 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'dashboard/dashboard.html')
 
+def admin(request):
+    if request.user.is_staff:
+        return redirect('/admin')
+
+    return redirect('#')
+
 def logout(request):
     auth_logout(request)
     return redirect('/')

@@ -81,8 +81,8 @@
         methods: {
             getFollowers: function() {
                 this.isLoading = true;
-                this.$http.get('api/twitch/followers/').then(function(response) {
-                    console.log(response.data.follows);
+                this.$http.get(window.location.origin + '/api/followers/').then(function(response) {
+                    console.log(response);
                     this.followers = response.data.follows;
                     this.isLoading = false
                 }.bind(this)).catch(function(response) {

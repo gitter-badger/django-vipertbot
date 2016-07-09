@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     # Project Apps
     'welcome',
     'dashboard',
-    'bot_controls',
     'site_regulars',
     'site_commands',
     'twitch_followers'
