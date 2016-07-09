@@ -27,3 +27,6 @@ def UnFollow(username, target, token):
     r = requests.delete(url, headers=headers)
 
     return r.json
+
+def Streams():
+    raise NotImplementedError
