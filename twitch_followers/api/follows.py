@@ -4,8 +4,8 @@ from twitch.api.v3 import follows
 base_url = 'https://api.twitch.tv/kraken/users/'
 
 # Create your views here.
-def Followers(username):
-    data = follows.by_channel(username)
+def Followers(username, limit=100):
+    data = follows.by_channel(username, limit=limit)
     return data
 
 def Following(username, target):
