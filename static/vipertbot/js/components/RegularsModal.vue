@@ -25,7 +25,7 @@
                                 <footer>Loading could take some time.</footer>
                             </blockquote>
 
-                            <button class="btn btn-primary btn-lg" v-on:click="getRegulars()">
+                            <button class="btn btn-primary btn-lg" @click="getRegulars()">
                                 Load Regulars
                             </button>
                         </div>
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-default btn-sm" v-on:click="show = false">
+                    <button class="btn btn-default btn-sm" @click="close()">
                         Close
                     </button>
 
@@ -93,6 +93,10 @@
                 this.regulars = [];
                 this.regulars = this.getRegulars();
                 this.isRefreshing = false;
+            },
+            close: function() {
+                this.show = false;
+                this.regulars = [];
             }
         },
 

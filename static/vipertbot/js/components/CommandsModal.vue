@@ -26,7 +26,7 @@
                                 <footer>Loading could take some time.</footer>
                             </blockquote>
 
-                            <button class="btn btn-primary btn-lg" v-on:click="getCommands()">
+                            <button class="btn btn-primary btn-lg" @click="getCommands()">
                                 Load Commands
                             </button>
                         </div>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-default btn-sm" v-on:click="show = false">
+                    <button class="btn btn-default btn-sm" @click="close()">
                         Close
                     </button>
 
@@ -95,7 +95,17 @@
                 this.commands = [];
                 this.commands = this.getCommands();
                 this.isRefreshing = false;
+            },
+            close: function() {
+                this.commands = [];
+                this.show = false
             }
+        },
+
+        events: {
+//            'modalClosing': function () {
+//                this.commands = [];
+//            }
         }
     }
 </script>

@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-default btn-sm" v-on:click="show = false">
+                    <button class="btn btn-default btn-sm" @click="close()">
                         Close
                     </button>
 
@@ -94,6 +94,10 @@
                 this.followers = [];
                 this.followers = this.getFollowers();
                 this.isRefreshing = false;
+            },
+            close: function() {
+                this.show = false;
+                this.followers = []
             }
         }
     }

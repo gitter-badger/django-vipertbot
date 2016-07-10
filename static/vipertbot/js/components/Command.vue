@@ -47,11 +47,10 @@
                         {{ name }}
                     </span>
                 </h4>
-                <div v-else class="form-group">
-                    <div v-for="name in Roles">
-                        <input type="checkbox" id="{{name}}" value="{{name}}" v-model="ItemRoles">
-                        <label for="{{name}}">{{name}}</label>
-                    </div>
+                <div v-else>
+                    <label style="margin-bottom: 5px" class="checkbox-inline" v-for="name in Roles">
+                      <input type="checkbox" id="{{name}}" value="{{name}}" v-model="ItemRoles"> {{name}}
+                    </label>
                 </div>
             </div>
 
@@ -67,6 +66,7 @@
         </div>
     </div>
 </template>
+
 <script>
     export default {
         data: function() {
@@ -101,18 +101,18 @@
             updateCommand: function() {
                 this.updateRoleObjects();
 
-                this.$http.put(window.location.origin + '/api/commands/'+this.ID+'/', {
+                this.$http.put(window.location.origin + '/api/commands/'+this.ID+'/edit/', {
                     name: this.Command,
                     text: this.Text,
                     cooldown_min: this.Cooldown,
                     active: this.isActive,
                     roles: this.UpdatedRoleObjects
                 }).then(function(response) {
-                    console.log(response);
+                    //console.log(response);
                     this.Updating = true;
                 }.bind(this)).catch(function(response) {
                     this.Updating = false;
-                    console.log('Error: ' + response)
+                    //console.log('Error: ' + response)
                 });
             },
             getRoles: function() {
@@ -139,6 +139,8 @@
                 }
             },
             updateRoleObjects: function() {
+                this.UpdatedRoleObects = []
+
                 for (var k in this.RoleObjects) {
                     if (this.RoleObjects.hasOwnProperty(k)) {
                         if(jQuery.inArray(this.RoleObjects[k].name, this.ItemRoles) !== -1) {

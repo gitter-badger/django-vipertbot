@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'dashboard',
     'site_regulars',
     'site_commands',
-    'twitch_followers'
+    'twitch_followers',
+    'twitch_roles'
 ]
 
 MIDDLEWARE_CLASSES = [
