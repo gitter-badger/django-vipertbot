@@ -2,10 +2,18 @@
 <template>
     <div class="panel-body">
         <div class="container-fluid">
+            <div class="row">
+                <div class="alert alert-{{alert_type}} alert-dismissible text-center" role="alert" v-if="alert_msg">
+                  <button type="button" @click="alert_dismissed()" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  {{ alert_msg }}
+                </div>
+            </div>
             <!-- Name -->
             <div class="row">
                 <div class="col-md-6">
-                    <h4 v-if="!Editing">{{ Name }}</h4>
+                    <h4 v-if="!Editing">
+                        <a href="http://www.twitch.tv/{{Name}}" target="_blank">{{ Name }}</a>
+                    </h4>
                     <div v-else class="form-group">
                         <input  type="text" class="form-control" v-model="Name">
                     </div>
@@ -33,7 +41,10 @@
             return {
                 Editing: false,
                 ID: this.item.id,
-                Name: this.item.name
+                Name: this.item.name,
+                old_name: this.item.name,
+                alert_msg: false,
+                alert_type: 'info'
             }
         },
 
@@ -50,9 +61,12 @@
                 this.$http.put(window.location.origin + '/api/regulars/'+this.ID+'/edit/',{
                     name: this.Name
                 }).then(function(response) {
-
+                    this.alert_type = 'success';
+                    this.alert_msg = 'Operation completed successfully ...';
                 }).catch(function(response) {
-                    alert(response.data.name)
+                    this.alert_type = 'danger';
+                    this.alert_msg = response.data.name;
+                    this.Name = this.old_name;
                 });
             },
             changeEditState: function() {
@@ -61,6 +75,10 @@
                 }
 
                 this.Editing = !this.Editing;
+            },
+            alert_dismissed: function() {
+                this.alert_msg = false
+                this.alert_type = 'info'
             }
         },
 
@@ -73,7 +91,7 @@
         ],
 
         ready: function() {
-           // console.log(this.item)
+
         }
     }
 </script>
