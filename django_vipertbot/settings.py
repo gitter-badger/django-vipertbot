@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'dashboard',
     'site_regulars',
     'site_commands',
+    'site_jobs',
     'twitch_followers',
     'twitch_roles'
 ]
