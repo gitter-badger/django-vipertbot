@@ -4,7 +4,7 @@ from rest_framework.filters import (
     OrderingFilter
 )
 
-from apps.vipertbot.models import Command
+from project.apps.vipertbot.models import Command
 
 from .permissions import IsOwnerOrReadOnly
 

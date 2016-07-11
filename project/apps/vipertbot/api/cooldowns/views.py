@@ -4,7 +4,7 @@ from rest_framework.filters import (
     OrderingFilter
 )
 
-from apps.vipertbot.models import Cooldown
+from project.apps.vipertbot.models import Cooldown
 
 from rest_framework.generics import (
     ListAPIView,

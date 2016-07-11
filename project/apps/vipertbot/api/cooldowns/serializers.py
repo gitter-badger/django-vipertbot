@@ -5,7 +5,7 @@ from rest_framework.serializers import (
     HyperlinkedIdentityField
 )
 
-from apps.vipertbot.models import Cooldown
+from project.apps.vipertbot.models import Cooldown
 
 class CooldownListSerializer(ModelSerializer):
     url = HyperlinkedIdentityField(

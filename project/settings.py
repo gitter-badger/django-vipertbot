@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
 
     # Project Apps
-    'apps.vipertbot'
+    'project.apps.vipertbot'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,12 +58,12 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_vipertbot.urls'
+ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'project/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_vipertbot.wsgi.application'
+WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # Database

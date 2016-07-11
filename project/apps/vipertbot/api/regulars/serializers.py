@@ -4,9 +4,9 @@ from rest_framework.serializers import (
     SerializerMethodField,
     HyperlinkedIdentityField
 )
-from apps.vipertbot.api.users.serializers import UserDetailSerializer
+from project.apps.vipertbot.api.users.serializers import UserDetailSerializer
 
-from apps.vipertbot.models import Regular
+from project.apps.vipertbot.models import Regular
 
 from twitch.api import v3 as twitch
 from twitch.exceptions import ResourceUnavailableException

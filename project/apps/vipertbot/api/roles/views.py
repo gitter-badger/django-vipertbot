@@ -4,7 +4,7 @@ from rest_framework.filters import (
     OrderingFilter
 )
 
-from apps.vipertbot.models import Role
+from project.apps.vipertbot.models import Role
 
 from rest_framework.generics import (
     ListAPIView,

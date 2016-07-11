@@ -4,11 +4,11 @@ from rest_framework.serializers import (
     SerializerMethodField,
     HyperlinkedIdentityField
 )
-from apps.vipertbot.api.users.serializers import UserDetailSerializer
-from apps.vipertbot.api.roles.serializers import RoleDetailSerializer
+from project.apps.vipertbot.api.users.serializers import UserDetailSerializer
+from project.apps.vipertbot.api.roles.serializers import RoleDetailSerializer
 
-from apps.vipertbot.models import Command
-from apps.vipertbot.models import Role
+from project.apps.vipertbot.models import Command
+from project.apps.vipertbot.models import Role
 
 class CommandListSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)

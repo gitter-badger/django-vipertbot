@@ -5,7 +5,7 @@ from rest_framework.serializers import (
     HyperlinkedIdentityField
 )
 
-from apps.vipertbot.models import Role
+from project.apps.vipertbot.models import Role
 
 class RoleListSerializer(ModelSerializer):
     url = HyperlinkedIdentityField(

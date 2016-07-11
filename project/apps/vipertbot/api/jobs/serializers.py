@@ -4,9 +4,9 @@ from rest_framework.serializers import (
     SerializerMethodField,
     HyperlinkedIdentityField
 )
-from apps.vipertbot.api.users.serializers import UserDetailSerializer
+from project.apps.vipertbot.api.users.serializers import UserDetailSerializer
 
-from apps.vipertbot.models import Job
+from project.apps.vipertbot.models import Job
 
 class JobListSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)
