@@ -1,11 +1,9 @@
 #!/usr/bin/python
 from tools.termcolor import cprint
-from Database import database
-import TwitchBot, sys
-
-db = database()
+import TwitchBot, sys, os
 
 def Main():
+
     cprint('Starting ViperTbot ...', 'green')
     try:
         TwitchBot.run()

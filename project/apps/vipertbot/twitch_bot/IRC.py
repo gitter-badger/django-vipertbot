@@ -1,7 +1,6 @@
 import socket, string, time
 from Settings import HOST, PORT, PASS, IDENT, CHANNELS
 from tools.termcolor import cprint
-from Database import database
 
 class ircClass:
 
@@ -10,7 +9,6 @@ class ircClass:
 
     def __init__(self):
         self.socket = socket.socket()
-        self.db = database()
 
     def connect(self):
         self.socket.connect((HOST, PORT))

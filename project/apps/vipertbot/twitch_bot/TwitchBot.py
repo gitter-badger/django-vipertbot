@@ -1,6 +1,5 @@
 import sys, string, datetime, Queue, threading, dateutil.parser
 from tools.termcolor import cprint
-from Database import database
 from IRC import ircClass
 import model
 
@@ -63,28 +62,30 @@ def processUserCommand(owner, user, message, line):
     commandText = ''
     commandActive = 0
     commandCooldown = 0
+    commandRoles = None
 
     if uid:
         command = getCommand(message)
         user_commands = model.get_user_commands(uid)
 
         for item in user_commands:
-            if command == item[1]:
-                commandID = item[0]
-                commandText = item[2]
-                commandCooldown = item[3]
-                commandActive = item[4]
+            if command == item.name:
+                commandID = item.id
+                commandText = item.text
+                commandCooldown = item.cooldown_min
+                commandRoles = item.roles
+                commandActive = item.active
                 break
-        cooldown = model.get_cooldown(command, channel)
+
+        cooldown = model.get_cooldown(command, uid)
 
 
         if checkCooldown(cooldown, commandCooldown):
             if not commandText == '':
-                permissions = db.getCommandPermissions(commandID)
                 isAllowed = False
 
-                for item in permissions:
-                    if doesUserHavePermission(line, item[0]):
+                for item in commandRoles.all():
+                    if doesUserHavePermission(line, uid, item.name):
                         isAllowed = True
                         break
 
@@ -99,10 +100,10 @@ def processUserCommand(owner, user, message, line):
                     irc.sendMessage(channel, commandText)
 
                     if not cooldown == 0:
-                        db.deleteCooldown(command, channel)
+                        model.remove_cooldown(command, uid)
 
                     start_time = datetime.datetime.now()
-                    db.insertCooldown(command, channel, start_time)
+                    model.add_cooldown(uid, command, start_time)
         else:
             cprint('Cooldown: ' + cooldown)
 
@@ -176,22 +177,24 @@ def getOptions(line):
     arr = line.split(' ')[1:]
     return arr
 
-def doesUserHavePermission(line, permission_id):
+def doesUserHavePermission(line, uid, role_name):
 
     if getUser(line) == getOwner(line):
         return True
 
-    if permission_id is 1:
+    if role_name == 'Moderators':
         if userIsModerator(line): return True
 
-    if permission_id is 2:
+    if role_name == 'Normal Users':
         return True
 
-    if permission_id is 3:
-        if not db.getRegular(getUser(line)) == 0:
-            return True
+    if role_name == 'Regulars':
+        data = model.get_regulars(uid)
+        for item in data:
+            if getUser(line) in item.name:
+                return True
 
-    if permission_id is 4:
+    if role_name == 'Subscribers':
         if userIsSubscriber(line): return True
 
     return False
@@ -205,15 +208,17 @@ def getVars(line):
 
 def queueWorker(q):
     global signal_shutdown
-    db = database()
 
     try:
         while not signal_shutdown:
-            job = db.getJob()
+            try:
+                job = model.get_next_job()
 
-            if job:
-                cprint("Added Job to Queue: " + job, 'magenta')
-                q.put(job)
+                if job:
+                    cprint("Added Job to Queue: " + job, 'magenta')
+                    q.put(str(job.id+'::'+job.name+'::'+job.user.username))
+            except IndexError:
+                continue
 
             q.join()
 
@@ -229,6 +234,7 @@ def queueProcessWorker(q, irc):
 
                 if job:
                     arr = string.split(job, '::')
+                    id = arr[0]
                     cmd = arr[1]
                     chan = arr[2]
 
@@ -239,7 +245,7 @@ def queueProcessWorker(q, irc):
                     if cmd == 'rejoin':
                         irc.rejoinChannel(chan)
 
-                    if db.deleteJob(job):
+                    if model.remove_job(id):
                         cprint('Process Finished Successfully!', 'green')
                         q.task_done()
                     else:

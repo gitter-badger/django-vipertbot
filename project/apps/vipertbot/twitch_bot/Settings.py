@@ -1,4 +1,4 @@
-from env import env_settings
+from project.env import env_settings
 
 HOST = "irc.twitch.tv"
 PORT = 6667
