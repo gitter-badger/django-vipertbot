@@ -1,0 +1,30 @@
+{% extends 'vipertbot/layout.html' %}
+
+{% block welcome_jumbotron %}
+    <div class="jumbotron">
+        <div class="container text-center">
+            <div class="h1 page-header">Currently In Development!</div>
+
+            <h1>Welcome To ViperTbot</h1>
+            <p>A Twitch Chat Bot developed in Python!</p>
+            <p>
+                <a class="btn btn-primary btn-lg"
+                   href="{% url 'social:begin' 'twitch' %}?next={{ request.path }}"
+                   role="button"
+                >
+                    <i class="fa fa-twitch"></i> Connect
+                </a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block container_main %}
+    {% if error %}
+        <div class="alert alert-danger">
+            <p class="text-center">{{ error }}</p>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

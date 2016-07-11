@@ -1,0 +1,55 @@
+{% extends 'vipertbot/layout.html' %}
+
+{% block navbar %}
+    {% include 'vipertbot/partials/navbar.html' %}
+{% endblock %}
+
+{% block container_main %}
+    {% if user and not user.is_anonymous %}
+        <div style="padding-top: 100px"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                {# TWITCH CHAT #}
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <iframe frameborder="0"
+                                scrolling="no"
+                                id="chat_embed"
+                                src="http://www.twitch.tv/{{user}}/chat"
+                                height="400"
+                                width="700">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {# MEDIA PLAYER FOR SONGS #}
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+
+                    </div>
+                </div>
+
+                {#  BOT CONTROLS #}
+                <bot-controls></bot-controls>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+
+        {#    MODALS BELOW HERE #}
+        <followers-modal :show.sync="showFollowersModal"></followers-modal>
+        <commands-modal :show.sync="showCommandsModal"></commands-modal>
+        <regulars-modal :show.sync="showRegularsModal"></regulars-modal>
+    {% else %}
+        <div class="alert alert-danger text-center">Error: No User or User Is Anonymous</div>
+    {% endif %}
+{% endblock %}

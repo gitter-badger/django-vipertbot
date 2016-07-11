@@ -44,13 +44,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
 
     # Project Apps
-    'welcome',
-    'dashboard',
-    'site_regulars',
-    'site_commands',
-    'site_jobs',
-    'twitch_followers',
-    'twitch_roles'
+    'apps.vipertbot'
 ]
 
 MIDDLEWARE_CLASSES = [
