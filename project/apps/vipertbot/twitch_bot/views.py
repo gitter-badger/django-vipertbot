@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
-from .bot import Run
+from .bot import TwitchBot
 import threading
 
 @login_required(login_url='/')
@@ -34,4 +34,4 @@ def stop(request):
 
 # Main Bot Thread
 def bot():
-    Run.Main()
+    TwitchBot.run()

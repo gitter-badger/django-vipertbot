@@ -1,8 +1,8 @@
 import sys, string, datetime, Queue, threading
+from project.apps.vipertbot.twitch_bot.bot import query
 from django.utils.timezone import utc
 from tools.termcolor import cprint
 from IRC import ircClass
-import model
 
 irc = ircClass()
 
@@ -13,6 +13,7 @@ signal_shutdown = False
 
 def run():
     global signal_shutdown
+    cprint('Starting ViperTbot ...', 'green')
 
     queWorkerThread = threading.Thread(target=queueWorker, args=(que,))
     queWorkerThread.daemon = True
@@ -57,7 +58,7 @@ def run():
         sys.exit(0)
 
 def processUserCommand(owner, user, message, line):
-    uid = model.get_uid_by_username(owner)
+    uid = query.get_uid_by_username(owner)
     channel = owner
     commandID = 0
     commandText = ''
@@ -67,7 +68,7 @@ def processUserCommand(owner, user, message, line):
 
     if uid:
         command = getCommand(message)
-        user_commands = model.get_user_commands(uid)
+        user_commands = query.get_user_commands(uid)
 
         for item in user_commands:
             if command == item.name:
@@ -78,7 +79,7 @@ def processUserCommand(owner, user, message, line):
                 commandActive = item.active
                 break
 
-        cooldown = model.get_cooldown(uid, command)
+        cooldown = query.get_cooldown(uid, command)
 
 
         if checkCooldown(cooldown, commandCooldown):
@@ -101,10 +102,10 @@ def processUserCommand(owner, user, message, line):
                     irc.sendMessage(channel, commandText)
 
                     if not cooldown == 0:
-                        model.remove_cooldown(command, uid)
+                        query.remove_cooldown(command, uid)
 
                     start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
-                    model.add_cooldown(uid, command, start_time)
+                    query.add_cooldown(uid, command, start_time)
         else:
             cprint('Cooldown: ' + str(cooldown), 'red')
 
@@ -192,7 +193,7 @@ def doesUserHavePermission(line, uid, role_name):
         return True
 
     if role_name == 'Regulars':
-        data = model.get_regulars(uid)
+        data = query.get_regulars(uid)
         for item in data:
             if getUser(line) in item.name:
                 return True
@@ -215,7 +216,7 @@ def queueWorker(q):
     try:
         while not signal_shutdown:
             try:
-                job = model.get_next_job()
+                job = query.get_next_job()
 
                 if job:
                     cprint("Added Job to Queue: " + job.name, 'magenta')
@@ -248,7 +249,7 @@ def queueProcessWorker(q, irc):
                     if cmd == 'rejoin':
                         irc.rejoinChannel(chan)
 
-                    if model.remove_job(id):
+                    if query.remove_job(id):
                         cprint('Process Finished Successfully!', 'green')
                         q.task_done()
                     else:

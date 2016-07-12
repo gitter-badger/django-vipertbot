@@ -1,5 +1,11 @@
 import socket, string, time
-from Settings import HOST, PORT, PASS, IDENT, CHANNELS
+from project.settings import (
+    IRC_HOST,
+    IRC_PORT,
+    IRC_PASS,
+    IRC_IDENT,
+    IRC_CHANNELS
+)
 from tools.termcolor import cprint
 
 class ircClass:
@@ -11,9 +17,9 @@ class ircClass:
         self.socket = socket.socket()
 
     def connect(self):
-        self.socket.connect((HOST, PORT))
-        self.socket.send("PASS " + PASS + "\r\n")
-        self.socket.send("NICK " + IDENT + "\r\n")
+        self.socket.connect((IRC_HOST, IRC_PORT))
+        self.socket.send("PASS " + IRC_PASS + "\r\n")
+        self.socket.send("NICK " + IRC_IDENT + "\r\n")
         self.socket.send("CAP REQ :twitch.tv/membership\r\n")
         self.socket.send("CAP REQ :twitch.tv/commands\r\n")
         self.socket.send("CAP REQ :twitch.tv/tags\r\n")
