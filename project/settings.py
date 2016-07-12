@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 from env import env_settings
+# Grappelli Admin Settings
+GRAPPELLI_ADMIN_TITLE = 'ViperTbot Administration'
+
 
 # IRC TwitchBot Settings
 IRC_HOST = "irc.twitch.tv"
