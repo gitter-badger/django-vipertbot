@@ -1,10 +1,31 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ViperTbot Console</title>
-</head>
-    <body>
-        <h1>Rendered</h1>
-    </body>
-</html>
+{% extends 'vipertbot/layout.html' %}
+
+{% block navbar %}
+    {% include 'vipertbot/partials/navbar.html' %}
+{% endblock %}
+
+{% block container_main %}
+    <div style="padding-top: 100px"></div>
+    
+    {% if user.is_superuser %}
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'start' %}" class="btn btn-success">Start ViperTbot</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger text-center">Error: You are NOT authorized to be here!</div>
+    {% endif %}
+{% endblock %}

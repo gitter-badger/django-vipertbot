@@ -1,4 +1,5 @@
-import sys, string, datetime, Queue, threading, dateutil.parser
+import sys, string, datetime, Queue, threading
+from django.utils.timezone import utc
 from tools.termcolor import cprint
 from IRC import ircClass
 import model
@@ -102,10 +103,10 @@ def processUserCommand(owner, user, message, line):
                     if not cooldown == 0:
                         model.remove_cooldown(command, uid)
 
-                    start_time = datetime.datetime.now()
+                    start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
                     model.add_cooldown(uid, command, start_time)
         else:
-            cprint('Cooldown: ' + cooldown)
+            cprint('Cooldown: ' + str(cooldown), 'red')
 
     return True
 
@@ -113,9 +114,11 @@ def checkCooldown(start_time, command_cooldown):
     if start_time == 0:
         return True
 
-    end = datetime.datetime.now()
-    diff = end - dateutil.parser.parse(start_time)
-    minutes = diff.days * 86400 + diff.seconds / 60
+    end = datetime.datetime.utcnow().replace(tzinfo=utc)
+    duration = end - start_time
+    days, seconds = duration.days, duration.seconds
+    minutes = (seconds % 3600) // 60
+
     if minutes >= command_cooldown:
         return True
 
