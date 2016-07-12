@@ -1,4 +1,5 @@
 Django==1.9.7
+django-grappelli==2.8.1
 djangorestframework==3.3.3
 oauthlib==1.1.2
 PyJWT==1.4.0

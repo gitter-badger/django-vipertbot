@@ -5,6 +5,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
 
     # Api

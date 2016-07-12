@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,7 +81,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect'
+                'social.apps.django_app.context_processors.login_redirect',
+                'django.template.context_processors.request',
             ],
         },
     },
