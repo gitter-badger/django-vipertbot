@@ -1,3 +1,4 @@
+from tools.termcolor import cprint
 from django.contrib.auth import get_user_model
 from project.apps.vipertbot.models import Command
 from project.apps.vipertbot.models import Job
@@ -27,20 +28,21 @@ def get_next_job():
     return Job.objects.all()[:1][0]
 
 def remove_job(job_id):
+    cprint('Job ID' + job_id, 'red')
     model = Job.objects.get(id=job_id)
     model.delete()
-    model.save()
     return True
 
 def get_cooldown(uid, command):
     try:
-        model = Cooldown.objects.get(user__id=uid)
+        model = Cooldown.objects.get(user__id=uid, name=command)
         return model.start_time
     except (Cooldown.DoesNotExist,
             Cooldown.MultipleObjectsReturned):
         return 0
+
 def add_cooldown(uid, command, start_time):
-    model = Cooldown.objects.create(
+    model = Cooldown(
         user=User.objects.get(id=uid),
         name=command,
         start_time=start_time
@@ -51,6 +53,5 @@ def add_cooldown(uid, command, start_time):
 def remove_cooldown(command, uid):
     model = Cooldown.objects.get(name=command, user__id=uid)
     model.delete()
-    model.save()
     return True
 

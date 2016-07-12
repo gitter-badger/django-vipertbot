@@ -77,7 +77,7 @@ def processUserCommand(owner, user, message, line):
                 commandActive = item.active
                 break
 
-        cooldown = model.get_cooldown(command, uid)
+        cooldown = model.get_cooldown(uid, command)
 
 
         if checkCooldown(cooldown, commandCooldown):
@@ -215,8 +215,8 @@ def queueWorker(q):
                 job = model.get_next_job()
 
                 if job:
-                    cprint("Added Job to Queue: " + job, 'magenta')
-                    q.put(str(job.id+'::'+job.name+'::'+job.user.username))
+                    cprint("Added Job to Queue: " + job.name, 'magenta')
+                    q.put(str(job.id)+'::'+job.name+'::'+job.user.username)
             except IndexError:
                 continue
 
