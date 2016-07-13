@@ -2,9 +2,9 @@ import sys, string, datetime, Queue, threading
 from project.apps.vipertbot.twitch_bot.bot import query
 from django.utils.timezone import utc
 from tools.termcolor import cprint
-from IRC import ircClass
+from irc_twitch import IRC
 
-irc = ircClass()
+irc = IRC()
 
 que = Queue.Queue()
 signal_shutdown = False
@@ -47,9 +47,7 @@ def run():
                     break
 
                 if message.startswith("!"):
-                    owner = getOwner(line)
-                    user = getUser(line)
-                    processUserCommand(owner, user, message, line)
+                    processUserCommand(line)
                     break
 
     except KeyboardInterrupt:
@@ -57,7 +55,10 @@ def run():
         signal_shutdown = True
         sys.exit(0)
 
-def processUserCommand(owner, user, message, line):
+def processUserCommand(line):
+    message = getMessage(line)
+    owner = getOwner(line)
+    user = getUser(line)
     uid = query.get_uid_by_username(owner)
     channel = owner
     commandID = 0
@@ -66,48 +67,50 @@ def processUserCommand(owner, user, message, line):
     commandCooldown = 0
     commandRoles = None
 
-    if uid:
-        command = getCommand(message)
-        user_commands = query.get_user_commands(uid)
+    try:
+        if uid:
+            command = getCommand(message)
+            user_commands = query.get_user_commands(uid)
 
-        for item in user_commands:
-            if command == item.name:
-                commandID = item.id
-                commandText = item.text
-                commandCooldown = item.cooldown_min
-                commandRoles = item.roles
-                commandActive = item.active
-                break
+            for item in user_commands:
+                if command == item.name:
+                    commandID = item.id
+                    commandText = item.text
+                    commandCooldown = item.cooldown_min
+                    commandRoles = item.roles
+                    commandActive = item.active
+                    break
 
-        cooldown = query.get_cooldown(uid, command)
+            cooldown = query.get_cooldown(uid, command)
 
+            if checkCooldown(cooldown, commandCooldown):
+                if not commandText == '':
+                    isAllowed = False
 
-        if checkCooldown(cooldown, commandCooldown):
-            if not commandText == '':
-                isAllowed = False
-
-                for item in commandRoles.all():
-                    if doesUserHavePermission(line, uid, item.name):
-                        isAllowed = True
-                        break
-
-                if commandActive and isAllowed:
-                    for var in getVars(line):
-                        if var in commandText:
-                            commandText = commandText.replace(var, getVars(line)[var])
+                    for item in commandRoles.all():
+                        if doesUserHavePermission(line, uid, item.name):
+                            isAllowed = True
                             break
 
-                    cprint("-- CMD Recieved -- Requested By: "+user+": On #"+channel, 'cyan')
+                    if commandActive and isAllowed:
+                        for var in getVars(line):
+                            if var in commandText:
+                                commandText = commandText.replace(var, getVars(line)[var])
+                                break
 
-                    irc.sendMessage(channel, commandText)
+                        cprint("-- CMD Recieved -- Requested By: "+user+": On #"+channel, 'cyan')
 
-                    if not cooldown == 0:
-                        query.remove_cooldown(command, uid)
+                        irc.sendMessage(channel, commandText)
 
-                    start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
-                    query.add_cooldown(uid, command, start_time)
-        else:
-            cprint('Cooldown: ' + str(cooldown), 'red')
+                        if not cooldown == 0:
+                            query.remove_cooldown(command, uid)
+
+                        start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+                        query.add_cooldown(uid, command, start_time)
+            else:
+                cprint('Cooldown: ' + str(cooldown), 'red')
+    except Exception, e:
+        cprint(e.message, 'red')
 
     return True
 

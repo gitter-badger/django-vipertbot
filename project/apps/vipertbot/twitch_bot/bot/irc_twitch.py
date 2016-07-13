@@ -8,7 +8,7 @@ from project.settings import (
 )
 from tools.termcolor import cprint
 
-class ircClass:
+class IRC:
 
     bufferSize = 2048
     Loading = False
