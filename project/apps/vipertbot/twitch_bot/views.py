@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from .bot import TwitchBot
 import threading
+
 
 @login_required(login_url='/')
 def index(request):
@@ -22,6 +23,7 @@ def start(request):
 
     return redirect('index')
 
+
 @login_required(login_url='/')
 def stop(request):
     if not request.user.is_superuser:
@@ -29,8 +31,11 @@ def stop(request):
 
     return redirect('index')
 
-###############
-### THREADS ###
+
+'''
+    THREADS
+'''
+
 
 # Main Bot Thread
 def bot():

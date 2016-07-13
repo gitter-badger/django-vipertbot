@@ -1,15 +1,16 @@
-import sys, string, datetime, Queue, threading
-from project.apps.vipertbot.twitch_bot.bot import query
-from django.utils.timezone import utc
-from tools.termcolor import cprint
-from irc_twitch import IRC
+import sys, string, Queue, threading
+from . import query, command
+from .tools.termcolor import cprint
+from .irc_twitch import IRC
+from .read import (
+    get_chan,
+    get_msg
+)
 
 irc = IRC()
 
 que = Queue.Queue()
 signal_shutdown = False
-
-#todo: Extract more methods, create new Read Module
 
 def run():
     global signal_shutdown
@@ -29,7 +30,6 @@ def run():
 
             for line in irc_buffer:
                 cprint(line, 'blue')
-                message = getMessage(line)
 
                 if ":End of /NAMES list" in line:
                     cprint('JOINED ...', 'yellow')
@@ -46,172 +46,16 @@ def run():
                     irc.sendPong(line)
                     break
 
-                if message.startswith("!"):
-                    processUserCommand(line)
+                if get_msg(line).startswith("!"):
+                    cmd_response = command.process_trigger(line)
+                    if cmd_response:
+                        irc.sendMessage(get_chan(line), cmd_response)
                     break
 
     except KeyboardInterrupt:
         cprint("\r\nShutting down ViperTbot ..", 'red')
         signal_shutdown = True
         sys.exit(0)
-
-def processUserCommand(line):
-    message = getMessage(line)
-    owner = getOwner(line)
-    user = getUser(line)
-    uid = query.get_uid_by_username(owner)
-    channel = owner
-    commandID = 0
-    commandText = ''
-    commandActive = 0
-    commandCooldown = 0
-    commandRoles = None
-
-    try:
-        if uid:
-            command = getCommand(message)
-            user_commands = query.get_user_commands(uid)
-
-            for item in user_commands:
-                if command == item.name:
-                    commandID = item.id
-                    commandText = item.text
-                    commandCooldown = item.cooldown_min
-                    commandRoles = item.roles
-                    commandActive = item.active
-                    break
-
-            cooldown = query.get_cooldown(uid, command)
-
-            if checkCooldown(cooldown, commandCooldown):
-                if not commandText == '':
-                    isAllowed = False
-
-                    for item in commandRoles.all():
-                        if doesUserHavePermission(line, uid, item.name):
-                            isAllowed = True
-                            break
-
-                    if commandActive and isAllowed:
-                        for var in getVars(line):
-                            if var in commandText:
-                                commandText = commandText.replace(var, getVars(line)[var])
-                                break
-
-                        cprint("-- CMD Recieved -- Requested By: "+user+": On #"+channel, 'cyan')
-
-                        irc.sendMessage(channel, commandText)
-
-                        if not cooldown == 0:
-                            query.remove_cooldown(command, uid)
-
-                        start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
-                        query.add_cooldown(uid, command, start_time)
-            else:
-                cprint('Cooldown: ' + str(cooldown), 'red')
-    except Exception, e:
-        cprint(e.message, 'red')
-
-    return True
-
-def checkCooldown(start_time, command_cooldown):
-    if start_time == 0:
-        return True
-
-    end = datetime.datetime.utcnow().replace(tzinfo=utc)
-    duration = end - start_time
-    days, seconds = duration.days, duration.seconds
-    minutes = (seconds % 3600) // 60
-
-    if minutes >= command_cooldown:
-        return True
-
-    return False
-
-def getOwner(line):
-    owner = line.split(':')[1].split('#')[1].strip(' ')
-    # cprint('Owner: ' + repr(owner), 'red')
-    return owner
-
-def getUser(line):
-    user = line.split(':')[1].split('!')[0].strip(' ')
-    # cprint('User: ' + repr(user), 'red')
-    return user
-
-def getMessage(line):
-    if 'PRIVMSG #' in line:
-        message = line.split(':')[2]
-        # cprint('Message: ' + repr(message), 'red')
-        return message
-
-    return str('')
-
-def getChannel(line):
-    channel = line.split(':')[1].split(' ')[2]
-    # cprint('Channel: ' + repr(channel), 'red')
-    return channel
-
-def getCommand(line):
-    command = line.split(' ')[0]
-    # cprint('Command: ' + repr(command), 'red')
-    return command.strip('\r')
-
-def userIsModerator(line):
-    v = line.split(';')[5].split('=')[1]
-
-    if v is 1:
-        return True
-
-    return False
-
-def userIsSubscriber(line):
-    v = line.split(';')[7].split('=')[1]
-
-    if v is 1:
-        return True
-
-    return False
-
-def userIsTurbo(line):
-    v = line.split(';')[8].split('=')[1]
-
-    if v is 1:
-        return True
-
-    return False
-
-def getOptions(line):
-    arr = line.split(' ')[1:]
-    return arr
-
-def doesUserHavePermission(line, uid, role_name):
-
-    if getUser(line) == getOwner(line):
-        return True
-
-    if role_name == 'Moderators':
-        if userIsModerator(line): return True
-
-    if role_name == 'Normal Users':
-        return True
-
-    if role_name == 'Regulars':
-        data = query.get_regulars(uid)
-        for item in data:
-            if getUser(line) in item.name:
-                return True
-
-    if role_name == 'Subscribers':
-        if userIsSubscriber(line): return True
-
-    return False
-
-def getVars(line):
-    return {
-        '{{username}}': getUser(line),
-        '{{owner}}': getOwner(line),
-        '{{channel}}': getChannel(line)
-    }
 
 def queueWorker(q):
     global signal_shutdown
