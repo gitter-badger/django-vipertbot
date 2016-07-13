@@ -20,14 +20,14 @@ def start(request):
     botThread.daemon = True
     botThread.start()
 
-    return render(request, 'vipertbot/bot/index.html')
+    return redirect('index')
 
 @login_required(login_url='/')
 def stop(request):
     if not request.user.is_superuser:
         return redirect('dashboard')
 
-    return render(request, 'vipertbot/bot/index.html')
+    return redirect('index')
 
 ###############
 ### THREADS ###
