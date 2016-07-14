@@ -34,6 +34,6 @@ new Vue({
     },
 
     ready() {
-        pageSetUp();
+
     }
 });

@@ -54,7 +54,9 @@ gulp.task('vendorCSS', function() {
 gulp.task('vendorJS', function() {
     return gulp.src([
             jquery_path + '/jquery.min.js',
+            smart_js_path + '/jquery-ui-1.10.3.min.js',
             bootstrap_js_path + '/bootstrap.min.js',
+            smart_js_path + '/app.config.js',
             smart_js_path + '/app.min.js',
             smart_js_path + '/SmartNotification.min.js',
             smart_js_path + '/jarvis.widget.min.js',
