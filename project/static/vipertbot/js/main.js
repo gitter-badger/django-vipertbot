@@ -25,7 +25,8 @@ new Vue({
         showFeaturesModal: false,
         showFollowersModal: false,
         showCommandsModal: false,
-        showRegularsModal: false
+        showRegularsModal: false,
+        showMenu: false
     },
 
     methods: {
@@ -33,6 +34,6 @@ new Vue({
     },
 
     ready() {
-        //alert('Ready to go ...');
+        pageSetUp();
     }
 });
