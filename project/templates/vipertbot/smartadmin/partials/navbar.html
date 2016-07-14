@@ -1,47 +1,270 @@
-<nav class="navbar navbar-default navbar-fixed-top" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">ViperTbot Beta</a>
-        </div>
+{% load staticfiles %}
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Features</a></li>
-                <li>
-                    <a href="#" id="show-modal" v-on:click.stop="showFollowersModal = true">
-                        <i class="fa fa-twitch"></i> Followers
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="show-modal" v-on:click.stop="showCommandsModal = true">
-                        <i class="fa fa-exclamation"></i> Commands
-                    </a>
-                </li>
-                <li>
-                    <a href="#" id="show-modal" v-on:click.stop="showRegularsModal = true">
-                        <i class="fa fa-users"></i> Regulars
-                    </a>
-                </li>
-            </ul>
+    <!-- User info -->
+    <div class="login-info">
+        <span> <!-- User image size is adjusted inside CSS, it should stay as it -->
 
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">{{ user }} <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+                <img src="{% static 'compiled/img/avatars/sunny.png' %}" alt="me" class="online" />
+                <span>
+                    john.doe
+                </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
 
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container -->
-</nav>
+        </span>
+    </div>
+    <!-- end user info -->
+
+    <!-- NAVIGATION : This navigation is also responsive-->
+    <nav>
+        <ul>
+            <li class="active">
+                <a href="{% url 'dashboard' %}" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Dashboard</span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Inbox</span><span class="badge pull-right inbox-badge">14</span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-twitch"></i> <span class="menu-item-parent">Twitch</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Following</a>
+                    </li>
+                    <li>
+                        <a href="#">Followers</a>
+                    </li>
+                    <li>
+                        <a href="#">Channel Status</a>
+                    </li>
+                    <li>
+                        <a href="#">Logs</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-star"></i> <span class="menu-item-parent">Regulars</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Regulars</a>
+                    </li>
+                    <li>
+                        <a href="#">Add New</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-exclamation"></i> <span class="menu-item-parent">Commands</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Built In</a>
+                    </li>
+                    <li>
+                        <a href="#">Custom Commands</a>
+                    </li>
+                    <li>
+                        <a href="#">Add New</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Songs</span></a>
+                <ul>
+                    <li>
+                        <a href="#">General Playlist</a>
+                    </li>
+                    <li>
+                        <a href="#">Personal Playlist</a>
+                    </li>
+                    <li>
+                        <a href="#">Add Songs</a>
+                    </li>
+                    <li>
+                        <a href="#">Settings</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-lg fa-fw fa-trophy"></i> <span class="menu-item-parent">Royalties</span></a>
+                <ul>
+                    <li>
+                        <a href="#">Rewards</a>
+                    </li>
+                    <li>
+                        <a href="#">Usage</a>
+                    </li>
+                    <li>
+                        <a href="#">Add New</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="chat-users top-menu-invisible">
+                <a href="#"><i class="fa fa-lg fa-fw fa-comment-o"><em class="bg-color-pink flash animated">!</em></i> <span class="menu-item-parent">Smart Chat API <sup>beta</sup></span></a>
+                <ul>
+                    <li>
+                        <!-- DISPLAY USERS -->
+                        <div class="display-users">
+
+                            <input class="form-control chat-user-filter" placeholder="Filter" type="text">
+
+                            <a href="#" class="usr"
+                                data-chat-id="cha1"
+                                data-chat-fname="Sadi"
+                                data-chat-lname="Orlaf"
+                                data-chat-status="busy"
+                                data-chat-alertmsg="Sadi Orlaf is in a meeting. Please do not disturb!"
+                                data-chat-alertshow="true"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Sadi Orlaf'>
+                                        <div class='usr-card-content'>
+                                            <h3>Sadi Orlaf</h3>
+                                            <p>Marketing Executive</p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Sadi Orlaf
+                            </a>
+
+                            <a href="#" class="usr"
+                                data-chat-id="cha2"
+                                data-chat-fname="Jessica"
+                                data-chat-lname="Dolof"
+                                data-chat-status="online"
+                                data-chat-alertmsg=""
+                                data-chat-alertshow="false"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Jessica Dolof'>
+                                        <div class='usr-card-content'>
+                                            <h3>Jessica Dolof</h3>
+                                            <p>Sales Administrator</p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Jessica Dolof
+                            </a>
+
+                            <a href="#" class="usr"
+                                data-chat-id="cha3"
+                                data-chat-fname="Zekarburg"
+                                data-chat-lname="Almandalie"
+                                data-chat-status="online"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Zekarburg Almandalie'>
+                                        <div class='usr-card-content'>
+                                            <h3>Zekarburg Almandalie</h3>
+                                            <p>Sales Admin</p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Zekarburg Almandalie
+                            </a>
+
+                            <a href="#" class="usr"
+                                data-chat-id="cha4"
+                                data-chat-fname="Barley"
+                                data-chat-lname="Krazurkth"
+                                data-chat-status="away"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Barley Krazurkth'>
+                                        <div class='usr-card-content'>
+                                            <h3>Barley Krazurkth</h3>
+                                            <p>Sales Director</p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Barley Krazurkth
+                            </a>
+
+                            <a href="#" class="usr offline"
+                                data-chat-id="cha5"
+                                data-chat-fname="Farhana"
+                                data-chat-lname="Amrin"
+                                data-chat-status="incognito"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Farhana Amrin'>
+                                        <div class='usr-card-content'>
+                                            <h3>Farhana Amrin</h3>
+                                            <p>Support Admin <small><i class='fa fa-music'></i> Playing Beethoven Classics</small></p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Farhana Amrin (offline)
+                            </a>
+
+                            <a href="#" class="usr offline"
+                                data-chat-id="cha6"
+                                data-chat-fname="Lezley"
+                                data-chat-lname="Jacob"
+                                data-chat-status="incognito"
+                                data-rel="popover-hover"
+                                data-placement="right"
+                                data-html="true"
+                                data-content="
+                                    <div class='usr-card'>
+                                        <img src='{% static 'compiled/img/avatars/5.png' %}' alt='Lezley Jacob'>
+                                        <div class='usr-card-content'>
+                                            <h3>Lezley Jacob</h3>
+                                            <p>Sales Director</p>
+                                        </div>
+                                    </div>
+                                ">
+                                <i></i>Lezley Jacob (offline)
+                            </a>
+
+                            <a href="ajax/chat.html" class="btn btn-xs btn-default btn-block sa-chat-learnmore-btn">About the API</a>
+
+                        </div>
+                        <!-- END DISPLAY USERS -->
+                    </li>
+                </ul>
+            </li>
+
+            <!-- todo: add the below menu items to superuser only -->
+            <li class="top-menu-invisible">
+                <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">SmartAdmin Intel</span></a>
+                <ul>
+                    <li>
+                        <a href="difver.html"><i class="fa fa-stack-overflow"></i> Different Versions</a>
+                    </li>
+                    <li>
+                        <a href="applayout.html"><i class="fa fa-cube"></i> App Settings</a>
+                    </li>
+                    <li>
+                        <a href="http://bootstraphunter.com/smartadmin/BUGTRACK/track_/documentation/index.html" target="_blank"><i class="fa fa-book"></i> Documentation</a>
+                    </li>
+                    <li>
+                        <a href="http://bootstraphunter.com/smartadmin/BUGTRACK/track_/" target="_blank"><i class="fa fa-bug"></i> Bug Tracker</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>
+<!-- END NAVIGATION -->

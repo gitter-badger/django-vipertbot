@@ -18,15 +18,14 @@ new Vue({
         FeaturesModal,
         FollowersModal,
         CommandsModal,
-        RegularsModal,
+        RegularsModal
     },
 
     data: {
         showFeaturesModal: false,
         showFollowersModal: false,
         showCommandsModal: false,
-        showRegularsModal: false,
-        showMenu: false
+        showRegularsModal: false
     },
 
     methods: {
