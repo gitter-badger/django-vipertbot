@@ -139,7 +139,7 @@
                 }
             },
             updateRoleObjects: function() {
-                this.UpdatedRoleObects = []
+                this.UpdatedRoleObects = [];
 
                 for (var k in this.RoleObjects) {
                     if (this.RoleObjects.hasOwnProperty(k)) {

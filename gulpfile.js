@@ -28,7 +28,7 @@ var js_root_path = './project/static/vipertbot/js';
 // Smartadmin
 var smart_css_path = './project/static/vipertbot/css/smartadmin';
 var smart_js_path = './project/static/vipertbot/js/smartadmin';
-var smart_js_plugin_path = './project/static/vipertbot/css/smartadmin/plugin';
+var smart_js_plugin_path = './project/static/vipertbot/js/smartadmin/plugin';
 
 // VueJS
 var vue_components_path = './project/static/vipertbot/js/components';
@@ -62,7 +62,13 @@ gulp.task('vendorJS', function() {
             smart_js_path + '/jarvis.widget.min.js',
             smart_js_path + '/voicecommand.min.js',
             smart_js_path + '/smart.chat.ui.min.js',
-            smart_js_path + '/smart.chat.manager.min.js'
+            smart_js_path + '/smart.chat.manager.min.js',
+            smart_js_plugin_path + '/flot/jquery.flot.cust.min.js',
+            smart_js_plugin_path + '/flot/jquery.flot.resize.min.js',
+            smart_js_plugin_path + '/flot/jquery.flot.time.min.js',
+            smart_js_plugin_path + '/flot/jquery.flot.tooltip.min.js',
+            smart_js_plugin_path + '/vectormap/jquery-jvectormap-1.2.2.min.js',
+            smart_js_plugin_path + '/vectormap/jquery-jvectormap-world-mill-en.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest(js_compiled_path));

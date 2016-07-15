@@ -11694,9 +11694,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-2c71363e", module.exports)
+    hotAPI.createRecord("_v-695c6191", module.exports)
   } else {
-    hotAPI.update("_v-2c71363e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-695c6191", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
@@ -11802,9 +11802,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-2bac6d28", module.exports)
+    hotAPI.createRecord("_v-223d963f", module.exports)
   } else {
-    hotAPI.update("_v-2bac6d28", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-223d963f", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],9:[function(require,module,exports){
@@ -11886,9 +11886,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-1d472766", module.exports)
+    hotAPI.createRecord("_v-67d66c0e", module.exports)
   } else {
-    hotAPI.update("_v-1d472766", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-67d66c0e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Command.vue":8,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
@@ -11929,9 +11929,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-e77d2d5e", module.exports)
+    hotAPI.createRecord("_v-3b0f0be4", module.exports)
   } else {
-    hotAPI.update("_v-e77d2d5e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-3b0f0be4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
@@ -11998,9 +11998,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-79515fcd", module.exports)
+    hotAPI.createRecord("_v-43b72d5a", module.exports)
   } else {
-    hotAPI.update("_v-79515fcd", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-43b72d5a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],12:[function(require,module,exports){
@@ -12076,9 +12076,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6522b107", module.exports)
+    hotAPI.createRecord("_v-dfed3e58", module.exports)
   } else {
-    hotAPI.update("_v-6522b107", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-dfed3e58", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Follower.vue":11,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
@@ -12146,9 +12146,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-0e9b793d", module.exports)
+    hotAPI.createRecord("_v-46af4610", module.exports)
   } else {
-    hotAPI.update("_v-0e9b793d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-46af4610", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],14:[function(require,module,exports){
@@ -12229,12 +12229,77 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-09201312", module.exports)
+    hotAPI.createRecord("_v-ab84cdec", module.exports)
   } else {
-    hotAPI.update("_v-09201312", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-ab84cdec", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Regular.vue":13,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: ['static_path'],
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- new widget -->\n<div class=\"jarviswidget jarviswidget-color-blueDark\" id=\"wid-id-1\" data-widget-editbutton=\"false\" data-widget-fullscreenbutton=\"false\">\n\n    <!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n    <header>\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\n        <h2> SmartChat </h2>\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n\n            <div class=\"btn-group\">\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </header>\n\n    <!-- widget div-->\n    <div>\n        <!-- widget edit box -->\n        <div class=\"jarviswidget-editbox\">\n            <div>\n                <label>Title:</label>\n                <input type=\"text\">\n            </div>\n        </div>\n        <!-- end widget edit box -->\n\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <!-- content goes here -->\n\n            <!-- CHAT CONTAINER -->\n            <div id=\"chat-container\">\n                <span class=\"chat-list-open-close\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n                <div class=\"chat-list-body custom-scroll\">\n                    <ul id=\"chat-users\">\n                        <li>\n                            <a href=\"#\">\n                                <img src=\"{{static_path}}/img/avatars/5.png\" alt=\"\">\n                                Robin Berry\n                                <span class=\"badge badge-inverse\">23</span>\n                                <span class=\"state\">\n                                    <i class=\"fa fa-circle txt-color-green pull-right\"></i>\n                                </span>\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n                <div class=\"chat-list-footer\">\n\n                    <div class=\"control-group\">\n\n                        <form class=\"smart-form\">\n\n                            <section>\n                                <label class=\"input\">\n                                    <input type=\"text\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                                </label>\n                            </section>\n\n                        </form>\n                    </div>\n                </div>\n\n            </div>\n\n            <!-- CHAT BODY -->\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n                <ul>\n                    <li class=\"message\">\n                        <img src=\"{{static_path}}/img/avatars/5.png\" class=\"online\" alt=\"\">\n                        <div class=\"message-text\">\n                            <time>\n                                2014-01-13\n                            </time>\n\n                            <a href=\"#\" class=\"username\">\n                                Sadi Orlaf\n                            </a>\n\n                            Hey did you meet the new board of director?\n                            He's a bit of an arse if you ask me...anyway here is the report you requested.\n                            I am off to launch with Lisa and Andrew, you wanna join?\n                        </div>\n                    </li>\n                </ul>\n            </div>\n\n            <!-- CHAT FOOTER -->\n            <div class=\"chat-footer\">\n\n                <!-- CHAT TEXTAREA -->\n                <div class=\"textarea-div\">\n\n                    <div class=\"typearea\">\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\" class=\"custom-scroll\"></textarea>\n                    </div>\n\n                </div>\n\n                <!-- CHAT REPLY/SEND -->\n                <span class=\"textarea-controls\">\n                    <button class=\"btn btn-sm btn-primary pull-right\">\n                        Reply\n                    </button>\n                    <span class=\"pull-right smart-form\" style=\"margin-top: 3px; margin-right: 10px;\">\n                        <label class=\"checkbox pull-right\">\n                            <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                            <i></i>Press <strong> ENTER </strong> to send </label> </span> <a href=\"#\" class=\"pull-left\"><i class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\n\n            </div>\n\n            <!-- end content -->\n        </div>\n\n    </div>\n    <!-- end widget div -->\n</div>\n<!-- end widget -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-354ad496", module.exports)
+  } else {
+    hotAPI.update("_v-354ad496", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+
+//    import HeaderComponent from './components/header.vue'
+//    import OtherComponent from './components/other.vue'
+
+exports.default = {
+    components: {
+        //            'other-component':OtherComponent,
+        //            HeaderComponent,
+    },
+
+    data: function data() {
+        return {};
+    },
+
+    methods: {
+        MyMethod: function MyMethod() {}
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- new widget -->\n<div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\" data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\n    <!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n    <header>\n        <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\n        <h2>Live Feeds </h2>\n\n        <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\n            <li class=\"active\">\n                <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\n            </li>\n\n            <li>\n                <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\n            </li>\n\n            <li>\n                <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\n            </li>\n        </ul>\n\n    </header>\n\n    <!-- widget div-->\n    <div class=\"no-padding\">\n        <!-- widget edit box -->\n        <div class=\"jarviswidget-editbox\">\n\n            test\n        </div>\n        <!-- end widget edit box -->\n\n        <div class=\"widget-body\">\n            <!-- content -->\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\n                    <div class=\"row no-space\">\n                        <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\n                            <span class=\"demo-liveupdate-1\"> <span class=\"onoffswitch-title\">Live switch</span> <span class=\"onoffswitch\">\n                                    <input type=\"checkbox\" name=\"start_interval\" class=\"onoffswitch-checkbox\" id=\"start_interval\">\n                                    <label class=\"onoffswitch-label\" for=\"start_interval\">\n                                        <span class=\"onoffswitch-inner\" data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></span>\n                                        <span class=\"onoffswitch-switch\"></span> </label> </span> </span>\n                            <div id=\"updating-chart\" class=\"chart-large txt-color-blue\"></div>\n\n                        </div>\n                        <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\n\n                            <div class=\"row\">\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> My Tasks <span class=\"pull-right\">130/200</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> Transfered <span class=\"pull-right\">440 GB</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> Bugs Squashed<span class=\"pull-right\">77%</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> User Testing <span class=\"pull-right\">7 Days</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\n                                    </div> </div>\n\n                                <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href=\"javascript:void(0);\" class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href=\"javascript:void(0);\" class=\"btn btn-default btn-block hidden-xs\">Report a bug</a> </span> </span>\n\n                            </div>\n\n                        </div>\n                    </div>\n\n                    <div class=\"show-stat-microcharts\">\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n\n                            <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">35</span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">78.9 </span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">23 </span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-darken\">10GB</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\n                                <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Temperature <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\n                            </div>\n                        </div>\n                    </div>\n\n                </div>\n                <!-- end s1 tab pane -->\n\n                <div class=\"tab-pane fade\" id=\"s2\">\n                    <div class=\"widget-body-toolbar bg-color-white\">\n\n                        <form class=\"form-inline\" role=\"form\">\n\n                            <div class=\"form-group\">\n                                <label class=\"sr-only\" for=\"s123\">Show From</label>\n                                <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\n                            </div>\n                            <div class=\"form-group\">\n                                <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\n                            </div>\n\n                            <div class=\"btn-group hidden-phone pull-right\">\n                                <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                                <ul class=\"dropdown-menu pull-right\">\n                                    <li>\n                                        <a href=\"javascript:void(0);\"><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                    </li>\n                                    <li>\n                                        <a href=\"javascript:void(0);\"><i class=\"fa fa-question-sign\"></i> Help</a>\n                                    </li>\n                                </ul>\n                            </div>\n\n                        </form>\n\n                    </div>\n                    <div class=\"padding-10\">\n                        <div id=\"statsChart\" class=\"chart-large has-legend-unique\"></div>\n                    </div>\n\n                </div>\n                <!-- end s2 tab pane -->\n\n                <div class=\"tab-pane fade\" id=\"s3\">\n\n                    <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\n\n                        <div class=\"inline-group\">\n\n                            <label for=\"gra-0\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-0\" id=\"gra-0\" checked=\"checked\">\n                                <i></i> Target </label>\n                            <label for=\"gra-1\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-1\" id=\"gra-1\" checked=\"checked\">\n                                <i></i> Actual </label>\n                            <label for=\"gra-2\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-2\" id=\"gra-2\" checked=\"checked\">\n                                <i></i> Signups </label>\n                        </div>\n\n                        <div class=\"btn-group hidden-phone pull-right\">\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                            <ul class=\"dropdown-menu pull-right\">\n                                <li>\n                                    <a href=\"javascript:void(0);\"><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                </li>\n                                <li>\n                                    <a href=\"javascript:void(0);\"><i class=\"fa fa-question-sign\"></i> Help</a>\n                                </li>\n                            </ul>\n                        </div>\n\n                    </div>\n\n                    <div class=\"padding-10\">\n                        <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\"></div>\n                    </div>\n                </div>\n                <!-- end s3 tab pane -->\n            </div>\n\n            <!-- end content -->\n        </div>\n\n    </div>\n    <!-- end widget div -->\n</div>\n<!-- end widget -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-2f6cdadf", module.exports)
+  } else {
+    hotAPI.update("_v-2f6cdadf", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
 var Vue = require('vue');
 
 Vue.use(require('vue-resource'));
@@ -12246,10 +12311,11 @@ var FeaturesModal = require('./components/FeaturesModal.vue');
 var FollowersModal = require('./components/FollowersModal.vue');
 var CommandsModal = require('./components/CommandsModal.vue');
 var RegularsModal = require('./components/RegularsModal.vue');
+var SmartChat = require('./components/SmartChat.vue');
+var Statistics = require('./components/Statistics.vue');
 
-Vue.component('smart-chat', {
-  template: './components/SmartChat.html'
-})
+
+
 
 new Vue({
     el: 'body',
@@ -12259,7 +12325,9 @@ new Vue({
         FeaturesModal,
         FollowersModal,
         CommandsModal,
-        RegularsModal
+        RegularsModal,
+        Statistics,
+        SmartChat
     },
 
     data: {
@@ -12277,4 +12345,4 @@ new Vue({
 
     }
 });
-},{"./components/BotControls.vue":7,"./components/CommandsModal.vue":9,"./components/FeaturesModal.vue":10,"./components/FollowersModal.vue":12,"./components/RegularsModal.vue":14,"vue":5,"vue-resource":3}]},{},[15]);
+},{"./components/BotControls.vue":7,"./components/CommandsModal.vue":9,"./components/FeaturesModal.vue":10,"./components/FollowersModal.vue":12,"./components/RegularsModal.vue":14,"./components/SmartChat.vue":15,"./components/Statistics.vue":16,"vue":5,"vue-resource":3}]},{},[17]);

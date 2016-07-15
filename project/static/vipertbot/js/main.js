@@ -9,10 +9,11 @@ var FeaturesModal = require('./components/FeaturesModal.vue');
 var FollowersModal = require('./components/FollowersModal.vue');
 var CommandsModal = require('./components/CommandsModal.vue');
 var RegularsModal = require('./components/RegularsModal.vue');
+var SmartChat = require('./components/SmartChat.vue');
+var Statistics = require('./components/Statistics.vue');
 
-Vue.component('smart-chat', {
-  template: './components/SmartChat.html'
-})
+
+
 
 new Vue({
     el: 'body',
@@ -22,7 +23,9 @@ new Vue({
         FeaturesModal,
         FollowersModal,
         CommandsModal,
-        RegularsModal
+        RegularsModal,
+        Statistics,
+        SmartChat
     },
 
     data: {
