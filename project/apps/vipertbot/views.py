@@ -11,7 +11,7 @@ def index(request):
 @login_required(login_url='/')
 def dashboard(request):
     #return render(request, 'vipertbot/dashboard.html')
-    return render(request, 'vipertbot/smartadmin/index.html')
+    return render(request, 'smartadmin/index.html')
 
 # @login_required(login_url='/')
 # def admin(request):

@@ -107,3 +107,4 @@ pip-selfcheck.json
 /db.sqlite3
 /node_modules/
 project/env
+/static/

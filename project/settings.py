@@ -15,7 +15,6 @@ from env import env_settings
 # Grappelli Admin Settings
 GRAPPELLI_ADMIN_TITLE = 'ViperTbot Administration'
 
-
 # IRC TwitchBot Settings
 IRC_HOST = "irc.twitch.tv"
 IRC_PORT = 6667
@@ -26,7 +25,6 @@ IRC_CHANNELS = [] # Keep Empty
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -35,6 +33,25 @@ SECRET_KEY = '_v(b$b(nht^#ux_rje(yqrmx0y#luq@z$vox%z_tn%ea9%t9z4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]
+
+INTERNAL_IPS = ('127.0.0.1', '::1')
 
 ALLOWED_HOSTS = []
 
@@ -55,7 +72,10 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
 
     # Project Apps
-    'project.apps.vipertbot'
+    'project.apps.vipertbot',
+
+    # Debugging
+    'debug_toolbar',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -65,6 +85,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -162,4 +183,11 @@ SOCIAL_AUTH_TWITCH_SCOPE = env_settings.SOCIAL_AUTH_TWITCH_SCOPE
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
     'PAGE_SIZE': 50
+}
+
+def show_toolbar(request):
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 }

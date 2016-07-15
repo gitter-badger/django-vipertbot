@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    {% load staticfiles %}
+    {% include 'smartadmin/partials/head.html' %}
+
+	<body class="fixed-header fixed-page-footer smart-style-1">
+
+		{% include 'smartadmin/partials/header.html' %}
+
+		{% include 'smartadmin/partials/navbar.html' %}
+
+		<!-- MAIN PANEL -->
+		<div id="main" role="main">
+
+			<!-- RIBBON -->
+			<div id="ribbon">
+
+				<span class="ribbon-button-alignment"> 
+					<span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+						<i class="fa fa-refresh"></i>
+					</span> 
+				</span>
+
+				<!-- breadcrumb -->
+				<ol class="breadcrumb">
+					<li>Home</li><li>Dashboard</li>
+				</ol>
+				<!-- end breadcrumb -->
+
+				<!-- You can also add more buttons to the
+				ribbon for further usability
+
+				Example below:
+
+				<span class="ribbon-button-alignment pull-right">
+				<span id="search" class="btn btn-ribbon hidden-xs" data-title="search"><i class="fa-grid"></i> Change Grid</span>
+				<span id="add" class="btn btn-ribbon hidden-xs" data-title="add"><i class="fa-plus"></i> Add</span>
+				<span id="search" class="btn btn-ribbon" data-title="search"><i class="fa-search"></i> <span class="hidden-mobile">Search</span></span>
+				</span> -->
+
+			</div>
+			<!-- END RIBBON -->
+
+			<!-- MAIN CONTENT -->
+			<div id="content">
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+						<h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Dashboard <span>> My Dashboard</span></h1>
+					</div>
+				</div>
+
+				<!-- widget grid -->
+				<section id="widget-grid" class="">
+
+					<!-- row -->
+
+					<div class="row">
+
+						<article class="col-sm-12 col-md-12 col-lg-6">
+							<!-- new widget -->
+                            <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+
+                                <!-- widget options:
+                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                                data-widget-colorbutton="false"
+                                data-widget-editbutton="false"
+                                data-widget-togglebutton="false"
+                                data-widget-deletebutton="false"
+                                data-widget-fullscreenbutton="false"
+                                data-widget-custombutton="false"
+                                data-widget-collapsed="true"
+                                data-widget-sortable="false"
+
+                                -->
+
+                                <header>
+                                    <span class="widget-icon"> <i class="fa fa-comments txt-color-white"></i> </span>
+                                    <h2> SmartChat </h2>
+                                    <div class="widget-toolbar">
+                                        <!-- add: non-hidden - to disable auto hide -->
+
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle btn-xs btn-success" data-toggle="dropdown">
+                                                Status <i class="fa fa-caret-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right js-status-update">
+                                                <li>
+                                                    <a href="javascript:void(0);"><i class="fa fa-circle txt-color-green"></i> Online</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"><i class="fa fa-circle txt-color-red"></i> Busy</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"><i class="fa fa-circle txt-color-orange"></i> Away</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Log Off</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </header>
+
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <div>
+                                            <label>Title:</label>
+                                            <input type="text" />
+                                        </div>
+                                    </div>
+                                    <!-- end widget edit box -->
+
+                                    <div class="widget-body widget-hide-overflow no-padding">
+                                        <!-- content goes here -->
+
+                                        <!-- CHAT CONTAINER -->
+                                        <div id="chat-container">
+                                            <span class="chat-list-open-close"><i class="fa fa-user"></i><b>!</b></span>
+
+                                            <div class="chat-list-body custom-scroll">
+                                                <ul id="chat-users">
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/5.png' %}" alt="">Robin Berry <span class="badge badge-inverse">23</span><span class="state"><i class="fa fa-circle txt-color-green pull-right"></i></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Mark Zeukartech <span class="state"><i class="last-online pull-right">2hrs</i></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Belmain Dolson <span class="state"><i class="last-online pull-right">45m</i></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Galvitch Drewbery <span class="state"><i class="fa fa-circle txt-color-green pull-right"></i></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Sadi Orlaf <span class="state"><i class="fa fa-circle txt-color-green pull-right"></i></span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Markus <span class="state"><i class="last-online pull-right">2m</i></span> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/sunny.png' %}" alt="">Sunny <span class="state"><i class="last-online pull-right">2m</i></span> </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:void(0);"><img src="{% static 'compiled/img/avatars/male.png' %}" alt="">Denmark <span class="state"><i class="last-online pull-right">2m</i></span> </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="chat-list-footer">
+
+                                                <div class="control-group">
+
+                                                    <form class="smart-form">
+
+                                                        <section>
+                                                            <label class="input">
+                                                                <input type="text" id="filter-chat-list" placeholder="Filter">
+                                                            </label>
+                                                        </section>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- CHAT BODY -->
+                                        <div id="chat-body" class="chat-body custom-scroll">
+                                            <ul>
+                                                <li class="message">
+                                                    <img src="{% static 'compiled/img/avatars/5.png' %}" class="online" alt="">
+                                                    <div class="message-text">
+                                                        <time>
+                                                            2014-01-13
+                                                        </time> <a href="javascript:void(0);" class="username">Sadi Orlaf</a> Hey did you meet the new board of director? He's a bit of an arse if you ask me...anyway here is the report you requested. I am off to launch with Lisa and Andrew, you wanna join?
+                                                        <p class="chat-file row">
+                                                            <b class="pull-left col-sm-6"> <!--<i class="fa fa-spinner fa-spin"></i>--> <i class="fa fa-file"></i> report-2013-demographic-report-annual-earnings.xls </b>
+                                                            <span class="col-sm-6 pull-right"> <a href="javascript:void(0);" class="btn btn-xs btn-default">cancel</a> <a href="javascript:void(0);" class="btn btn-xs btn-success">save</a> </span>
+                                                        </p>
+                                                        <p class="chat-file row">
+                                                            <b class="pull-left col-sm-6"> <i class="fa fa-ok txt-color-green"></i> tobacco-report-2012.doc </b>
+                                                            <span class="col-sm-6 pull-right"> <a href="javascript:void(0);" class="btn btn-xs btn-primary">open</a> </span>
+                                                        </p> </div>
+                                                </li>
+                                                <li class="message">
+                                                    <img src="{% static 'compiled/img/avatars/sunny.png' %}" class="online" alt="">
+                                                    <div class="message-text">
+                                                        <time>
+                                                            2014-01-13
+                                                        </time> <a href="javascript:void(0);" class="username">John Doe</a> Haha! Yeah I know what you mean. Thanks for the file Sadi! <i class="fa fa-smile-o txt-color-orange"></i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+
+                                        <!-- CHAT FOOTER -->
+                                        <div class="chat-footer">
+
+                                            <!-- CHAT TEXTAREA -->
+                                            <div class="textarea-div">
+
+                                                <div class="typearea">
+                                                    <textarea placeholder="Write a reply..." id="textarea-expand" class="custom-scroll"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- CHAT REPLY/SEND -->
+                                            <span class="textarea-controls">
+                                                <button class="btn btn-sm btn-primary pull-right">
+                                                    Reply
+                                                </button> <span class="pull-right smart-form" style="margin-top: 3px; margin-right: 10px;"> <label class="checkbox pull-right">
+                                                        <input type="checkbox" name="subscription" id="subscription">
+                                                        <i></i>Press <strong> ENTER </strong> to send </label> </span> <a href="javascript:void(0);" class="pull-left"><i class="fa fa-camera fa-fw fa-lg"></i></a> </span>
+
+                                        </div>
+
+                                        <!-- end content -->
+                                    </div>
+
+                                </div>
+                                <!-- end widget div -->
+                            </div>
+                            <!-- end widget -->
+						</article>
+
+						<article class="col-sm-12 col-md-12 col-lg-6">
+
+							<!-- new widget -->
+							<div class="jarviswidget jarviswidget-color-blue" id="wid-id-4"
+                                 data-widget-editbutton="false"
+                                 data-widget-colorbutton="false"
+                                 data-widget-deletebutton="false"
+                            >
+
+								<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+
+								-->
+
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+									<h2> Twitch Chat </h2>
+									<!-- <div class="widget-toolbar">
+									add: non-hidden - to disable auto hide
+
+									</div>-->
+								</header>
+
+								<!-- widget div-->
+								<div>
+									<div class="widget-body no-padding smart-form">
+										<!-- content goes here -->
+                                        <smart-chat></smart-chat>
+										{# TWITCH CHAT #}
+                                        <div class="panel panel-default">
+                                            <div class="panel-body text-center">
+                                                <iframe frameborder="0"
+                                                        scrolling="no"
+                                                        id="chat_embed"
+                                                        src="http://www.twitch.tv/{{user}}/chat"
+                                                        height="410"
+                                                        width="800">
+                                                </iframe>
+                                            </div>
+                                        </div>
+
+										<!-- end content -->
+									</div>
+
+								</div>
+								<!-- end widget div -->
+							</div>
+							<!-- end widget -->
+
+						</article>
+
+					</div>
+
+					<!-- end row -->
+
+				</section>
+				<!-- end widget grid -->
+
+			</div>
+			<!-- END MAIN CONTENT -->
+
+		</div>
+		<!-- END MAIN PANEL -->
+
+		<!-- PAGE FOOTER -->
+		<div class="page-footer">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<span class="txt-color-white">SmartyBot 1.8.2 <span class="hidden-xs"> - Twitch Bot</span> © 2016</span>
+				</div>
+
+				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
+					<div class="txt-color-white inline-block">
+						<i class="txt-color-blueLight hidden-mobile">Last account activity <i class="fa fa-clock-o"></i> <strong>52 mins ago &nbsp;</strong> </i>
+						<div class="btn-group dropup">
+							<button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
+								<i class="fa fa-link"></i> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right text-left">
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Download Progress</p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-success" style="width: 50%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Server Load</p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-success" style="width: 20%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<p class="txt-color-darken font-sm no-margin">Memory Load <span class="text-danger">*critical*</span></p>
+										<div class="progress progress-micro no-margin">
+											<div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="padding-5">
+										<button class="btn btn-block btn-default">refresh</button>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PAGE FOOTER -->
+
+		<!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
+		Note: These tiles are completely responsive,
+		you can add as many as you like
+		-->
+		<div id="shortcut">
+			<ul>
+				<li>
+					<a href="inbox.html" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
+				</li>
+				<li>
+					<a href="calendar.html" class="jarvismetro-tile big-cubes bg-color-orangeDark"> <span class="iconbox"> <i class="fa fa-calendar fa-4x"></i> <span>Calendar</span> </span> </a>
+				</li>
+				<li>
+					<a href="gmap-xml.html" class="jarvismetro-tile big-cubes bg-color-purple"> <span class="iconbox"> <i class="fa fa-map-marker fa-4x"></i> <span>Maps</span> </span> </a>
+				</li>
+				<li>
+					<a href="invoice.html" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-book fa-4x"></i> <span>Invoice <span class="label pull-right bg-color-darken">99</span></span> </span> </a>
+				</li>
+				<li>
+					<a href="gallery.html" class="jarvismetro-tile big-cubes bg-color-greenLight"> <span class="iconbox"> <i class="fa fa-picture-o fa-4x"></i> <span>Gallery </span> </span> </a>
+				</li>
+				<li>
+					<a href="profile.html" class="jarvismetro-tile big-cubes selected bg-color-pinkDark"> <span class="iconbox"> <i class="fa fa-user fa-4x"></i> <span>My Profile </span> </span> </a>
+				</li>
+			</ul>
+		</div>
+		<!-- END SHORTCUT AREA -->
+
+		<!--================================================== -->
+        {% include 'smartadmin/partials/scripts.html' %}
+        <script type="application/javascript">
+            $(document).ready(function() {
+                pageSetUp();
+
+                $.filter_input = $('#filter-chat-list');
+                $.chat_users_container = $('#chat-container > .chat-list-body');
+                $.chat_users = $('#chat-users');
+                $.chat_list_btn = $('#chat-container > .chat-list-open-close');
+                $.chat_body = $('#chat-body');
+
+                // custom css expression for a case-insensitive contains()
+                jQuery.expr[':'].Contains = function(a, i, m) {
+                    return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+                };
+
+                function listFilter(list) {// header is any element, list is an unordered list
+                    // create and add the filter form to the header
+
+                    $.filter_input.change(function() {
+                        var filter = $(this).val();
+                        if (filter) {
+                            // this finds all links in a list that contain the input,
+                            // and hide the ones not containing the input while showing the ones that do
+                            $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
+                            $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
+                        } else {
+                            $.chat_users.find("li").slideDown();
+                        }
+                        return false;
+                    }).keyup(function() {
+                        // fire the above change event after every letter
+                        $(this).change();
+
+                    });
+
+                }
+
+                // on dom ready
+                listFilter($.chat_users);
+
+                // open chat list
+                $.chat_list_btn.click(function() {
+                    $(this).parent('#chat-container').toggleClass('open');
+                });
+
+                $.chat_body.animate({
+                    scrollTop : $.chat_body[0].scrollHeight
+                }, 500);
+            });
+        </script>
+	</body>
+
+</html>

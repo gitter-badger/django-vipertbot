@@ -10,6 +10,10 @@ var FollowersModal = require('./components/FollowersModal.vue');
 var CommandsModal = require('./components/CommandsModal.vue');
 var RegularsModal = require('./components/RegularsModal.vue');
 
+Vue.component('smart-chat', {
+  template: './components/SmartChat.html'
+})
+
 new Vue({
     el: 'body',
 
