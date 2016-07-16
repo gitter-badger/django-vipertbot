@@ -4,42 +4,42 @@ Vue.use(require('vue-resource'));
 
 Vue.http.headers.common['X-CSRFToken'] = document.querySelector('#token').getAttribute('value');
 
-var BotControls = require('./components/BotControls.vue');
-var FeaturesModal = require('./components/FeaturesModal.vue');
-var FollowersModal = require('./components/FollowersModal.vue');
-var CommandsModal = require('./components/CommandsModal.vue');
-var RegularsModal = require('./components/RegularsModal.vue');
-var SmartChat = require('./components/SmartChat.vue');
-var Statistics = require('./components/Statistics.vue');
-
-
-
+var dashboard = require('./components/pages/Dashboard.vue')
+var SiteSearch = require('./components/SiteSearch.vue')
+var DevActivityDropdown = require('./components/DevActivityDropdown.vue')
+var Breadcrumbs = require('./components/Breadcrumbs.vue')
+var NotificationsDropdown = require('./components/NotificationsDropdown.vue')
 
 new Vue({
     el: 'body',
 
     components: {
-        BotControls,
-        FeaturesModal,
-        FollowersModal,
-        CommandsModal,
-        RegularsModal,
-        Statistics,
-        SmartChat
+        dashboard,
+        SiteSearch,
+        DevActivityDropdown,
+        Breadcrumbs,
+        NotificationsDropdown
+
     },
 
     data: {
-        showFeaturesModal: false,
-        showFollowersModal: false,
-        showCommandsModal: false,
-        showRegularsModal: false
+        currentView: 'dashboard',
+        User: null
     },
 
     methods: {
-
+        getUserObject: function() {
+            this.$http.get(window.location.origin + '/api/users/'+USER_ID+'/')
+                .then(function(response) {
+                    this.User = response.data
+                }.bind(this)).catch(function(response) {
+                    alert(response)
+                });
+        }
     },
 
     ready() {
-
+        this.getUserObject()
     }
+
 });

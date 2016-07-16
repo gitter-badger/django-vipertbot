@@ -1,7 +1,5 @@
 <template>
-    <!-- new widget -->
-    <div class="jarviswidget" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-        <!-- widget options:
+     <!-- widget options:
         usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
         data-widget-colorbutton="false"
@@ -12,8 +10,16 @@
         data-widget-custombutton="false"
         data-widget-collapsed="true"
         data-widget-sortable="false"
-
         -->
+
+    <!-- new widget -->
+    <div class="jarviswidget" id="wid-id-0"
+         data-widget-togglebutton="false"
+         data-widget-editbutton="false"
+         data-widget-fullscreenbutton="false"
+         data-widget-colorbutton="false"
+         data-widget-deletebutton="false"
+    >
         <header>
             <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
             <h2>Live Feeds </h2>

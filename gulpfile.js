@@ -102,11 +102,6 @@ gulp.task('watch', function() {
     gulp.watch([
         css_root_path + '/*.css'
     ], ['styles']);
-
-    gulp.watch([
-        js_root_path + '/main.js',
-        vue_components_path + '/*.vue'
-    ], ['browserify']);
 });
 
 gulp.task('watchify', function() {

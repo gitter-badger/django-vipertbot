@@ -1,4 +1,5 @@
-<!-- projects dropdown -->
+<template>
+    <!-- projects dropdown -->
 <div class="project-context hidden-xs">
 
     <span class="label">Dev Activity:</span>
@@ -20,3 +21,24 @@
 
 </div>
 <!-- end projects dropdown -->
+</template>
+<style>
+    
+</style>
+<script>
+    // import HeaderComponent from './components/header.vue'
+    // import OtherComponent from './components/other.vue'
+    export default{
+        data: function() {
+            return{
+                
+            }
+        },
+        components:{
+            
+        },
+        methods: {
+        
+        }
+    }
+</script>

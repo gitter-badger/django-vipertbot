@@ -1,6 +1,11 @@
 {% load staticfiles %}
 <script>
+    var USER_ID = '{{ user.id }}'
     var STATIC_SOUND_PATH = '{% static 'compiled/sound/' %}';
+
+    function RandomNum() {
+        return Math.floor((Math.random() * 1000000) + 1);
+    }
 </script>
 <script type="application/javascript" src="{% static 'compiled/js/vendor.js' %}"></script>
 <script type="application/javascript" src="{% static 'compiled/js/main.js' %}"></script>

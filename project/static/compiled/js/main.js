@@ -1565,9 +1565,6 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 module.exports = plugin;
 },{}],4:[function(require,module,exports){
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.VueSpinner=e():t.VueSpinner=e()}(this,function(){return function(t){function e(n){if(i[n])return i[n].exports;var a=i[n]={exports:{},id:n,loaded:!1};return t[n].call(a.exports,a,a.exports,e),a.loaded=!0,a.exports}var i={};return e.m=t,e.c=i,e.p="",e(0)}([function(t,e,i){"use strict";function n(t){return t&&t.__esModule?t:{"default":t}}var a=i(91),r=n(a),o=i(88),s=n(o),l=i(85),d=n(l),p=i(93),f=n(p),c=i(83),u=n(c),v=i(98),m=n(v),y=i(94),b=n(y),h=i(87),g=n(h),x=i(90),S=n(x),k=i(97),w=n(k),D=i(95),Y=n(D),z=i(96),_=n(z),R=i(89),L=n(R),M=i(92),X=n(M),B=i(84),C=n(B),j=i(86),O=n(j),F={PulseLoader:r["default"],GridLoader:s["default"],ClipLoader:d["default"],RiseLoader:f["default"],BeatLoader:u["default"],SyncLoader:m["default"],RotateLoader:b["default"],FadeLoader:g["default"],PacmanLoader:S["default"],SquareLoader:w["default"],ScaleLoader:Y["default"],SkewLoader:_["default"],MoonLoader:L["default"],RingLoader:X["default"],BounceLoader:C["default"],DotLoader:O["default"]};t.exports=F},function(t,e){t.exports=function(){var t=[];return t.toString=function(){for(var t=[],e=0;e<this.length;e++){var i=this[e];i[2]?t.push("@media "+i[2]+"{"+i[1]+"}"):t.push(i[1])}return t.join("")},t.i=function(e,i){"string"==typeof e&&(e=[[null,e,""]]);for(var n={},a=0;a<this.length;a++){var r=this[a][0];"number"==typeof r&&(n[r]=!0)}for(a=0;a<e.length;a++){var o=e[a];"number"==typeof o[0]&&n[o[0]]||(i&&!o[2]?o[2]=i:i&&(o[2]="("+o[2]+") and ("+i+")"),t.push(o))}},t}},function(t,e,i){function n(t,e){for(var i=0;i<t.length;i++){var n=t[i],a=u[n.id];if(a){a.refs++;for(var r=0;r<a.parts.length;r++)a.parts[r](n.parts[r]);for(;r<n.parts.length;r++)a.parts.push(d(n.parts[r],e))}else{for(var o=[],r=0;r<n.parts.length;r++)o.push(d(n.parts[r],e));u[n.id]={id:n.id,refs:1,parts:o}}}}function a(t){for(var e=[],i={},n=0;n<t.length;n++){var a=t[n],r=a[0],o=a[1],s=a[2],l=a[3],d={css:o,media:s,sourceMap:l};i[r]?i[r].parts.push(d):e.push(i[r]={id:r,parts:[d]})}return e}function r(t,e){var i=y(),n=g[g.length-1];if("top"===t.insertAt)n?n.nextSibling?i.insertBefore(e,n.nextSibling):i.appendChild(e):i.insertBefore(e,i.firstChild),g.push(e);else{if("bottom"!==t.insertAt)throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");i.appendChild(e)}}function o(t){t.parentNode.removeChild(t);var e=g.indexOf(t);e>=0&&g.splice(e,1)}function s(t){var e=document.createElement("style");return e.type="text/css",r(t,e),e}function l(t){var e=document.createElement("link");return e.rel="stylesheet",r(t,e),e}function d(t,e){var i,n,a;if(e.singleton){var r=h++;i=b||(b=s(e)),n=p.bind(null,i,r,!1),a=p.bind(null,i,r,!0)}else t.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(i=l(e),n=c.bind(null,i),a=function(){o(i),i.href&&URL.revokeObjectURL(i.href)}):(i=s(e),n=f.bind(null,i),a=function(){o(i)});return n(t),function(e){if(e){if(e.css===t.css&&e.media===t.media&&e.sourceMap===t.sourceMap)return;n(t=e)}else a()}}function p(t,e,i,n){var a=i?"":n.css;if(t.styleSheet)t.styleSheet.cssText=x(e,a);else{var r=document.createTextNode(a),o=t.childNodes;o[e]&&t.removeChild(o[e]),o.length?t.insertBefore(r,o[e]):t.appendChild(r)}}function f(t,e){var i=e.css,n=e.media;e.sourceMap;if(n&&t.setAttribute("media",n),t.styleSheet)t.styleSheet.cssText=i;else{for(;t.firstChild;)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(i))}}function c(t,e){var i=e.css,n=(e.media,e.sourceMap);n&&(i+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(n))))+" */");var a=new Blob([i],{type:"text/css"}),r=t.href;t.href=URL.createObjectURL(a),r&&URL.revokeObjectURL(r)}var u={},v=function(t){var e;return function(){return"undefined"==typeof e&&(e=t.apply(this,arguments)),e}},m=v(function(){return/msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase())}),y=v(function(){return document.head||document.getElementsByTagName("head")[0]}),b=null,h=0,g=[];t.exports=function(t,e){e=e||{},"undefined"==typeof e.singleton&&(e.singleton=m()),"undefined"==typeof e.insertAt&&(e.insertAt="bottom");var i=a(t);return n(i,e),function(t){for(var r=[],o=0;o<i.length;o++){var s=i[o],l=u[s.id];l.refs--,r.push(l)}if(t){var d=a(t);n(d,e)}for(var o=0;o<r.length;o++){var l=r[o];if(0===l.refs){for(var p=0;p<l.parts.length;p++)l.parts[p]();delete u[l.id]}}}};var x=function(){var t=[];return function(e,i){return t[e]=i,t.filter(Boolean).join("\n")}}()},,,,,,,,,,,,,,,,,function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"BeatLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size,margin:this.margin,borderRadius:this.radius}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"BounceLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"60px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size,borderRadius:this.radius,opacity:.6,position:"absolute",top:0,left:0}}},computed:{spinnerBasicStyle:function(){return{height:this.size,width:this.size,position:"relative"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"ClipLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"35px"},radius:{type:String,"default":"100%"}},computed:{spinnerStyle:function(){return{height:this.size,width:this.size,borderWidth:"2px",borderStyle:"solid",borderColor:this.color+" "+this.color+" transparent",borderRadius:this.radius,background:"transparent !important"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"DotLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"60px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},computed:{spinnerStyle:function(){return{backgroundColor:this.color,height:parseFloat(this.size)/2+"px",width:parseFloat(this.size)/2+"px",borderRadius:this.radius}},spinnerBasicStyle:function(){return{height:this.size,width:this.size,position:"relative"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"FadeLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},height:{type:String,"default":"15px"},width:{type:String,"default":"5px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"2px"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.height,width:this.width,margin:this.margin,borderRadius:this.radius},radius:"20px"}},computed:{ngRadius:function(){return"-"+this.radius},quarter:function(){return parseFloat(this.radius)/2+parseFloat(this.radius)/5.5+"px"},ngQuarter:function(){return"-"+this.quarter},animationStyle1:function(){return{top:this.radius,left:0,animationDelay:"0.12s"}},animationStyle2:function(){return{top:this.quarter,left:this.quarter,animationDelay:"0.24s",transform:"rotate(-45deg)"}},animationStyle3:function(){return{top:0,left:this.radius,animationDelay:"0.36s",transform:"rotate(90deg)"}},animationStyle4:function(){return{top:this.ngQuarter,left:this.quarter,animationDelay:"0.48s",transform:"rotate(45deg)"}},animationStyle5:function(){return{top:this.ngRadius,left:0,animationDelay:"0.60s"}},animationStyle6:function(){return{top:this.ngQuarter,left:this.ngQuarter,animationDelay:"0.72s",transform:"rotate(-45deg)"}},animationStyle7:function(){return{top:0,left:this.ngRadius,animationDelay:"0.84s",transform:"rotate(90deg)"}},animationStyle8:function(){return{top:this.quarter,left:this.ngQuarter,animationDelay:"0.96s",transform:"rotate(45deg)"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"GridLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,width:this.size,height:this.size,margin:this.margin,borderRadius:this.radius}}},computed:{animationStyle:function(){return{animationName:"v-gridStretchDelay",animationIterationCount:"infinite",animationTimingFunction:"ease",animationFillMode:"both",display:"inline-block"}},animationStyle1:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle2:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle3:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle4:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle5:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle6:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle7:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle8:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},animationStyle9:function(){return{animationDelay:this.delay(),animationDuration:this.duration()}},containerStyle:function(){return{width:3*parseFloat(this.size)+6*parseFloat(this.margin)+"px",fontSize:0}}},methods:{random:function(t){return Math.random()*t},delay:function(){return this.random(100)/100-.2+"s"},duration:function(){return this.random(100)/100+.6+"s"}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"MoonLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"60px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{height:this.size,width:this.size,borderRadius:this.radius}}},computed:{moonSize:function(){return parseFloat(this.size)/7},spinnerMoonStyle:function(){return{height:this.moonSize+"px",width:this.moonSize+"px",borderRadius:this.radius}},animationStyle2:function(){return{top:parseFloat(this.size)/2-this.moonSize/2+"px",backgroundColor:this.color}},animationStyle3:function(){return{border:this.moonSize+"px solid "+this.color}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"PacmanLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"25px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerDelay2:{animationDelay:"0.25s"},spinnerDelay3:{animationDelay:"0.50s"},spinnerDelay4:{animationDelay:"0.75s"},spinnerDelay5:{animationDelay:"1s"}}},computed:{spinnerStyle:function(){return{backgroundColor:this.color,width:this.size,height:this.size,margin:this.margin,borderRadius:this.radius}},border1:function(){return this.size+" solid transparent"},border2:function(){return this.size+" solid "+this.color},spinnerStyle1:function(){return{width:0,height:0,borderTop:this.border2,borderRight:this.border1,borderBottom:this.border2,borderLeft:this.border2,borderRadius:this.size}},animationStyle:function(){return{width:"10px",height:"10px",transform:"translate(0, "+-parseFloat(this.size)/4+"px)",position:"absolute",top:"25px",left:"100px",animationName:"v-pacmanStretchDelay",animationDuration:"1s",animationIterationCount:"infinite",animationTimingFunction:"linear",animationFillMode:"both"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"PulseLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,width:this.size,height:this.size,margin:this.margin,borderRadius:this.radius,display:"inline-block",animationName:"v-pulseStretchDelay",animationDuration:"0.75s",animationIterationCount:"infinite",animationTimingFunction:"cubic-bezier(.2,.68,.18,1.08)",animationFillMode:"both"},spinnerDelay1:{animationDelay:"0.12s"},spinnerDelay2:{animationDelay:"0.24s"},spinnerDelay3:{animationDelay:"0.36s"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"RingLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"60px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},computed:{spinnerStyle:function(){return{height:this.size,width:this.size,border:parseFloat(this.size)/10+"px solid"+this.color,opacity:.4,borderRadius:this.radius}},spinnerBasicStyle:function(){return{height:this.size,width:this.size,position:"relative"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"RiseLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size,margin:this.margin,borderRadius:this.radius}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"RotateLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size,margin:this.margin,borderRadius:this.radius}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"ScaleLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},height:{type:String,"default":"35px"},width:{type:String,"default":"4px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"2px"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.height,width:this.width,margin:this.margin,borderRadius:this.radius,display:"inline-block",animationName:"v-scaleStretchDelay",animationDuration:"1s",animationIterationCount:"infinite",animationTimingFunction:"cubic-bezier(.2,.68,.18,1.08)",animationFillMode:"both"},spinnerDelay1:{animationDelay:"0.1s"},spinnerDelay2:{animationDelay:"0.2s"},spinnerDelay3:{animationDelay:"0.3s"},spinnerDelay4:{animationDelay:"0.4s"},spinnerDelay5:{animationDelay:"0.5s"}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"SkewLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"20px"}},data:function(){return{spinnerStyle:{height:0,width:0,borderLeft:this.size+" solid transparent",borderRight:this.size+" solid transparent",borderBottom:this.size+" solid "+this.color}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"SquareLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"50px"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size}}}}},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e["default"]={name:"SyncLoader",props:{loading:{type:Boolean,"default":!0},color:{type:String,"default":"#5dc596"},size:{type:String,"default":"15px"},margin:{type:String,"default":"2px"},radius:{type:String,"default":"100%"}},data:function(){return{spinnerStyle:{backgroundColor:this.color,height:this.size,width:this.size,margin:this.margin,borderRadius:this.radius,display:"inline-block",animationName:"v-syncStretchDelay",animationDuration:"0.6s",animationIterationCount:"infinite",animationTimingFunction:"ease-in-out",animationFillMode:"both"},spinnerDelay1:{animationDelay:"0.07s"},spinnerDelay2:{animationDelay:"0.14s"},spinnerDelay3:{animationDelay:"0.21s"}}}}},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,"@-webkit-keyframes v-syncStretchDelay{33%{-webkit-transform:translateY(10px);transform:translateY(10px)}66%{-webkit-transform:translateY(-10px);transform:translateY(-10px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes v-syncStretchDelay{33%{-webkit-transform:translateY(10px);transform:translateY(10px)}66%{-webkit-transform:translateY(-10px);transform:translateY(-10px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-fade{-webkit-animation:v-fadeStretchDelay 1.2s infinite ease-in-out;animation:v-fadeStretchDelay 1.2s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both;position:absolute}@-webkit-keyframes v-fadeStretchDelay{50%{-webkit-opacity:.3;opacity:.3}to{-webkit-opacity:1;opacity:1}}@keyframes v-fadeStretchDelay{50%{-webkit-opacity:.3;opacity:.3}to{-webkit-opacity:1;opacity:1}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}.v-spinner .v-clip{-webkit-animation:v-clipDelay .75s 0s infinite linear;animation:v-clipDelay .75s 0s infinite linear;-webkit-animation-fill-mode:both;animation-fill-mode:both;display:inline-block}@-webkit-keyframes v-clipDelay{0%{-webkit-transform:rotate(0deg) scale(1);transform:rotate(0deg) scale(1)}50%{-webkit-transform:rotate(180deg) scale(.8);transform:rotate(180deg) scale(.8)}to{-webkit-transform:rotate(1turn) scale(1);transform:rotate(1turn) scale(1)}}@keyframes v-clipDelay{0%{-webkit-transform:rotate(0deg) scale(1);transform:rotate(0deg) scale(1)}50%{-webkit-transform:rotate(180deg) scale(.8);transform:rotate(180deg) scale(.8)}to{-webkit-transform:rotate(1turn) scale(1);transform:rotate(1turn) scale(1)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-beat{-webkit-animation:v-beatStretchDelay .7s infinite linear;animation:v-beatStretchDelay .7s infinite linear;-webkit-animation-fill-mode:both;animation-fill-mode:both;display:inline-block}.v-spinner .v-beat-odd{-webkit-animation-delay:0s;animation-delay:0s}.v-spinner .v-beat-even{-webkit-animation-delay:.35s;animation-delay:.35s}@-webkit-keyframes v-beatStretchDelay{50%{-webkit-transform:scale(.75);transform:scale(.75);-webkit-opacity:.2;opacity:.2}to{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}}@keyframes v-beatStretchDelay{50%{-webkit-transform:scale(.75);transform:scale(.75);-webkit-opacity:.2;opacity:.2}to{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}.v-spinner .v-skew{-webkit-animation:v-skewDelay 3s 0s infinite cubic-bezier(.09,.57,.49,.9);animation:v-skewDelay 3s 0s infinite cubic-bezier(.09,.57,.49,.9);-webkit-animation-fill-mode:both;animation-fill-mode:both;display:inline-block}@-webkit-keyframes v-skewDelay{25%{-webkit-transform:perspective(100px) rotateX(180deg) rotateY(0);transform:perspective(100px) rotateX(180deg) rotateY(0)}50%{-webkit-transform:perspective(100px) rotateX(180deg) rotateY(180deg);transform:perspective(100px) rotateX(180deg) rotateY(180deg)}75%{-webkit-transform:perspective(100px) rotateX(0) rotateY(180deg);transform:perspective(100px) rotateX(0) rotateY(180deg)}to{-webkit-transform:perspective(100px) rotateX(0) rotateY(0);transform:perspective(100px) rotateX(0) rotateY(0)}}@keyframes v-skewDelay{25%{-webkit-transform:perspective(100px) rotateX(180deg) rotateY(0);transform:perspective(100px) rotateX(180deg) rotateY(0)}50%{-webkit-transform:perspective(100px) rotateX(180deg) rotateY(180deg);transform:perspective(100px) rotateX(180deg) rotateY(180deg)}75%{-webkit-transform:perspective(100px) rotateX(0) rotateY(180deg);transform:perspective(100px) rotateX(0) rotateY(180deg)}to{-webkit-transform:perspective(100px) rotateX(0) rotateY(0);transform:perspective(100px) rotateX(0) rotateY(0)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,"@-webkit-keyframes v-gridStretchDelay{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-opacity:.7;opacity:.7}to{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}}@keyframes v-gridStretchDelay{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-opacity:.7;opacity:.7}to{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-rotate1{-webkit-animation:v-rotateStretchDelay 1s 0s infinite cubic-bezier(.7,-.13,.22,.86);animation:v-rotateStretchDelay 1s 0s infinite cubic-bezier(.7,-.13,.22,.86);-webkit-animation-fill-mode:both;animation-fill-mode:both;display:inline-block;position:relative}.v-spinner .v-rotate2{opacity:.8;position:absolute;top:0;left:-28px}.v-spinner .v-rotate3{opacity:.8;position:absolute;top:0;left:25px}@-webkit-keyframes v-rotateStretchDelay{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes v-rotateStretchDelay{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-moon1{position:relative}.v-spinner .v-moon1,.v-spinner .v-moon2{-webkit-animation:v-moonStretchDelay .6s 0s infinite linear;animation:v-moonStretchDelay .6s 0s infinite linear;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.v-spinner .v-moon2{opacity:.8;position:absolute}.v-spinner .v-moon3{opacity:.1}@-webkit-keyframes v-moonStretchDelay{to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes v-moonStretchDelay{to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,"@-webkit-keyframes v-pulseStretchDelay{0%,80%{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}45%{-webkit-transform:scale(.1);transform:scale(.1);-webkit-opacity:.7;opacity:.7}}@keyframes v-pulseStretchDelay{0%,80%{-webkit-transform:scale(1);transform:scale(1);-webkit-opacity:1;opacity:1}45%{-webkit-transform:scale(.1);transform:scale(.1);-webkit-opacity:.7;opacity:.7}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}.v-spinner .v-square{-webkit-animation:v-squareDelay 3s 0s infinite cubic-bezier(.09,.57,.49,.9);animation:v-squareDelay 3s 0s infinite cubic-bezier(.09,.57,.49,.9);-webkit-animation-fill-mode:both;animation-fill-mode:both;-webkit-perspective:100px;perspective:100px;display:inline-block}@-webkit-keyframes v-squareDelay{25%{-webkit-transform:rotateX(180deg) rotateY(0);transform:rotateX(180deg) rotateY(0)}50%{-webkit-transform:rotateX(180deg) rotateY(180deg);transform:rotateX(180deg) rotateY(180deg)}75%{-webkit-transform:rotateX(0) rotateY(180deg);transform:rotateX(0) rotateY(180deg)}to{-webkit-transform:rotateX(0) rotateY(0);transform:rotateX(0) rotateY(0)}}@keyframes v-squareDelay{25%{-webkit-transform:rotateX(180deg) rotateY(0);transform:rotateX(180deg) rotateY(0)}50%{-webkit-transform:rotateX(180deg) rotateY(180deg);transform:rotateX(180deg) rotateY(180deg)}75%{-webkit-transform:rotateX(0) rotateY(180deg);transform:rotateX(0) rotateY(180deg)}to{-webkit-transform:rotateX(0) rotateY(0);transform:rotateX(0) rotateY(0)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-bounce2{-webkit-animation:v-bounceStretchDelay 2s 1s infinite ease-in-out;animation:v-bounceStretchDelay 2s 1s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both}.v-spinner .v-bounce3{-webkit-animation:v-bounceStretchDelay 2s 0s infinite ease-in-out;animation:v-bounceStretchDelay 2s 0s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both}@-webkit-keyframes v-bounceStretchDelay{0%,to{-webkit-transform:scale(0);transform:scale(0)}50%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes v-bounceStretchDelay{0%,to{-webkit-transform:scale(0);transform:scale(0)}50%{-webkit-transform:scale(1);transform:scale(1)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-dot1{-webkit-animation:v-dotRotate 2s 0s infinite linear;animation:v-dotRotate 2s 0s infinite linear;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.v-spinner .v-dot2{-webkit-animation:v-dotBounce 2s 0s infinite linear;animation:v-dotBounce 2s 0s infinite linear;animation-fill-mode:forwards;top:0;bottom:auto}.v-spinner .v-dot2,.v-spinner .v-dot3{-webkit-animation-fill-mode:forwards;position:'absolute'}.v-spinner .v-dot3{-webkit-animation:v-dotBounce 2s -1s infinite linear;animation:v-dotBounce 2s -1s infinite linear;animation-fill-mode:forwards;top:auto;bottom:0}@-webkit-keyframes v-dotRotate{to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes v-dotRotate{to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes v-dotBounce{0%,to{-webkit-transform:scale(0);transform:scale(0)}50%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes v-dotBounce{0%,to{-webkit-transform:scale(0);transform:scale(0)}50%{-webkit-transform:scale(1);transform:scale(1)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner .v-ring2{-webkit-animation:v-ringRightRotate 2s 0s infinite linear;animation:v-ringRightRotate 2s 0s infinite linear;animation-fill-mode:forwards}.v-spinner .v-ring2,.v-spinner .v-ring3{-webkit-animation-fill-mode:forwards;-webkit-perspective:800px;perspective:800px;position:absolute;top:0;left:0}.v-spinner .v-ring3{-webkit-animation:v-ringLeftRotate 2s 0s infinite linear;animation:v-ringLeftRotate 2s 0s infinite linear;animation-fill-mode:forwards}@-webkit-keyframes v-ringRightRotate{0%{-webkit-transform:rotateX(0deg) rotateY(0deg) rotate(0deg);transform:rotateX(0deg) rotateY(0deg) rotate(0deg)}to{-webkit-transform:rotateX(180deg) rotateY(1turn) rotate(1turn);transform:rotateX(180deg) rotateY(1turn) rotate(1turn)}}@keyframes v-ringRightRotate{0%{-webkit-transform:rotateX(0deg) rotateY(0deg) rotate(0deg);transform:rotateX(0deg) rotateY(0deg) rotate(0deg)}to{-webkit-transform:rotateX(180deg) rotateY(1turn) rotate(1turn);transform:rotateX(180deg) rotateY(1turn) rotate(1turn)}}@-webkit-keyframes v-ringLeftRotate{0%{-webkit-transform:rotateX(0deg) rotateY(0deg) rotate(0deg);transform:rotateX(0deg) rotateY(0deg) rotate(0deg)}to{-webkit-transform:rotateX(1turn) rotateY(180deg) rotate(1turn);transform:rotateX(1turn) rotateY(180deg) rotate(1turn)}}@keyframes v-ringLeftRotate{0%{-webkit-transform:rotateX(0deg) rotateY(0deg) rotate(0deg);transform:rotateX(0deg) rotateY(0deg) rotate(0deg)}to{-webkit-transform:rotateX(1turn) rotateY(180deg) rotate(1turn);transform:rotateX(1turn) rotateY(180deg) rotate(1turn)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}@-webkit-keyframes v-scaleStretchDelay{0%,to{-webkit-transform:scaleY(1);transform:scaleY(1)}50%{-webkit-transform:scaleY(.4);transform:scaleY(.4)}}@keyframes v-scaleStretchDelay{0%,to{-webkit-transform:scaleY(1);transform:scaleY(1)}50%{-webkit-transform:scaleY(.4);transform:scaleY(.4)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}.v-spinner .v-rise-odd{-webkit-animation:v-riseOddDelay 1s 0s infinite cubic-bezier(.15,.46,.9,.6);animation:v-riseOddDelay 1s 0s infinite cubic-bezier(.15,.46,.9,.6);animation-fill-mode:both}.v-spinner .v-rise-even,.v-spinner .v-rise-odd{-webkit-animation-fill-mode:both;display:inline-block}.v-spinner .v-rise-even{-webkit-animation:v-riseEvenDelay 1s 0s infinite cubic-bezier(.15,.46,.9,.6);animation:v-riseEvenDelay 1s 0s infinite cubic-bezier(.15,.46,.9,.6);animation-fill-mode:both}@-webkit-keyframes v-riseOddDelay{25{-webkit-transform:translateY(30px);transform:translateY(30px)}0%{-webkit-transform:scale(.4);transform:scale(.4)}50%{-webkit-transform:scale(1.1);transform:scale(1.1)}75%{-webkit-transform:translateY(-30px);transform:translateY(-30px)}to{-webkit-transform:translateY(0) scale(.75);transform:translateY(0) scale(.75)}}@keyframes v-riseOddDelay{25{-webkit-transform:translateY(30px);transform:translateY(30px)}0%{-webkit-transform:scale(.4);transform:scale(.4)}50%{-webkit-transform:scale(1.1);transform:scale(1.1)}75%{-webkit-transform:translateY(-30px);transform:translateY(-30px)}to{-webkit-transform:translateY(0) scale(.75);transform:translateY(0) scale(.75)}}@-webkit-keyframes v-riseEvenDelay{25{-webkit-transform:translateY(-30px);transform:translateY(-30px)}0%{-webkit-transform:scale(1.1);transform:scale(1.1)}50%{-webkit-transform:scale(.4);transform:scale(.4)}75%{-webkit-transform:translateY(30px);transform:translateY(30px)}to{-webkit-transform:translateY(0) scale(1);transform:translateY(0) scale(1)}}@keyframes v-riseEvenDelay{25{-webkit-transform:translateY(-30px);transform:translateY(-30px)}0%{-webkit-transform:scale(1.1);transform:scale(1.1)}50%{-webkit-transform:scale(.4);transform:scale(.4)}75%{-webkit-transform:translateY(30px);transform:translateY(30px)}to{-webkit-transform:translateY(0) scale(1);transform:translateY(0) scale(1)}}",""])},function(t,e,i){e=t.exports=i(1)(),e.push([t.id,".v-spinner{text-align:center}@-webkit-keyframes v-pacmanStretchDelay{75%{-webkit-opacity:.7;opacity:.7}to{-webkit-transform:translate(-100px,-6.25px);transform:translate(-100px,-6.25px)}}@keyframes v-pacmanStretchDelay{75%{-webkit-opacity:.7;opacity:.7}to{-webkit-transform:translate(-100px,-6.25px);transform:translate(-100px,-6.25px)}}",""])},function(t,e,i){var n=i(35);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(36);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(37);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(38);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(39);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(40);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(41);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(42);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(43);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(44);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(45);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(46);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(47);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(48);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){
-var n=i(49);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e,i){var n=i(50);"string"==typeof n&&(n=[[t.id,n,""]]);i(2)(n,{});n.locals&&(t.exports=n.locals)},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-beat v-beat-odd" v-bind:style=spinnerStyle></div><div class="v-beat v-beat-even" v-bind:style=spinnerStyle></div><div class="v-beat v-beat-odd" v-bind:style=spinnerStyle></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-bounce v-bounce1" v-bind:style=spinnerBasicStyle><div class="v-bounce v-bounce2" v-bind:style=spinnerStyle></div><div class="v-bounce v-bounce3" v-bind:style=spinnerStyle></div></div></div>'},function(t,e){t.exports="<div class=v-spinner v-show=loading><div class=v-clip v-bind:style=spinnerStyle></div></div>"},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-dot v-dot1" v-bind:style=spinnerBasicStyle><div class="v-dot v-dot2" v-bind:style=spinnerStyle></div><div class="v-dot v-dot3" v-bind:style=spinnerStyle></div></div></div>'},function(t,e){t.exports='<div class=v-spinner v-bind:style="{position: \'relative\', fontSize: 0}" v-show=loading><div class="v-fade v-fade1" v-bind:style=[spinnerStyle,animationStyle1]></div><div class="v-fade v-fade2" v-bind:style=[spinnerStyle,animationStyle2]></div><div class="v-fade v-fade3" v-bind:style=[spinnerStyle,animationStyle3]></div><div class="v-fade v-fade4" v-bind:style=[spinnerStyle,animationStyle4]></div><div class="v-fade v-fade5" v-bind:style=[spinnerStyle,animationStyle5]></div><div class="v-fade v-fade6" v-bind:style=[spinnerStyle,animationStyle6]></div><div class="v-fade v-fade7" v-bind:style=[spinnerStyle,animationStyle7]></div><div class="v-fade v-fade8" v-bind:style=[spinnerStyle,animationStyle8]></div></div>'},function(t,e){t.exports='<div class=v-spinner v-bind:style=containerStyle v-show=loading><div class="v-grid v-grid1" v-bind:style=[spinnerStyle,animationStyle,animationStyle1]></div><div class="v-grid v-grid2" v-bind:style=[spinnerStyle,animationStyle,animationStyle2]></div><div class="v-grid v-grid3" v-bind:style=[spinnerStyle,animationStyle,animationStyle3]></div><div class="v-grid v-grid4" v-bind:style=[spinnerStyle,animationStyle,animationStyle4]></div><div class="v-grid v-grid5" v-bind:style=[spinnerStyle,animationStyle,animationStyle5]></div><div class="v-grid v-grid6" v-bind:style=[spinnerStyle,animationStyle,animationStyle6]></div><div class="v-grid v-grid7" v-bind:style=[spinnerStyle,animationStyle,animationStyle7]></div><div class="v-grid v-grid8" v-bind:style=[spinnerStyle,animationStyle,animationStyle8]></div><div class="v-grid v-grid9" v-bind:style=[spinnerStyle,animationStyle,animationStyle9]></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-moon v-moon1" v-bind:style=spinnerStyle><div class="v-moon v-moon2" v-bind:style=[spinnerMoonStyle,animationStyle2]></div><div class="v-moon v-moon3" v-bind:style=[spinnerStyle,animationStyle3]></div></div></div>'},function(t,e){t.exports='<div class=v-spinner v-bind:style="{position: \'relative\', fontSize: 0}" v-show=loading><div class="v-pacman v-pacman1" v-bind:style=spinnerStyle1></div><div class="v-pacman v-pacman2" v-bind:style=[spinnerStyle,animationStyle,spinnerDelay2]></div><div class="v-pacman v-pacman3" v-bind:style=[spinnerStyle,animationStyle,spinnerDelay3]></div><div class="v-pacman v-pacman4" v-bind:style=[spinnerStyle,animationStyle,spinnerDelay4]></div><div class="v-pacman v-pacman5" v-bind:style=[spinnerStyle,animationStyle,spinnerDelay5]></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-pulse v-pulse1" v-bind:style=[spinnerStyle,spinnerDelay1]></div><div class="v-pulse v-pulse2" v-bind:style=[spinnerStyle,spinnerDelay2]></div><div class="v-pulse v-pulse3" v-bind:style=[spinnerStyle,spinnerDelay3]></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-ring v-ring1" v-bind:style=spinnerBasicStyle><div class="v-ring v-ring2" v-bind:style=spinnerStyle></div><div class="v-ring v-ring3" v-bind:style=spinnerStyle></div></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-rise v-rise-odd" v-bind:style=spinnerStyle></div><div class="v-rise v-rise-even" v-bind:style=spinnerStyle></div><div class="v-rise v-rise-odd" v-bind:style=spinnerStyle></div><div class="v-rise v-rise-even" v-bind:style=spinnerStyle></div><div class="v-rise v-rise-odd" v-bind:style=spinnerStyle></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-rotate v-rotate1" v-bind:style=spinnerStyle><div class="v-rotate v-rotate2" v-bind:style=spinnerStyle></div><div class="v-rotate v-rotate3" v-bind:style=spinnerStyle></div></div></div>'},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-scale v-scale1" v-bind:style=[spinnerStyle,spinnerDelay1]></div><div class="v-scale v-scale2" v-bind:style=[spinnerStyle,spinnerDelay2]></div><div class="v-scale v-scale3" v-bind:style=[spinnerStyle,spinnerDelay3]></div><div class="v-scale v-scale4" v-bind:style=[spinnerStyle,spinnerDelay4]></div><div class="v-scale v-scale5" v-bind:style=[spinnerStyle,spinnerDelay5]></div></div>'},function(t,e){t.exports="<div class=v-spinner v-show=loading><div class=v-skew v-bind:style=spinnerStyle></div></div>"},function(t,e){t.exports="<div class=v-spinner v-show=loading><div class=v-square v-bind:style=spinnerStyle></div></div>"},function(t,e){t.exports='<div class=v-spinner v-show=loading><div class="v-sync v-sync1" v-bind:style=[spinnerStyle,spinnerDelay1]></div><div class="v-sync v-sync2" v-bind:style=[spinnerStyle,spinnerDelay2]></div><div class="v-sync v-sync3" v-bind:style=[spinnerStyle,spinnerDelay3]></div></div>'},function(t,e,i){var n,a;i(54),n=i(19),a=i(67),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(61),n=i(20),a=i(68),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(53),n=i(21),a=i(69),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(62),n=i(22),a=i(70),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(52),n=i(23),a=i(71),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(56),n=i(24),a=i(72),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(58),n=i(25),a=i(73),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(66),n=i(26),a=i(74),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(59),n=i(27),a=i(75),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(63),n=i(28),a=i(76),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(65),n=i(29),a=i(77),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(57),n=i(30),a=i(78),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(64),n=i(31),a=i(79),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(55),n=i(32),a=i(80),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(60),n=i(33),a=i(81),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)},function(t,e,i){var n,a;i(51),n=i(34),a=i(82),t.exports=n||{},t.exports.__esModule&&(t.exports=t.exports["default"]),a&&(("function"==typeof t.exports?t.exports.options:t.exports).template=a)}])});
-},{}],5:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.26
@@ -11644,7 +11641,7 @@ setTimeout(function () {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":1}],6:[function(require,module,exports){
+},{"_process":1}],5:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -11664,234 +11661,7 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],7:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    methods: {
-        processJob: function processJob(job) {
-            this.$http.post(window.location.origin + '/api/jobs/create/', {
-                name: job
-            }).then(function (response) {}.bind(this)).catch(function (response) {
-                alert(response);
-            });
-        }
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Bot Controls</div>\n    <div class=\"panel-body text-center\">\n        <div class=\"btn-group btn-group-lg\" role=\"group\" aria-label=\"...\">\n            <button @click=\"processJob('join')\" type=\"button\" class=\"btn btn-default\">\n                <i class=\"fa fa-arrow-right\"></i> Join\n            </button>\n            <button @click=\"processJob('part')\" type=\"button\" class=\"btn btn-default\">\n                <i class=\"fa fa-arrow-left\"></i> Remove\n            </button>\n            <button @click=\"processJob('rejoin')\" type=\"button\" class=\"btn btn-default\">\n                <i class=\"fa fa-refresh\"></i> Rejoin\n            </button>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-695c6191", module.exports)
-  } else {
-    hotAPI.update("_v-695c6191", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            Editing: false,
-            Updating: false,
-            ID: this.item.id,
-            Command: this.item.name,
-            Text: this.item.text,
-            Cooldown: this.item.cooldown_min,
-            Roles: [],
-            ItemRoles: [],
-            RoleObjects: [],
-            UpdatedRoleObjects: [],
-            isActive: this.item.active,
-            thisHasRole: false
-        };
-    },
-
-    methods: {
-        changeEditState: function changeEditState() {
-            if (this.Editing) {
-                this.updateCommand();
-            }
-
-            this.Editing = !this.Editing;
-        },
-        changeActiveState: function changeActiveState() {
-            this.isActive = !this.isActive;
-            this.updateCommand();
-        },
-        updateCommand: function updateCommand() {
-            this.updateRoleObjects();
-
-            this.$http.put(window.location.origin + '/api/commands/' + this.ID + '/edit/', {
-                name: this.Command,
-                text: this.Text,
-                cooldown_min: this.Cooldown,
-                active: this.isActive,
-                roles: this.UpdatedRoleObjects
-            }).then(function (response) {
-                //console.log(response);
-                this.Updating = true;
-            }.bind(this)).catch(function (response) {
-                this.Updating = false;
-                //console.log('Error: ' + response)
-            });
-        },
-        getRoles: function getRoles() {
-            this.$http.get(window.location.origin + '/api/roles/').then(function (response) {
-                //console.log(response.data.results);
-                this.RoleObjects = response.data.results;
-
-                for (var k in response.data.results) {
-                    if (response.data.results.hasOwnProperty(k)) {
-                        this.Roles.push(response.data.results[k].name);
-                    }
-                }
-
-                this.getItemRoles();
-            }).catch(function (response) {});
-        },
-        getItemRoles: function getItemRoles() {
-            for (var k in this.item.roles) {
-                if (this.item.roles.hasOwnProperty(k)) {
-                    this.ItemRoles.push(this.item.roles[k].name);
-                }
-            }
-        },
-        updateRoleObjects: function updateRoleObjects() {
-            this.UpdatedRoleObects = [];
-
-            for (var k in this.RoleObjects) {
-                if (this.RoleObjects.hasOwnProperty(k)) {
-                    if (jQuery.inArray(this.RoleObjects[k].name, this.ItemRoles) !== -1) {
-                        this.UpdatedRoleObjects.push(this.RoleObjects[k]);
-                    }
-                }
-            }
-        }
-    },
-
-    computed: {},
-
-    props: ['item'],
-
-    ready: function ready() {
-        //console.log(this.item)
-        this.getRoles();
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-body\">\n    <div class=\"container-fluid\">\n        <!-- BUTTONS / ACTIONS -->\n        <div class=\"row\" style=\"margin-bottom: 10px\">\n            <div class=\"btn-group pull-right\">\n                <button @click=\"changeEditState()\" v-if=\"!Editing\" type=\"button\" class=\"btn btn-primary btn-sm\">\n                    <i class=\"fa fa-edit\"></i> Edit\n                </button>\n                <button @click=\"changeEditState()\" v-if=\"Editing\" type=\"button\" class=\"btn btn-info btn-sm\">\n                    <i class=\"fa fa-thumbs-o-up\"></i> Done\n                </button>\n\n                <button @click=\"changeActiveState()\" v-if=\"isActive\" class=\"btn btn-success btn-sm\">\n                    <i class=\"fa fa-toggle-on\"></i> On\n                </button>\n                <button @click=\"changeActiveState()\" v-if=\"!isActive\" class=\"btn btn-default btn-sm\">\n                    <i class=\"fa fa-toggle-off\"></i> Off\n                </button>\n            </div>\n        </div>\n\n        <!-- COMMAND -->\n        <div class=\"row\">\n            <h4 v-if=\"!Editing\">{{ Command }}</h4>\n            <div v-else=\"\" class=\"form-group\">\n                <input type=\"text\" class=\"form-control\" v-model=\"Command\">\n            </div>\n        </div>\n\n        <!-- TEXT -->\n        <div class=\"row\">\n            <div v-if=\"!Editing\" class=\"well well-sm\">\n                <cite>{{ Text }}</cite>\n            </div>\n            <div v-else=\"\" class=\"form-group\">\n                <textarea class=\"form-control\" rows=\"3\" v-model=\"Text\"></textarea>\n            </div>\n        </div>\n\n        <!-- ROLES -->\n        <div class=\"row\">\n            <h4 v-if=\"!Editing\">\n                <span v-for=\"name in ItemRoles\" class=\"label label-default\" style=\"margin-right: 5px\">\n                    {{ name }}\n                </span>\n            </h4>\n            <div v-else=\"\">\n                <label style=\"margin-bottom: 5px\" class=\"checkbox-inline\" v-for=\"name in Roles\">\n                  <input type=\"checkbox\" id=\"{{name}}\" value=\"{{name}}\" v-model=\"ItemRoles\"> {{name}}\n                </label>\n            </div>\n        </div>\n\n        <!-- COOLDOWN -->\n        <div class=\"row\">\n            <h5 v-if=\"!Editing\">Cooldown Minutes <span class=\"label label-default\">{{ Cooldown }}</span></h5>\n\n            <div v-else=\"\" class=\"form-group\">\n                <label for=\"cooldown\">Cooldown Minutes</label>\n                <input id=\"cooldown\" type=\"number\" class=\"form-control\" v-model=\"Cooldown\">\n            </div>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-223d963f", module.exports)
-  } else {
-    hotAPI.update("_v-223d963f", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2}],9:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Command = require('./Command.vue');
-
-var _Command2 = _interopRequireDefault(_Command);
-
-var _vueSpinnerMin = require('vue-spinner/dist/vue-spinner.min.js');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    components: {
-        Command: _Command2.default,
-        PulseLoader: _vueSpinnerMin.PulseLoader
-    },
-
-    props: {
-        show: {
-            type: Boolean,
-            required: true,
-            twoWay: true
-        }
-    },
-
-    data: function data() {
-        return {
-            isLoading: false,
-            isRefreshing: false,
-            commands: []
-        };
-    },
-
-    methods: {
-        getCommands: function getCommands() {
-            this.isLoading = true;
-            this.$http.get(window.location.origin + '/api/commands/').then(function (response) {
-                //console.log(response.data.results);
-                this.commands = response.data.results;
-                this.isLoading = false;
-            }.bind(this)).catch(function (response) {
-                this.isLoading = false;
-            }.bind(this));
-        },
-        refreshCommands: function refreshCommands() {
-            this.isRefreshing = true;
-            this.commands = [];
-            this.commands = this.getCommands();
-            this.isRefreshing = false;
-        },
-        close: function close() {
-            this.commands = [];
-            this.show = false;
-        }
-    },
-
-    events: {
-        //            'modalClosing': function () {
-        //                this.commands = [];
-        //            }
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal-mask\" v-show=\"show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n        <div class=\"modal-container\">\n\n            <div class=\"modal-header\">\n                <i class=\"fa fa-exclamation\"></i> Commands\n\n                <button @click=\"refreshCommands()\" v-if=\"commands.length > 0\" class=\"btn btn-primary btn-sm pull-right\" type=\"button\">\n                    <div v-if=\"!isRefreshing\">\n                        <i class=\"fa fa-refresh\"></i>\n                    </div>\n                </button>\n            </div>\n\n            <div class=\"modal-body\">\n                <div v-if=\"!isRefreshing\">\n                    <div class=\"text-center\" v-if=\"commands.length <= 0\">\n                        <div class=\"h1 page-header\">Commands Component v0.1.0 Beta</div>\n\n                        <blockquote>\n                            <p>You can load your custom commands and edit them through this component!</p>\n                            <footer>Loading could take some time.</footer>\n                        </blockquote>\n\n                        <button class=\"btn btn-primary btn-lg\" @click=\"getCommands()\">\n                            Load Commands\n                        </button>\n                    </div>\n                </div>\n\n                <div>\n                    <pulse-loader :loading=\"isLoading\"></pulse-loader>\n                    <pulse-loader :loading=\"isRefreshing\"></pulse-loader>\n                </div>\n\n                <div class=\"panel panel-default\" v-for=\"(index, item) in commands\">\n                    <command :item=\"item\"></command>\n                </div>\n            </div>\n\n            <div class=\"modal-footer\">\n                <button class=\"btn btn-default btn-sm\" @click=\"close()\">\n                    Close\n                </button>\n\n            </div>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-67d66c0e", module.exports)
-  } else {
-    hotAPI.update("_v-67d66c0e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"./Command.vue":8,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 "use strict";
@@ -11901,390 +11671,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 
-//    import HeaderComponent from './components/header.vue'
-//    import OtherComponent from './components/other.vue'
-
+// import HeaderComponent from './components/header.vue'
+// import OtherComponent from './components/other.vue'
 exports.default = {
-    components: {
-        //            'other-component':OtherComponent,
-        //            HeaderComponent,
-    },
-
     data: function data() {
         return {};
     },
-
-    methods: {
-        MyMethod: function MyMethod() {}
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-3b0f0be4", module.exports)
-  } else {
-    hotAPI.update("_v-3b0f0be4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            isFollowing: false
-        };
-    },
-
-    methods: {
-        getFollowing: function getFollowing() {
-            this.$http.get(window.location.origin + '/api/followers/following/' + this.item.user.name + '/').then(function (response) {
-                this.isFollowing = true;
-            }).catch(function (response) {
-                this.isFollowing = false;
-            });
-        },
-        followChannel: function followChannel() {
-            this.$http.get(window.location.origin + '/api/followers/follow/' + this.item.user.name + '/').then(function (response) {
-                this.isFollowing = true;
-            }).catch(function (response) {
-                this.isFollowing = false;
-            });
-        },
-        stopFollowing: function stopFollowing() {
-            this.$http.get(window.location.origin + '/api/followers/unfollow/' + this.item.user.name + '/').then(function (response) {
-                this.isFollowing = false;
-            }).catch(function (response) {
-                this.isFollowing = true;
-            });
-        }
-    },
-
-    computed: {
-        twitchLink: function twitchLink() {
-            return 'http://www.twitch.tv/' + this.item.user.name;
-        },
-        logo: function logo() {
-            if (this.item.user.logo == null) {
-                return "http://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_purple.png";
-            }
-
-            return this.item.user.logo;
-        }
-    },
-
-    props: ['item'],
-
-    ready: function ready() {
-        //console.log('Item: ' + this.item.user.display_name);
-        this.getFollowing();
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-body\">\n    <div class=\"row\">\n        <div class=\"col-md-4\">\n            <a :href=\"twitchLink\" class=\"thumbnail\" target=\"_blank\">\n\n                <img class=\"img-responsive img-thumbnail\" :src=\"logo\" width=\"110\" height=\"110\">\n            </a>\n            <div class=\"text-center\">\n                <div v-if=\"isFollowing\">\n                    <button @click=\"stopFollowing()\" type=\"button\" class=\"btn btn-primary btn-sm\">\n                        <i class=\"fa fa-twitch\"></i> Stop Following\n                    </button>\n                </div>\n                <div v-else=\"\">\n                    <button @click=\"followChannel()\" type=\"button\" class=\"btn btn-primary btn-sm\">\n                        <i class=\"fa fa-twitch\"></i> Follow\n                    </button>\n                </div>\n            </div>\n        </div>\n        <div class=\"col-md-8\">\n            <div class=\"h3 page-header\">{{ item.user.display_name }}</div>\n            <p>\n                {{ item.user.bio }}\n            </p>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-43b72d5a", module.exports)
-  } else {
-    hotAPI.update("_v-43b72d5a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2}],12:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Follower = require('./Follower.vue');
-
-var _Follower2 = _interopRequireDefault(_Follower);
-
-var _vueSpinnerMin = require('vue-spinner/dist/vue-spinner.min.js');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    components: {
-        Follower: _Follower2.default,
-        PulseLoader: _vueSpinnerMin.PulseLoader
-    },
-
-    props: {
-        show: {
-            type: Boolean,
-            required: true,
-            twoWay: true
-        }
-    },
-
-    data: function data() {
-        return {
-            isLoading: false,
-            isRefreshing: false,
-            followers: []
-        };
-    },
-
-    methods: {
-        getFollowers: function getFollowers() {
-            this.isLoading = true;
-            this.$http.get(window.location.origin + '/api/followers/').then(function (response) {
-                console.log(response);
-                this.followers = response.data.follows;
-                this.isLoading = false;
-            }.bind(this)).catch(function (response) {
-                this.isLoading = false;
-            }.bind(this));
-        },
-        refreshFollowers: function refreshFollowers() {
-            this.isRefreshing = true;
-            this.followers = [];
-            this.followers = this.getFollowers();
-            this.isRefreshing = false;
-        },
-        close: function close() {
-            this.show = false;
-            this.followers = [];
-        }
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal-mask\" v-show=\"show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n        <div class=\"modal-container\">\n\n            <div class=\"modal-header\">\n                <i class=\"fa fa-twitch\"></i> Followers\n\n                <button @click=\"refreshFollowers()\" v-if=\"followers.length > 0\" class=\"btn btn-primary btn-sm pull-right\" type=\"button\">\n                    <div v-if=\"!isRefreshing\">\n                        <i class=\"fa fa-refresh\"></i>\n                    </div>\n                </button>\n\n            </div>\n\n            <div class=\"modal-body\">\n                <div v-if=\"!isRefreshing\">\n                    <div class=\"text-center\" v-if=\"followers.length <= 0\">\n                        <div class=\"h1 page-header\">Followers Component v0.1.5 Beta</div>\n\n                        <blockquote>\n                            <p>You can load your followers and interact with them through this component!</p>\n                            <footer>Limited to the most recent 100 followers</footer>\n                        </blockquote>\n\n\n                        <button class=\"btn btn-primary btn-lg\" v-on:click=\"getFollowers()\">\n                                Load Followers\n                        </button>\n                    </div>\n                </div>\n\n                <div>\n                    <pulse-loader :loading=\"isLoading\"></pulse-loader>\n                    <pulse-loader :loading=\"isRefreshing\"></pulse-loader>\n                </div>\n\n                <div class=\"panel panel-default\" v-for=\"(index, item) in followers\">\n                    <follower :item=\"item\"></follower>\n                </div>\n            </div>\n\n            <div class=\"modal-footer\">\n                <button class=\"btn btn-default btn-sm\" @click=\"close()\">\n                    Close\n                </button>\n\n            </div>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-dfed3e58", module.exports)
-  } else {
-    hotAPI.update("_v-dfed3e58", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"./Follower.vue":11,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    data: function data() {
-        return {
-            Editing: false,
-            ID: this.item.id,
-            Name: this.item.name,
-            old_name: this.item.name,
-            alert_msg: false,
-            alert_type: 'info'
-        };
-    },
-
-    methods: {
-
-        remove: function remove() {
-            this.$http.delete(window.location.origin + '/api/regulars/' + this.ID + '/delete/').then(function (response) {
-                this.$dispatch('refreshRequested');
-            }).catch(function (response) {
-                console.log(response);
-            });
-        },
-        update: function update() {
-            this.$http.put(window.location.origin + '/api/regulars/' + this.ID + '/edit/', {
-                name: this.Name
-            }).then(function (response) {
-                this.alert_type = 'success';
-                this.alert_msg = 'Operation completed successfully ...';
-            }).catch(function (response) {
-                this.alert_type = 'danger';
-                this.alert_msg = response.data.name;
-                this.Name = this.old_name;
-            });
-        },
-        changeEditState: function changeEditState() {
-            if (this.Editing) {
-                this.update();
-            }
-
-            this.Editing = !this.Editing;
-        },
-        alert_dismissed: function alert_dismissed() {
-            this.alert_msg = false;
-            this.alert_type = 'info';
-        }
-    },
-
-    computed: {},
-
-    props: ['item'],
-
-    ready: function ready() {}
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-body\">\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"alert alert-{{alert_type}} alert-dismissible text-center\" role=\"alert\" v-if=\"alert_msg\">\n              <button type=\"button\" @click=\"alert_dismissed()\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n              {{ alert_msg }}\n            </div>\n        </div>\n        <!-- Name -->\n        <div class=\"row\">\n            <div class=\"col-md-6\">\n                <h4 v-if=\"!Editing\">\n                    <a href=\"http://www.twitch.tv/{{Name}}\" target=\"_blank\">{{ Name }}</a>\n                </h4>\n                <div v-else=\"\" class=\"form-group\">\n                    <input type=\"text\" class=\"form-control\" v-model=\"Name\">\n                </div>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"btn-group pull-right\">\n                    <button @click=\"changeEditState()\" v-if=\"!Editing\" type=\"button\" class=\"btn btn-primary btn-sm\">\n                        <i class=\"fa fa-edit\"></i> Edit\n                    </button>\n                    <button @click=\"changeEditState()\" v-if=\"Editing\" type=\"button\" class=\"btn btn-info btn-sm\">\n                        <i class=\"fa fa-thumbs-o-up\"></i> Done\n                    </button>\n                    <button @click=\"remove()\" type=\"button\" class=\"btn btn-danger btn-sm\">\n                        <i class=\"fa fa-remove\"></i>\n                    </button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-46af4610", module.exports)
-  } else {
-    hotAPI.update("_v-46af4610", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2}],14:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Regular = require('./Regular.vue');
-
-var _Regular2 = _interopRequireDefault(_Regular);
-
-var _vueSpinnerMin = require('vue-spinner/dist/vue-spinner.min.js');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    components: {
-        Regular: _Regular2.default,
-        PulseLoader: _vueSpinnerMin.PulseLoader
-    },
-
-    props: {
-        show: {
-            type: Boolean,
-            required: true,
-            twoWay: true
-        }
-    },
-
-    data: function data() {
-        return {
-            isLoading: false,
-            isRefreshing: false,
-            regulars: []
-        };
-    },
-
-    methods: {
-        getRegulars: function getRegulars() {
-            this.isLoading = true;
-            this.$http.get(window.location.origin + '/api/regulars/').then(function (response) {
-                this.regulars = response.data.results;
-                this.isLoading = false;
-            }.bind(this)).catch(function (response) {
-                this.isLoading = false;
-            }.bind(this));
-        },
-        refresh: function refresh() {
-            this.isRefreshing = true;
-            this.regulars = [];
-            this.regulars = this.getRegulars();
-            this.isRefreshing = false;
-        },
-        close: function close() {
-            this.show = false;
-            this.regulars = [];
-        }
-    },
-
-    events: {
-        'refreshRequested': function refreshRequested() {
-            this.refresh();
-        }
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"modal-mask\" v-show=\"show\" transition=\"modal\">\n    <div class=\"modal-wrapper\">\n        <div class=\"modal-container\">\n\n            <div class=\"modal-header\">\n                <i class=\"fa fa-users\"></i> Regulars\n\n                <button @click=\"refresh()\" v-if=\"regulars.length > 0\" class=\"btn btn-primary btn-sm pull-right\" type=\"button\">\n                    <div v-if=\"!isRefreshing\">\n                        <i class=\"fa fa-refresh\"></i>\n                    </div>\n                </button>\n            </div>\n            <div class=\"modal-body\">\n                <div v-if=\"!isRefreshing\">\n                    <div class=\"text-center\" v-if=\"regulars.length <= 0\">\n                        <div class=\"h1 page-header\">Regulars Component v0.1.2 Beta</div>\n\n                        <blockquote>\n                            <p>\n                                Use this Component to manage your regular users.\n                                These users may have special permissions\n                            </p>\n                            <footer>Loading could take some time.</footer>\n                        </blockquote>\n\n                        <button class=\"btn btn-primary btn-lg\" @click=\"getRegulars()\">\n                            Load Regulars\n                        </button>\n                    </div>\n                </div>\n\n                <div>\n                    <pulse-loader :loading=\"isLoading\"></pulse-loader>\n                    <pulse-loader :loading=\"isRefreshing\"></pulse-loader>\n                </div>\n\n                <div class=\"panel panel-default\" v-for=\"(index, item) in regulars\">\n                    <regular :item=\"item\"></regular>\n                </div>\n            </div>\n\n            <div class=\"modal-footer\">\n                <button class=\"btn btn-default btn-sm\" @click=\"close()\">\n                    Close\n                </button>\n\n            </div>\n        </div>\n    </div>\n</div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache["\n\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-ab84cdec", module.exports)
-  } else {
-    hotAPI.update("_v-ab84cdec", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"./Regular.vue":13,"vue":5,"vue-hot-reload-api":2,"vue-spinner/dist/vue-spinner.min.js":4,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    props: ['static_path'],
+    components: {},
     methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- new widget -->\n<div class=\"jarviswidget jarviswidget-color-blueDark\" id=\"wid-id-1\" data-widget-editbutton=\"false\" data-widget-fullscreenbutton=\"false\">\n\n    <!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n    <header>\n        <span class=\"widget-icon\"> <i class=\"fa fa-comments txt-color-white\"></i> </span>\n        <h2> SmartChat </h2>\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n\n            <div class=\"btn-group\">\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </header>\n\n    <!-- widget div-->\n    <div>\n        <!-- widget edit box -->\n        <div class=\"jarviswidget-editbox\">\n            <div>\n                <label>Title:</label>\n                <input type=\"text\">\n            </div>\n        </div>\n        <!-- end widget edit box -->\n\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <!-- content goes here -->\n\n            <!-- CHAT CONTAINER -->\n            <div id=\"chat-container\">\n                <span class=\"chat-list-open-close\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n                <div class=\"chat-list-body custom-scroll\">\n                    <ul id=\"chat-users\">\n                        <li>\n                            <a href=\"#\">\n                                <img src=\"{{static_path}}/img/avatars/5.png\" alt=\"\">\n                                Robin Berry\n                                <span class=\"badge badge-inverse\">23</span>\n                                <span class=\"state\">\n                                    <i class=\"fa fa-circle txt-color-green pull-right\"></i>\n                                </span>\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n                <div class=\"chat-list-footer\">\n\n                    <div class=\"control-group\">\n\n                        <form class=\"smart-form\">\n\n                            <section>\n                                <label class=\"input\">\n                                    <input type=\"text\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                                </label>\n                            </section>\n\n                        </form>\n                    </div>\n                </div>\n\n            </div>\n\n            <!-- CHAT BODY -->\n            <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n                <ul>\n                    <li class=\"message\">\n                        <img src=\"{{static_path}}/img/avatars/5.png\" class=\"online\" alt=\"\">\n                        <div class=\"message-text\">\n                            <time>\n                                2014-01-13\n                            </time>\n\n                            <a href=\"#\" class=\"username\">\n                                Sadi Orlaf\n                            </a>\n\n                            Hey did you meet the new board of director?\n                            He's a bit of an arse if you ask me...anyway here is the report you requested.\n                            I am off to launch with Lisa and Andrew, you wanna join?\n                        </div>\n                    </li>\n                </ul>\n            </div>\n\n            <!-- CHAT FOOTER -->\n            <div class=\"chat-footer\">\n\n                <!-- CHAT TEXTAREA -->\n                <div class=\"textarea-div\">\n\n                    <div class=\"typearea\">\n                        <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\" class=\"custom-scroll\"></textarea>\n                    </div>\n\n                </div>\n\n                <!-- CHAT REPLY/SEND -->\n                <span class=\"textarea-controls\">\n                    <button class=\"btn btn-sm btn-primary pull-right\">\n                        Reply\n                    </button>\n                    <span class=\"pull-right smart-form\" style=\"margin-top: 3px; margin-right: 10px;\">\n                        <label class=\"checkbox pull-right\">\n                            <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                            <i></i>Press <strong> ENTER </strong> to send </label> </span> <a href=\"#\" class=\"pull-left\"><i class=\"fa fa-camera fa-fw fa-lg\"></i></a> </span>\n\n            </div>\n\n            <!-- end content -->\n        </div>\n\n    </div>\n    <!-- end widget div -->\n</div>\n<!-- end widget -->\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-354ad496", module.exports)
-  } else {
-    hotAPI.update("_v-354ad496", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n\n")
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-
-//    import HeaderComponent from './components/header.vue'
-//    import OtherComponent from './components/other.vue'
-
-exports.default = {
-    components: {
-        //            'other-component':OtherComponent,
-        //            HeaderComponent,
-    },
-
-    data: function data() {
-        return {};
-    },
-
-    methods: {
-        MyMethod: function MyMethod() {}
-    }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- new widget -->\n<div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-togglebutton=\"false\" data-widget-editbutton=\"false\" data-widget-fullscreenbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\">\n    <!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n    <header>\n        <span class=\"widget-icon\"> <i class=\"glyphicon glyphicon-stats txt-color-darken\"></i> </span>\n        <h2>Live Feeds </h2>\n\n        <ul class=\"nav nav-tabs pull-right in\" id=\"myTab\">\n            <li class=\"active\">\n                <a data-toggle=\"tab\" href=\"#s1\"><i class=\"fa fa-clock-o\"></i> <span class=\"hidden-mobile hidden-tablet\">Live Stats</span></a>\n            </li>\n\n            <li>\n                <a data-toggle=\"tab\" href=\"#s2\"><i class=\"fa fa-facebook\"></i> <span class=\"hidden-mobile hidden-tablet\">Social Network</span></a>\n            </li>\n\n            <li>\n                <a data-toggle=\"tab\" href=\"#s3\"><i class=\"fa fa-dollar\"></i> <span class=\"hidden-mobile hidden-tablet\">Revenue</span></a>\n            </li>\n        </ul>\n\n    </header>\n\n    <!-- widget div-->\n    <div class=\"no-padding\">\n        <!-- widget edit box -->\n        <div class=\"jarviswidget-editbox\">\n\n            test\n        </div>\n        <!-- end widget edit box -->\n\n        <div class=\"widget-body\">\n            <!-- content -->\n            <div id=\"myTabContent\" class=\"tab-content\">\n                <div class=\"tab-pane fade active in padding-10 no-padding-bottom\" id=\"s1\">\n                    <div class=\"row no-space\">\n                        <div class=\"col-xs-12 col-sm-12 col-md-8 col-lg-8\">\n                            <span class=\"demo-liveupdate-1\"> <span class=\"onoffswitch-title\">Live switch</span> <span class=\"onoffswitch\">\n                                    <input type=\"checkbox\" name=\"start_interval\" class=\"onoffswitch-checkbox\" id=\"start_interval\">\n                                    <label class=\"onoffswitch-label\" for=\"start_interval\">\n                                        <span class=\"onoffswitch-inner\" data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></span>\n                                        <span class=\"onoffswitch-switch\"></span> </label> </span> </span>\n                            <div id=\"updating-chart\" class=\"chart-large txt-color-blue\"></div>\n\n                        </div>\n                        <div class=\"col-xs-12 col-sm-12 col-md-4 col-lg-4 show-stats\">\n\n                            <div class=\"row\">\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> My Tasks <span class=\"pull-right\">130/200</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blueDark\" style=\"width: 65%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> Transfered <span class=\"pull-right\">440 GB</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blue\" style=\"width: 34%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> Bugs Squashed<span class=\"pull-right\">77%</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-blue\" style=\"width: 77%;\"></div>\n                                    </div> </div>\n                                <div class=\"col-xs-6 col-sm-6 col-md-12 col-lg-12\"> <span class=\"text\"> User Testing <span class=\"pull-right\">7 Days</span> </span>\n                                    <div class=\"progress\">\n                                        <div class=\"progress-bar bg-color-greenLight\" style=\"width: 84%;\"></div>\n                                    </div> </div>\n\n                                <span class=\"show-stat-buttons\"> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href=\"javascript:void(0);\" class=\"btn btn-default btn-block hidden-xs\">Generate PDF</a> </span> <span class=\"col-xs-12 col-sm-6 col-md-6 col-lg-6\"> <a href=\"javascript:void(0);\" class=\"btn btn-default btn-block hidden-xs\">Report a bug</a> </span> </span>\n\n                            </div>\n\n                        </div>\n                    </div>\n\n                    <div class=\"show-stat-microcharts\">\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n\n                            <div class=\"easy-pie-chart txt-color-orangeDark\" data-percent=\"33\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">35</span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Server Load <i class=\"fa fa-caret-up icon-color-bad\"></i> </span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-greenLight\"><i class=\"fa fa-caret-up\"></i> 97%</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blueLight\"><i class=\"fa fa-caret-down\"></i> 44%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-greenLight hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                130, 187, 250, 257, 200, 210, 300, 270, 363, 247, 270, 363, 247\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-greenLight\" data-percent=\"78.9\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">78.9 </span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Disk Space <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 76%</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 3%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-blue hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                257, 200, 210, 300, 270, 363, 130, 187, 250, 247, 270, 363, 247\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-blue\" data-percent=\"23\" data-pie-size=\"50\">\n                                <span class=\"percent percent-sign\">23 </span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Transfered <i class=\"fa fa-caret-up icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-darken\">10GB</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blueDark\"><i class=\"fa fa-caret-up\"></i> 10%</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-darken hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                200, 210, 363, 247, 300, 270, 130, 187, 250, 257, 363, 247, 270\n                            </div>\n                        </div>\n                        <div class=\"col-xs-12 col-sm-3 col-md-3 col-lg-3\">\n                            <div class=\"easy-pie-chart txt-color-darken\" data-percent=\"36\" data-pie-size=\"50\">\n                                <span class=\"percent degree-sign\">36 <i class=\"fa fa-caret-up\"></i></span>\n                            </div>\n                            <span class=\"easy-pie-title\"> Temperature <i class=\"fa fa-caret-down icon-color-good\"></i></span>\n                            <ul class=\"smaller-stat hidden-sm pull-right\">\n                                <li>\n                                    <span class=\"label bg-color-red\"><i class=\"fa fa-caret-up\"></i> 124</span>\n                                </li>\n                                <li>\n                                    <span class=\"label bg-color-blue\"><i class=\"fa fa-caret-down\"></i> 40 F</span>\n                                </li>\n                            </ul>\n                            <div class=\"sparkline txt-color-red hidden-sm hidden-md pull-right\" data-sparkline-type=\"line\" data-sparkline-height=\"33px\" data-sparkline-width=\"70px\" data-fill-color=\"transparent\">\n                                2700, 3631, 2471, 2700, 3631, 2471, 1300, 1877, 2500, 2577, 2000, 2100, 3000\n                            </div>\n                        </div>\n                    </div>\n\n                </div>\n                <!-- end s1 tab pane -->\n\n                <div class=\"tab-pane fade\" id=\"s2\">\n                    <div class=\"widget-body-toolbar bg-color-white\">\n\n                        <form class=\"form-inline\" role=\"form\">\n\n                            <div class=\"form-group\">\n                                <label class=\"sr-only\" for=\"s123\">Show From</label>\n                                <input type=\"email\" class=\"form-control input-sm\" id=\"s123\" placeholder=\"Show From\">\n                            </div>\n                            <div class=\"form-group\">\n                                <input type=\"email\" class=\"form-control input-sm\" id=\"s124\" placeholder=\"To\">\n                            </div>\n\n                            <div class=\"btn-group hidden-phone pull-right\">\n                                <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                                <ul class=\"dropdown-menu pull-right\">\n                                    <li>\n                                        <a href=\"javascript:void(0);\"><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                    </li>\n                                    <li>\n                                        <a href=\"javascript:void(0);\"><i class=\"fa fa-question-sign\"></i> Help</a>\n                                    </li>\n                                </ul>\n                            </div>\n\n                        </form>\n\n                    </div>\n                    <div class=\"padding-10\">\n                        <div id=\"statsChart\" class=\"chart-large has-legend-unique\"></div>\n                    </div>\n\n                </div>\n                <!-- end s2 tab pane -->\n\n                <div class=\"tab-pane fade\" id=\"s3\">\n\n                    <div class=\"widget-body-toolbar bg-color-white smart-form\" id=\"rev-toggles\">\n\n                        <div class=\"inline-group\">\n\n                            <label for=\"gra-0\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-0\" id=\"gra-0\" checked=\"checked\">\n                                <i></i> Target </label>\n                            <label for=\"gra-1\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-1\" id=\"gra-1\" checked=\"checked\">\n                                <i></i> Actual </label>\n                            <label for=\"gra-2\" class=\"checkbox\">\n                                <input type=\"checkbox\" name=\"gra-2\" id=\"gra-2\" checked=\"checked\">\n                                <i></i> Signups </label>\n                        </div>\n\n                        <div class=\"btn-group hidden-phone pull-right\">\n                            <a class=\"btn dropdown-toggle btn-xs btn-default\" data-toggle=\"dropdown\"><i class=\"fa fa-cog\"></i> More <span class=\"caret\"> </span> </a>\n                            <ul class=\"dropdown-menu pull-right\">\n                                <li>\n                                    <a href=\"javascript:void(0);\"><i class=\"fa fa-file-text-alt\"></i> Export to PDF</a>\n                                </li>\n                                <li>\n                                    <a href=\"javascript:void(0);\"><i class=\"fa fa-question-sign\"></i> Help</a>\n                                </li>\n                            </ul>\n                        </div>\n\n                    </div>\n\n                    <div class=\"padding-10\">\n                        <div id=\"flotcontainer\" class=\"chart-large has-legend-unique\"></div>\n                    </div>\n                </div>\n                <!-- end s3 tab pane -->\n            </div>\n\n            <!-- end content -->\n        </div>\n\n    </div>\n    <!-- end widget div -->\n</div>\n<!-- end widget -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- todo: breadcrumb -->\n<ol class=\"breadcrumb\">\n    <li>Home</li>\n    <li>Dashboard</li>\n</ol>\n<!-- end breadcrumb -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12294,55 +11691,365 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-2f6cdadf", module.exports)
+    hotAPI.createRecord("_v-6e70c3f1", module.exports)
   } else {
-    hotAPI.update("_v-2f6cdadf", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6e70c3f1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],7:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+
+// import HeaderComponent from './components/header.vue'
+// import OtherComponent from './components/other.vue'
+exports.default = {
+    data: function data() {
+        return {};
+    },
+    components: {},
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <!-- projects dropdown -->\n<div class=\"project-context hidden-xs\">\n\n    <span class=\"label\">Dev Activity:</span>\n    <span class=\"project-selector dropdown-toggle\" data-toggle=\"dropdown\">Recent Commits <i class=\"fa fa-angle-down\"></i></span>\n\n    <!-- Suggestion: populate this list with fetch and push technique -->\n    <ul class=\"dropdown-menu\">\n        <li>\n            <a href=\"javascript:void(0);\">Online e-merchant management system - attaching integration with the iOS</a>\n        </li>\n        <li>\n            <a href=\"javascript:void(0);\">Notes on pipeline upgradee</a>\n        </li>\n        <li>\n            <a href=\"javascript:void(0);\">Assesment Report for merchant account</a>\n        </li>\n    </ul>\n    <!-- end dropdown-menu-->\n\n</div>\n<!-- end projects dropdown -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-01b41a16", module.exports)
+  } else {
+    hotAPI.update("_v-01b41a16", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+
+// import HeaderComponent from './components/header.vue'
+// import OtherComponent from './components/other.vue'
+exports.default = {
+    data: function data() {
+        return {};
+    },
+    components: {},
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Note: The activity badge color changes when clicked and resets the number to 0\nSuggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->\n<span id=\"activity\" class=\"activity-dropdown\"> <i class=\"fa fa-user\"></i> <b class=\"badge\"> 21 </b> </span>\n\n<!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->\n<div class=\"ajax-dropdown\">\n\n    <!-- the ID links are fetched via AJAX to the ajax container \"ajax-notifications\" -->\n    <div class=\"btn-group btn-group-justified\" data-toggle=\"buttons\">\n        <label class=\"btn btn-default\">\n            <input type=\"radio\" name=\"activity\" id=\"ajax/notify/mail.html\">\n            Msgs (14) </label>\n        <label class=\"btn btn-default\">\n            <input type=\"radio\" name=\"activity\" id=\"ajax/notify/notifications.html\">\n            notify (3) </label>\n        <label class=\"btn btn-default\">\n            <input type=\"radio\" name=\"activity\" id=\"ajax/notify/tasks.html\">\n            Tasks (4) </label>\n    </div>\n\n    <!-- notification content -->\n    <div class=\"ajax-notifications custom-scroll\">\n\n        <div class=\"alert alert-transparent\">\n            <h4>Click a button to show messages here</h4>\n            This blank page message helps protect your privacy, or you can show the first message here automatically.\n        </div>\n\n        <i class=\"fa fa-lock fa-4x fa-border\"></i>\n\n    </div>\n    <!-- end notification content -->\n\n    <!-- footer: refresh area -->\n    <span> Last updated on: 12/12/2013 9:43AM\n        <button type=\"button\" data-loading-text=\"<i class='fa fa-refresh fa-spin'></i> Loading...\" class=\"btn btn-xs btn-default pull-right\">\n            <i class=\"fa fa-refresh\"></i>\n        </button>\n    </span>\n    <!-- end footer -->\n\n</div>\n<!-- END AJAX-DROPDOWN -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-4557247a", module.exports)
+  } else {
+    hotAPI.update("_v-4557247a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],9:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+
+// import HeaderComponent from './components/header.vue'
+// import OtherComponent from './components/other.vue'
+exports.default = {
+    data: function data() {
+        return {};
+    },
+    components: {},
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- input: search field -->\n<form action=\"#\" class=\"header-search pull-right\">\n    <input id=\"search-fld\" type=\"text\" name=\"param\" placeholder=\"Search ...\" data-autocomplete=\"[\n    &quot;Commands&quot;,\n    &quot;Regulars&quot;,\n    &quot;Twitch&quot;,\n    &quot;Followers&quot;,\n    &quot;Following&quot;,\n    &quot;Status&quot;,\n    &quot;Royalties&quot;,\n    &quot;Songs&quot;,\n    &quot;Playlists&quot;\n    ]\">\n    <button type=\"submit\">\n        <i class=\"fa fa-search\"></i>\n    </button>\n    <a href=\"javascript:void(0);\" id=\"cancel-search-js\" title=\"Cancel Search\"><i class=\"fa fa-times\"></i></a>\n</form>\n<!-- end input: search field -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-0c24b53e", module.exports)
+  } else {
+    hotAPI.update("_v-0c24b53e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],10:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _CommandsWidget = require('../widgets/CommandsWidget.vue');
+
+var _CommandsWidget2 = _interopRequireDefault(_CommandsWidget);
+
+var _SmartChat = require('../widgets/SmartChat.vue');
+
+var _SmartChat2 = _interopRequireDefault(_SmartChat);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: ['user'],
+
+    data: function data() {
+        return {};
+    },
+    components: {
+        Commands: _CommandsWidget2.default,
+        SmartChat: _SmartChat2.default
+    },
+
+    computed: {
+        TwitchURL: function TwitchURL() {
+            if (this.user != null) {
+                return 'http://www.twitch.tv/' + this.user.username + '/chat';
+            }
+
+            return null;
+        }
+    },
+
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\">\n        <h1 class=\"page-title txt-color-blueDark\"><i class=\"fa-fw fa fa-home\"></i> Dashboard <span>&gt; My Dashboard</span></h1>\n    </div>\n</div>\n\n<!-- widget grid -->\n<section id=\"widget-grid\" class=\"\">\n\n    <!-- row -->\n    <div class=\"row\">\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <smart-chat static_path=\"{% static 'compiled' %}\"></smart-chat>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n\n            <!-- new widget -->\n            <div class=\"jarviswidget jarviswidget-color-blue\" id=\"wid-id-0\" data-widget-editbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\" data-widget-fullscreenbutton=\"false\">\n\n                <!-- widget options:\n                usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n                data-widget-colorbutton=\"false\"\n                data-widget-editbutton=\"false\"\n                data-widget-togglebutton=\"false\"\n                data-widget-deletebutton=\"false\"\n                data-widget-fullscreenbutton=\"false\"\n                data-widget-custombutton=\"false\"\n                data-widget-collapsed=\"true\"\n                data-widget-sortable=\"false\"\n\n                -->\n\n                <header>\n                    <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\n                    <h2> Twitch Chat </h2>\n                    <!-- <div class=\"widget-toolbar\">\n                    add: non-hidden - to disable auto hide\n\n                    </div>-->\n                </header>\n\n                <!-- widget div-->\n                <div>\n                    <div class=\"widget-body no-padding smart-form\">\n                        <!-- content goes here -->\n\n                        <div v-if=\"TwitchURL\" class=\"panel panel-default\">\n                            <div class=\"panel-body text-center\">\n                                <iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" :src=\"TwitchURL\" height=\"410\" width=\"100%\">\n                                </iframe>\n                            </div>\n                        </div>\n\n                        <!-- end content -->\n                    </div>\n\n                </div>\n                <!-- end widget div -->\n            </div>\n            <!-- end widget -->\n\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <commands></commands>\n        </article>\n    </div>\n\n    <!-- end row -->\n\n    <div class=\"row\">\n\n    </div>\n</section>\n<!-- end widget grid -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-db8055c6", module.exports)
+  } else {
+    hotAPI.update("_v-db8055c6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../widgets/CommandsWidget.vue":11,"../widgets/SmartChat.vue":12,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],11:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: ['user'],
+
+    data: function data() {
+        return {
+            RandomID: RandomNum()
+        };
+    },
+    components: {
+        Widget: _Widget2.default
+    },
+    methods: {},
+    computed: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Add custom colors to your TR and TD <code>&lt;tr&gt;</code> by adding <code>.success</code>, <code>.danger</code>,\n            <code>.warning</code> and <code>.info</code> respectively\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th><i class=\"fa fa-building\"></i> Product</th>\n                    <th><i class=\"fa fa-calendar\"></i> Payment Taken</th>\n                    <th><i class=\"glyphicon glyphicon-send\"></i> Status</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr class=\"success\">\n                    <td>1</td>\n                    <td>TB - Monthly</td>\n                    <td>01/04/2012</td>\n                    <td>Approved</td>\n                </tr>\n                <tr class=\"danger\">\n                    <td>2</td>\n                    <td>TB - Monthly</td>\n                    <td>02/04/2012</td>\n                    <td>Declined</td>\n                </tr>\n                <tr class=\"warning\">\n                    <td>3</td>\n                    <td>TB - Monthly</td>\n                    <td>03/04/2012</td>\n                    <td>Pending</td>\n                </tr>\n                <tr class=\"info\">\n                    <td>4</td>\n                    <td>TB - Monthly</td>\n                    <td>04/04/2012</td>\n                    <td>Call in to confirm</td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-45de1da8", module.exports)
+  } else {
+    hotAPI.update("_v-45de1da8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Widget.vue":13,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {};
+    },
+
+    components: {
+        Widget: _Widget2.default
+    },
+
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget fullscreen=\"true\">\n    <div slot=\"title\">SmartChat</div>\n    <div slot=\"icon\"><i class=\"fa fa-comments txt-color-white\"></i> </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <!-- end toolbars -->\n\n    <div slot=\"body\">\n        <!-- CHAT CONTAINER -->\n        <div id=\"chat-container\">\n            <span class=\"chat-list-open-close\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n            <div class=\"chat-list-body custom-scroll\">\n                <ul id=\"chat-users\">\n                    <li>\n                        <a href=\"#\">\n                            <img src=\"\" alt=\"\">\n                            Robin Berry\n                            <span class=\"badge badge-inverse\">23</span>\n                            <span class=\"state\">\n                                <i class=\"fa fa-circle txt-color-green pull-right\"></i>\n                            </span>\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"chat-list-footer\">\n\n                <div class=\"control-group\">\n\n                    <form class=\"smart-form\">\n\n                        <section>\n                            <label class=\"input\">\n                                <input type=\"text\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                            </label>\n                        </section>\n\n                    </form>\n                </div>\n            </div>\n\n        </div>\n\n        <!-- CHAT BODY -->\n        <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n            <ul>\n                <li class=\"message\">\n                    <img src=\"\" class=\"online\" alt=\"\">\n                    <div class=\"message-text\">\n                        <time>\n                            2014-01-13\n                        </time>\n\n                        <a href=\"#\" class=\"username\">\n                            Sadi Orlaf\n                        </a>\n\n                        Hey did you meet the new board of director?\n                        He's a bit of an arse if you ask me...anyway here is the report you requested.\n                        I am off to launch with Lisa and Andrew, you wanna join?\n                    </div>\n                </li>\n            </ul>\n        </div>\n\n        <!-- CHAT FOOTER -->\n        <div class=\"chat-footer\">\n\n            <!-- CHAT TEXTAREA -->\n            <div class=\"textarea-div\">\n\n                <div class=\"typearea\">\n                    <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\" class=\"custom-scroll\"></textarea>\n                </div>\n\n            </div>\n\n            <!-- CHAT REPLY/SEND -->\n            <span class=\"textarea-controls\">\n                <button class=\"btn btn-sm btn-primary pull-right\">\n                    Reply\n                </button>\n                <span class=\"pull-right smart-form\" style=\"margin-top: 3px; margin-right: 10px;\">\n                    <label class=\"checkbox pull-right\">\n                        <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                        <i></i>Press <strong> ENTER </strong> to send\n                    </label>\n                </span>\n                <a href=\"#\" class=\"pull-left\"><i class=\"fa fa-camera fa-fw fa-lg\"></i></a>\n            </span>\n        </div>\n    </div>\n    <!-- end body -->\n</widget>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-40873e35", module.exports)
+  } else {
+    hotAPI.update("_v-40873e35", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Widget.vue":13,"vue":4,"vue-hot-reload-api":2}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _ToolbarColorPicker = require('./partials/ToolbarColorPicker.vue');
+
+var _ToolbarColorPicker2 = _interopRequireDefault(_ToolbarColorPicker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: {
+        user: {},
+        colorpicker: {
+            default: true
+        },
+        collapse: {
+            default: true
+        },
+        fullscreen: {
+            default: false
+        },
+        deletebtn: {
+            default: false
+        }
+
+    },
+
+    data: function data() {
+        return {
+            RandomID: RandomNum()
+        };
+    },
+    components: {
+        ColorPicker: _ToolbarColorPicker2.default
+    },
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n<!-- Widget ID (each widget will need unique ID)-->\n<div class=\"jarviswidget jarviswidget-color-blueDark jarviswidget-sortable\" :id=\"RandomID\" data-widget-editbutton=\"false\" role=\"widget\">\n\n    <header role=\"heading\">\n        <div class=\"jarviswidget-ctrls\" role=\"menu\">\n\n            <a v-if=\"collapse\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-toggle-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Collapse\">\n                <i class=\"fa fa-minus \"></i>\n            </a>\n\n            <a v-if=\"fullscreen\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-fullscreen-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Fullscreen\">\n                <i class=\"fa fa-expand \"></i>\n            </a>\n\n            <a v-if=\"deletebtn\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-delete-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Delete\">\n                <i class=\"fa fa-times\"></i>\n            </a>\n\n        </div>\n\n        <slot name=\"toolbars\"></slot>\n\n        <div class=\"widget-toolbar\" role=\"menu\">\n            <color-picker v-if=\"colorpicker\"></color-picker>\n        </div>\n\n        <span class=\"widget-icon\">\n            <slot name=\"icon\"></slot>\n        </span>\n\n        <!-- widget title -->\n        <h2>\n            <slot name=\"title\"></slot>\n        </h2>\n        <!-- end title -->\n\n        <span class=\"jarviswidget-loader\"><i class=\"fa fa-refresh fa-spin\"></i></span>\n    </header>\n\n    <!-- widget div-->\n    <div role=\"content\">\n\n        <!-- widget content -->\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <slot name=\"body\"></slot>\n        </div>\n        <!-- end widget content -->\n\n    </div>\n    <!-- end widget div -->\n\n</div>\n<!-- end widget -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-03d62500", module.exports)
+  } else {
+    hotAPI.update("_v-03d62500", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./partials/ToolbarColorPicker.vue":14,"vue":4,"vue-hot-reload-api":2}],14:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<a data-toggle=\"dropdown\" class=\"dropdown-toggle color-box selector\" href=\"javascript:void(0);\"></a>\n<ul class=\"dropdown-menu arrow-box-up-right color-select pull-right\">\n    <li><span class=\"bg-color-green\" data-widget-setstyle=\"jarviswidget-color-green\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Green Grass\"></span></li>\n    <li><span class=\"bg-color-greenDark\" data-widget-setstyle=\"jarviswidget-color-greenDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Dark Green\"></span></li>\n    <li><span class=\"bg-color-greenLight\" data-widget-setstyle=\"jarviswidget-color-greenLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Green\"></span></li>\n    <li><span class=\"bg-color-purple\" data-widget-setstyle=\"jarviswidget-color-purple\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Purple\"></span></li>\n    <li><span class=\"bg-color-magenta\" data-widget-setstyle=\"jarviswidget-color-magenta\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Magenta\"></span></li>\n    <li><span class=\"bg-color-pink\" data-widget-setstyle=\"jarviswidget-color-pink\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Pink\"></span></li>\n    <li><span class=\"bg-color-pinkDark\" data-widget-setstyle=\"jarviswidget-color-pinkDark\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Fade Pink\"></span></li>\n    <li><span class=\"bg-color-blueLight\" data-widget-setstyle=\"jarviswidget-color-blueLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Blue\"></span></li>\n    <li><span class=\"bg-color-teal\" data-widget-setstyle=\"jarviswidget-color-teal\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Teal\"></span></li>\n    <li><span class=\"bg-color-blue\" data-widget-setstyle=\"jarviswidget-color-blue\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Ocean Blue\"></span></li>\n    <li><span class=\"bg-color-blueDark\" data-widget-setstyle=\"jarviswidget-color-blueDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Night Sky\"></span></li>\n    <li><span class=\"bg-color-darken\" data-widget-setstyle=\"jarviswidget-color-darken\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Night\"></span></li>\n    <li><span class=\"bg-color-yellow\" data-widget-setstyle=\"jarviswidget-color-yellow\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Day Light\"></span></li>\n    <li><span class=\"bg-color-orange\" data-widget-setstyle=\"jarviswidget-color-orange\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Orange\"></span></li>\n    <li><span class=\"bg-color-orangeDark\" data-widget-setstyle=\"jarviswidget-color-orangeDark\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Dark Orange\"></span></li>\n    <li><span class=\"bg-color-red\" data-widget-setstyle=\"jarviswidget-color-red\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Red Rose\"></span></li>\n    <li><span class=\"bg-color-redLight\" data-widget-setstyle=\"jarviswidget-color-redLight\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Light Red\"></span></li>\n    <li><span class=\"bg-color-white\" data-widget-setstyle=\"jarviswidget-color-white\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Purity\"></span></li>\n    <li>\n        <a href=\"javascript:void(0);\" class=\"jarviswidget-remove-colors\" data-widget-setstyle=\"\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Reset widget color to default\">Remove</a>\n    </li>\n</ul>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-1d9dc794", module.exports)
+  } else {
+    hotAPI.update("_v-1d9dc794", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2}],15:[function(require,module,exports){
 var Vue = require('vue');
 
 Vue.use(require('vue-resource'));
 
 Vue.http.headers.common['X-CSRFToken'] = document.querySelector('#token').getAttribute('value');
 
-var BotControls = require('./components/BotControls.vue');
-var FeaturesModal = require('./components/FeaturesModal.vue');
-var FollowersModal = require('./components/FollowersModal.vue');
-var CommandsModal = require('./components/CommandsModal.vue');
-var RegularsModal = require('./components/RegularsModal.vue');
-var SmartChat = require('./components/SmartChat.vue');
-var Statistics = require('./components/Statistics.vue');
-
-
-
+var dashboard = require('./components/pages/Dashboard.vue')
+var SiteSearch = require('./components/SiteSearch.vue')
+var DevActivityDropdown = require('./components/DevActivityDropdown.vue')
+var Breadcrumbs = require('./components/Breadcrumbs.vue')
+var NotificationsDropdown = require('./components/NotificationsDropdown.vue')
 
 new Vue({
     el: 'body',
 
     components: {
-        BotControls,
-        FeaturesModal,
-        FollowersModal,
-        CommandsModal,
-        RegularsModal,
-        Statistics,
-        SmartChat
+        dashboard,
+        SiteSearch,
+        DevActivityDropdown,
+        Breadcrumbs,
+        NotificationsDropdown
+
     },
 
     data: {
-        showFeaturesModal: false,
-        showFollowersModal: false,
-        showCommandsModal: false,
-        showRegularsModal: false
+        currentView: 'dashboard',
+        User: null
     },
 
     methods: {
-
+        getUserObject: function() {
+            this.$http.get(window.location.origin + '/api/users/'+USER_ID+'/')
+                .then(function(response) {
+                    console.log(response)
+                    this.User = response.data
+                }.bind(this)).catch(function(response) {
+                    alert(response)
+                });
+        }
     },
 
     ready() {
-
+        this.getUserObject()
     }
+
 });
-},{"./components/BotControls.vue":7,"./components/CommandsModal.vue":9,"./components/FeaturesModal.vue":10,"./components/FollowersModal.vue":12,"./components/RegularsModal.vue":14,"./components/SmartChat.vue":15,"./components/Statistics.vue":16,"vue":5,"vue-resource":3}]},{},[17]);
+},{"./components/Breadcrumbs.vue":6,"./components/DevActivityDropdown.vue":7,"./components/NotificationsDropdown.vue":8,"./components/SiteSearch.vue":9,"./components/pages/Dashboard.vue":10,"vue":4,"vue-resource":3}]},{},[15]);

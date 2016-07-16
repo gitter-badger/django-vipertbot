@@ -8,11 +8,12 @@
         <span id="logo"> <img src="{% static 'compiled/img/logo.png' %}" alt="ViperTbot"> </span>
         <!-- END LOGO PLACEHOLDER -->
 
-        <!-- todo: ajax-dropdown.html Notifications -->
+        <!-- todo: Notifications -->
+        <notifications-dropdown></notifications-dropdown>
     </div>
 
-    <!-- todo: devactivity-dropdown.html -->
-    {% include 'smartadmin/partials/devactivity-dropdown.html' %}
+    <!-- todo: devactivity -->
+    <dev-activity-dropdown></dev-activity-dropdown>
 
     <!-- pulled right: nav area -->
     <div class="pull-right">
@@ -35,8 +36,8 @@
         </div>
         <!-- end search mobile button -->
 
-        <!-- todo: search-field.html -->
-        {% include 'smartadmin/partials/search-field.html' %}
+        <!-- todo: search -->
+        <site-search></site-search>
 
         <!-- fullscreen button -->
         <div id="fullscreen" class="btn-header transparent pull-right">
