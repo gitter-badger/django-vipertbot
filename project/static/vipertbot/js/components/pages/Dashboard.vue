@@ -16,110 +16,97 @@
             </article>
 
             <article class="col-sm-12 col-md-12 col-lg-6">
-
-                <!-- new widget -->
-                <div class="jarviswidget jarviswidget-color-blue" id="wid-id-0"
-                     data-widget-editbutton="false"
-                     data-widget-colorbutton="false"
-                     data-widget-deletebutton="false"
-                     data-widget-fullscreenbutton="false"
-                >
-
-                    <!-- widget options:
-                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                    data-widget-colorbutton="false"
-                    data-widget-editbutton="false"
-                    data-widget-togglebutton="false"
-                    data-widget-deletebutton="false"
-                    data-widget-fullscreenbutton="false"
-                    data-widget-custombutton="false"
-                    data-widget-collapsed="true"
-                    data-widget-sortable="false"
-
-                    -->
-
-                    <header>
-                        <span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-                        <h2> Twitch Chat </h2>
-                        <!-- <div class="widget-toolbar">
-                        add: non-hidden - to disable auto hide
-
-                        </div>-->
-                    </header>
-
-                    <!-- widget div-->
-                    <div>
-                        <div class="widget-body no-padding smart-form">
-                            <!-- content goes here -->
-
-                            <div v-if="TwitchURL" class="panel panel-default">
-                                <div class="panel-body text-center">
-                                    <iframe frameborder="0"
-                                            scrolling="no"
-                                            id="chat_embed"
-                                            :src="TwitchURL"
-                                            height="410"
-                                            width="100%">
-                                    </iframe>
-                                </div>
-                            </div>
-
-                            <!-- end content -->
-                        </div>
-
-                    </div>
-                    <!-- end widget div -->
-                </div>
-                <!-- end widget -->
-
-            </article>
-
-            <article class="col-sm-12 col-md-12 col-lg-6">
-                <commands></commands>
+                <twitch-chat></twitch-chat>
             </article>
         </div>
 
         <!-- end row -->
 
         <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <commands></commands>
+            </article>
 
+            <article class="col-sm-12 col-md-12 col-lg-6">
+                <regulars></regulars>
+            </article>
         </div>
     </section>
     <!-- end widget grid -->
+
+    <!-- Modals Here -->
+    <commands-modal></commands-modal>
+    <add-regular-modal></add-regular-modal>
+    <!-- End Modals -->
 </template>
-<style>
-    
-</style>
-<script>
+
+<script type="text/babel">
+    // Widgets
     import Commands from '../widgets/CommandsWidget.vue'
+    import Regulars from '../widgets/RegularsWidget.vue'
     import SmartChat from '../widgets/SmartChat.vue'
+    import TwitchChat from '../widgets/TwitchChat.vue'
+
+    // Modals
+    import CommandsModal from '../modals/CommandsModal.vue'
+    import AddRegularModal from '../modals/AddRegularModal.vue'
+
+    // vuex
+    import { setRegulars, setCommands } from '../../vuex/actions'
 
     export default {
-        props: ['user'],
-
-        data: function() {
-            return{
-
+        vuex: {
+            actions: {
+                setRegulars,
+                setCommands
             }
         },
         components:{
             Commands,
-            SmartChat
+            Regulars,
+            SmartChat,
+            TwitchChat,
+            CommandsModal,
+            AddRegularModal
         },
 
         computed: {
-            TwitchURL: function() {
-                if(this.user != null) {
-                    return 'http://www.twitch.tv/'+this.user.username+'/chat'
-                }
 
-                return null
-            },
         },
 
         methods: {
-
+            setRegularsStore: function() {
+                this.$http.get(window.location.origin + '/api/regulars/').then(function(response) {
+                    this.setRegulars(response.data.results);
+                }.bind(this)).catch(function(response) {
+                    $.bigBox({
+                        title : "Critical Error",
+                        content : response,
+                        color : "#C46A69",
+                        icon : "fa fa-warning shake animated",
+                        //number : "",
+                        timeout : 6000
+                    });
+                }.bind(this));
+            },
+            setCommandsStore: function() {
+                this.$http.get(window.location.origin + '/api/commands/').then(function(response) {
+                    this.setCommands(response.data.results);
+                }.bind(this)).catch(function(response) {
+                    $.bigBox({
+                        title : "Critical Error",
+                        content : response,
+                        color : "#C46A69",
+                        icon : "fa fa-warning shake animated",
+                        //number : "",
+                        timeout : 6000
+                    });
+                }.bind(this));
+            },
+        },
+        ready: function () {
+            this.setRegularsStore()
+            this.setCommandsStore()
         }
     }
 </script>

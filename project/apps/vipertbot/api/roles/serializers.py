@@ -36,4 +36,5 @@ class RoleCreateUpdateSerializer(ModelSerializer):
             'id',
             'name'
         ]
+
         read_only_fields = ('id', )

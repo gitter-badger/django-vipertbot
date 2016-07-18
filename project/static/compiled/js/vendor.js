@@ -241,7 +241,7 @@ d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active"
 	 		
 		var commands = {
 					
-			'show dashboard' : function() { $('nav a[href="dashboard.php"]').trigger("click"); },
+			'show dashboard' : function() { $('#dashboard').trigger("click"); },
 			'show inbox' : function() { $('nav a[href="inbox.php"]').trigger("click"); },
 			'show graphs' : function() { $('nav a[href="flot.php"]').trigger("click"); },
 			'show flotchart' : function() { $('nav a[href="flot.php"]').trigger("click"); },

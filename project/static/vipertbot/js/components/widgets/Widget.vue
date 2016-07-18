@@ -15,7 +15,7 @@
 
     <!-- Widget ID (each widget will need unique ID)-->
     <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable"
-         :id="RandomID"
+         id="{{widId}}"
          data-widget-editbutton="false"
          role="widget"
     >
@@ -46,11 +46,11 @@
 
             </div>
 
-            <slot name="toolbars"></slot>
-
             <div class="widget-toolbar" role="menu">
                 <color-picker v-if="colorpicker"></color-picker>
             </div>
+
+            <slot name="toolbars"></slot>
 
             <span class="widget-icon">
                 <slot name="icon"></slot>
@@ -86,7 +86,9 @@
 
     export default {
         props: {
-            user: {},
+            widId: {
+                required: true
+            },
             colorpicker: {
                 default: true
             },
@@ -104,7 +106,7 @@
 
         data: function() {
             return{
-                RandomID: RandomNum()
+
             }
         },
         components:{

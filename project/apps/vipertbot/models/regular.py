@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Regular(models.Model):
     user = models.ForeignKey('auth.User')
-    name = models.CharField(max_length=25, unique=True)
+    name = models.CharField(max_length=25)
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 

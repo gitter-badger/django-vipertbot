@@ -1,9 +1,29 @@
 <template>
-    <widget fullscreen="true">
+    <widget wid-id="61737" fullscreen="true">
         <div slot="title">Commands</div>
         <div slot="icon">
             <!-- add a icon example: <i class="fa fa-comments txt-color-white"></i> -->
             <i class="fa fa-table"></i>
+        </div>
+
+        <div slot="toolbars">
+            <div class="widget-toolbar">
+                <!-- add: non-hidden - to disable auto hide -->
+                <div class="btn-group">
+                    <button class="btn btn-xs bg-color-blue"
+                            data-toggle="modal"
+                            data-target="#CommandsModal"
+                    >
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-xs bg-color-greenLight"
+                            data-toggle="modal"
+                            data-target="#AddRegularModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div slot="body">
@@ -13,8 +33,7 @@
                     ×
                 </button>
                 <i class="fa-fw fa fa-info"></i>
-                Add custom colors to your TR and TD <code>&lt;tr&gt;</code> by adding <code>.success</code>, <code>.danger</code>,
-                <code>.warning</code> and <code>.info</code> respectively
+                Commands Widget v1.0 Beta
             </div>
             <div class="table-responsive">
 
@@ -22,35 +41,25 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th><i class="fa fa-building"></i> Product</th>
-                        <th><i class="fa fa-calendar"></i> Payment Taken</th>
-                        <th><i class="glyphicon glyphicon-send"></i> Status</th>
+                        <th>Name</th>
+                        <th>Cooldown Min</th>
+                        <th>Active</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="success">
-                        <td>1</td>
-                        <td>TB - Monthly</td>
-                        <td>01/04/2012</td>
-                        <td>Approved</td>
-                    </tr>
-                    <tr class="danger">
-                        <td>2</td>
-                        <td>TB - Monthly</td>
-                        <td>02/04/2012</td>
-                        <td>Declined</td>
-                    </tr>
-                    <tr class="warning">
-                        <td>3</td>
-                        <td>TB - Monthly</td>
-                        <td>03/04/2012</td>
-                        <td>Pending</td>
-                    </tr>
-                    <tr class="info">
-                        <td>4</td>
-                        <td>TB - Monthly</td>
-                        <td>04/04/2012</td>
-                        <td>Call in to confirm</td>
+                    <tr v-for="item in commands">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.cooldown_min }}</td>
+                        <td>
+                            <form class="smart-form">
+                                <label class="toggle pull-left">
+                                    <input @click="Update(item)" type="checkbox" name="checkbox-toggle"
+                                           checked="{{ item.active }}">
+                                    <i data-swchon-text="ON" data-swchoff-text="OFF"></i>
+                                </label>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -63,24 +72,55 @@
 <style>
 
 </style>
-<script>
+<script type="text/babel">
     import Widget from './Widget.vue'
+    import { getCommands } from '../../vuex/getters'
+    import { toggleCommandActive } from '../../vuex/actions'
 
     export default{
-        props: ['user'],
-
-        data: function () {
-            return {
-                RandomID: RandomNum()
+        vuex: {
+            actions: {
+                toggleCommandActive
+            },
+            getters: {
+                commands: getCommands
             }
+        },
+        data: function () {
+            return {}
         },
         components: {
             Widget
         },
         methods: {
+            Update: function (item) {
+                this.$http.patch(window.location.origin + '/api/commands/' + item.id + '/edit/', {
+                    active: !item.active,
+                }).then(function (response) {
+                    this.toggleCommandActive(item.id, item.active)
 
+                    $.smallBox({
+                        title: "Command Successfully Updated",
+                        content: "",
+                        color: "#739E73",
+                        iconSmall: "fa fa-thumbs-up bounce animated",
+                        timeout: 4000
+                    });
+                }.bind(this)).catch(function (response) {
+                    $.bigBox({
+                        title: "Critical Error",
+                        content: response,
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        //number : "",
+                        timeout: 6000
+                    });
+                });
+            }
         },
-        computed: {
+        computed: {},
+
+        ready: function () {
 
         }
     }

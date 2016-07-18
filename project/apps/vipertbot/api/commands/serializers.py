@@ -58,9 +58,16 @@ class CommandCreateUpdateSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)
     roles = RoleDetailSerializer(many=True)
 
+    url = HyperlinkedIdentityField(
+        view_name='commands-detail',
+        lookup_field='id'
+    )
+
     class Meta:
         model = Command
         fields = [
+            'id',
+            'url',
             'name',
             'text',
             'cooldown_min',
@@ -69,14 +76,20 @@ class CommandCreateUpdateSerializer(ModelSerializer):
             'user'
         ]
 
+        read_only_fields = ('id', 'url')
+
     def update(self, instance, validated_data):
-        instance.roles.clear()
+        try:
+            roles = validated_data['roles']
 
-        roles = validated_data['roles']
+            instance.roles.clear()
+            for item in roles:
+                name = item.get('name')
+                instance.roles.add(Role.objects.get(name=name))
 
-        for item in roles:
-            name = item.get('name')
-            instance.roles.add(Role.objects.get(name=name))
+        except KeyError:
+            pass
+
 
         instance.name = validated_data.get('name', instance.name)
         instance.text = validated_data.get('text', instance.text)

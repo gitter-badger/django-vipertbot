@@ -11662,6 +11662,669 @@ exports.insert = function (css) {
 }
 
 },{}],6:[function(require,module,exports){
+/*!
+ * Vuex v1.0.0-rc.2
+ * (c) 2016 Evan You
+ * Released under the MIT License.
+ */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Vuex = factory());
+}(this, function () { 'use strict';
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+  };
+
+  var classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  var createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var toConsumableArray = function (arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  };
+
+  /**
+   * Merge an array of objects into one.
+   *
+   * @param {Array<Object>} arr
+   * @return {Object}
+   */
+
+  function mergeObjects(arr) {
+    return arr.reduce(function (prev, obj) {
+      Object.keys(obj).forEach(function (key) {
+        var existing = prev[key];
+        if (existing) {
+          // allow multiple mutation objects to contain duplicate
+          // handlers for the same mutation type
+          if (Array.isArray(existing)) {
+            prev[key] = existing.concat(obj[key]);
+          } else {
+            prev[key] = [existing].concat(obj[key]);
+          }
+        } else {
+          prev[key] = obj[key];
+        }
+      });
+      return prev;
+    }, {});
+  }
+
+  /**
+   * Check whether the given value is Object or not
+   *
+   * @param {*} obj
+   * @return {Boolean}
+   */
+
+  function isObject(obj) {
+    return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+  }
+
+  /**
+   * Get state sub tree by given keys.
+   *
+   * @param {Object} state
+   * @param {Array<String>} nestedKeys
+   * @return {Object}
+   */
+  function getNestedState(state, nestedKeys) {
+    return nestedKeys.reduce(function (state, key) {
+      return state[key];
+    }, state);
+  }
+
+  /**
+   * Hacks to get access to Vue internals.
+   * Maybe we should expose these...
+   */
+
+  var Watcher = void 0;
+  function getWatcher(vm) {
+    if (!Watcher) {
+      var noop = function noop() {};
+      var unwatch = vm.$watch(noop, noop);
+      Watcher = vm._watchers[0].constructor;
+      unwatch();
+    }
+    return Watcher;
+  }
+
+  var Dep = void 0;
+  function getDep(vm) {
+    if (!Dep) {
+      Dep = vm._data.__ob__.dep.constructor;
+    }
+    return Dep;
+  }
+
+  var hook = typeof window !== 'undefined' && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+  function devtoolPlugin(store) {
+    if (!hook) return;
+
+    hook.emit('vuex:init', store);
+
+    hook.on('vuex:travel-to-state', function (targetState) {
+      store.replaceState(targetState);
+    });
+
+    store.subscribe(function (mutation, state) {
+      hook.emit('vuex:mutation', mutation, state);
+    });
+  }
+
+  function override (Vue) {
+    var version = Number(Vue.version.split('.')[0]);
+
+    if (version >= 2) {
+      var usesInit = Vue.config._lifecycleHooks.indexOf('init') > -1;
+      Vue.mixin(usesInit ? { init: vuexInit } : { beforeCreate: vuexInit });
+    } else {
+      (function () {
+        // override init and inject vuex init procedure
+        // for 1.x backwards compatibility.
+        var _init = Vue.prototype._init;
+        Vue.prototype._init = function () {
+          var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+          options.init = options.init ? [vuexInit].concat(options.init) : vuexInit;
+          _init.call(this, options);
+        };
+      })();
+    }
+
+    /**
+     * Vuex init hook, injected into each instances init hooks list.
+     */
+
+    function vuexInit() {
+      var options = this.$options;
+      var store = options.store;
+      var vuex = options.vuex;
+      // store injection
+
+      if (store) {
+        this.$store = store;
+      } else if (options.parent && options.parent.$store) {
+        this.$store = options.parent.$store;
+      }
+      // vuex option handling
+      if (vuex) {
+        if (!this.$store) {
+          console.warn('[vuex] store not injected. make sure to ' + 'provide the store option in your root component.');
+        }
+        var state = vuex.state;
+        var actions = vuex.actions;
+        var getters = vuex.getters;
+        // handle deprecated state option
+
+        if (state && !getters) {
+          console.warn('[vuex] vuex.state option will been deprecated in 1.0. ' + 'Use vuex.getters instead.');
+          getters = state;
+        }
+        // getters
+        if (getters) {
+          options.computed = options.computed || {};
+          for (var key in getters) {
+            defineVuexGetter(this, key, getters[key]);
+          }
+        }
+        // actions
+        if (actions) {
+          options.methods = options.methods || {};
+          for (var _key in actions) {
+            options.methods[_key] = makeBoundAction(this.$store, actions[_key], _key);
+          }
+        }
+      }
+    }
+
+    /**
+     * Setter for all getter properties.
+     */
+
+    function setter() {
+      throw new Error('vuex getter properties are read-only.');
+    }
+
+    /**
+     * Define a Vuex getter on an instance.
+     *
+     * @param {Vue} vm
+     * @param {String} key
+     * @param {Function} getter
+     */
+
+    function defineVuexGetter(vm, key, getter) {
+      if (typeof getter !== 'function') {
+        console.warn('[vuex] Getter bound to key \'vuex.getters.' + key + '\' is not a function.');
+      } else {
+        Object.defineProperty(vm, key, {
+          enumerable: true,
+          configurable: true,
+          get: makeComputedGetter(vm.$store, getter),
+          set: setter
+        });
+      }
+    }
+
+    /**
+     * Make a computed getter, using the same caching mechanism of computed
+     * properties. In addition, it is cached on the raw getter function using
+     * the store's unique cache id. This makes the same getter shared
+     * across all components use the same underlying watcher, and makes
+     * the getter evaluated only once during every flush.
+     *
+     * @param {Store} store
+     * @param {Function} getter
+     */
+
+    function makeComputedGetter(store, getter) {
+      var id = store._getterCacheId;
+
+      // cached
+      if (getter[id]) {
+        return getter[id];
+      }
+      var vm = store._vm;
+      var Watcher = getWatcher(vm);
+      var Dep = getDep(vm);
+      var watcher = new Watcher(vm, function (vm) {
+        return getter(vm.state);
+      }, null, { lazy: true });
+      var computedGetter = function computedGetter() {
+        if (watcher.dirty) {
+          watcher.evaluate();
+        }
+        if (Dep.target) {
+          watcher.depend();
+        }
+        return watcher.value;
+      };
+      getter[id] = computedGetter;
+      return computedGetter;
+    }
+
+    /**
+     * Make a bound-to-store version of a raw action function.
+     *
+     * @param {Store} store
+     * @param {Function} action
+     * @param {String} key
+     */
+
+    function makeBoundAction(store, action, key) {
+      if (typeof action !== 'function') {
+        console.warn('[vuex] Action bound to key \'vuex.actions.' + key + '\' is not a function.');
+      }
+      return function vuexBoundAction() {
+        for (var _len = arguments.length, args = Array(_len), _key2 = 0; _key2 < _len; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        return action.call.apply(action, [this, store].concat(args));
+      };
+    }
+
+    // option merging
+    var merge = Vue.config.optionMergeStrategies.computed;
+    Vue.config.optionMergeStrategies.vuex = function (toVal, fromVal) {
+      if (!toVal) return fromVal;
+      if (!fromVal) return toVal;
+      return {
+        getters: merge(toVal.getters, fromVal.getters),
+        state: merge(toVal.state, fromVal.state),
+        actions: merge(toVal.actions, fromVal.actions)
+      };
+    };
+  }
+
+  var Vue = void 0;
+  var uid = 0;
+
+  var Store = function () {
+
+    /**
+     * @param {Object} options
+     *        - {Object} state
+     *        - {Object} actions
+     *        - {Object} mutations
+     *        - {Array} plugins
+     *        - {Boolean} strict
+     */
+
+    function Store() {
+      var _this = this;
+
+      var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var _ref$state = _ref.state;
+      var state = _ref$state === undefined ? {} : _ref$state;
+      var _ref$mutations = _ref.mutations;
+      var mutations = _ref$mutations === undefined ? {} : _ref$mutations;
+      var _ref$modules = _ref.modules;
+      var modules = _ref$modules === undefined ? {} : _ref$modules;
+      var _ref$plugins = _ref.plugins;
+      var plugins = _ref$plugins === undefined ? [] : _ref$plugins;
+      var _ref$strict = _ref.strict;
+      var strict = _ref$strict === undefined ? false : _ref$strict;
+      classCallCheck(this, Store);
+
+      this._getterCacheId = 'vuex_store_' + uid++;
+      this._dispatching = false;
+      this._rootMutations = this._mutations = mutations;
+      this._modules = modules;
+      this._subscribers = [];
+      // bind dispatch to self
+      var dispatch = this.dispatch;
+      this.dispatch = function () {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        dispatch.apply(_this, args);
+      };
+      // use a Vue instance to store the state tree
+      // suppress warnings just in case the user has added
+      // some funky global mixins
+      if (!Vue) {
+        throw new Error('[vuex] must call Vue.use(Vuex) before creating a store instance.');
+      }
+      var silent = Vue.config.silent;
+      Vue.config.silent = true;
+      this._vm = new Vue({
+        data: {
+          state: state
+        }
+      });
+      Vue.config.silent = silent;
+      this._setupModuleState(state, modules);
+      this._setupModuleMutations(modules);
+      // add extra warnings in strict mode
+      if (strict) {
+        this._setupMutationCheck();
+      }
+      // apply plugins
+      devtoolPlugin(this);
+      plugins.forEach(function (plugin) {
+        return plugin(_this);
+      });
+    }
+
+    /**
+     * Getter for the entire state tree.
+     * Read only.
+     *
+     * @return {Object}
+     */
+
+    createClass(Store, [{
+      key: 'replaceState',
+
+
+      /**
+       * Replace root state.
+       *
+       * @param {Object} state
+       */
+
+      value: function replaceState(state) {
+        this._dispatching = true;
+        this._vm.state = state;
+        this._dispatching = false;
+      }
+
+      /**
+       * Dispatch an action.
+       *
+       * @param {String} type
+       */
+
+    }, {
+      key: 'dispatch',
+      value: function dispatch(type) {
+        var _this2 = this;
+
+        for (var _len2 = arguments.length, payload = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          payload[_key2 - 1] = arguments[_key2];
+        }
+
+        var silent = false;
+        var isObjectStyleDispatch = false;
+        // compatibility for object actions, e.g. FSA
+        if ((typeof type === 'undefined' ? 'undefined' : _typeof(type)) === 'object' && type.type && arguments.length === 1) {
+          isObjectStyleDispatch = true;
+          payload = type;
+          if (type.silent) silent = true;
+          type = type.type;
+        }
+        var handler = this._mutations[type];
+        var state = this.state;
+        if (handler) {
+          this._dispatching = true;
+          // apply the mutation
+          if (Array.isArray(handler)) {
+            handler.forEach(function (h) {
+              isObjectStyleDispatch ? h(state, payload) : h.apply(undefined, [state].concat(toConsumableArray(payload)));
+            });
+          } else {
+            isObjectStyleDispatch ? handler(state, payload) : handler.apply(undefined, [state].concat(toConsumableArray(payload)));
+          }
+          this._dispatching = false;
+          if (!silent) {
+            (function () {
+              var mutation = isObjectStyleDispatch ? payload : { type: type, payload: payload };
+              _this2._subscribers.forEach(function (sub) {
+                return sub(mutation, state);
+              });
+            })();
+          }
+        } else {
+          console.warn('[vuex] Unknown mutation: ' + type);
+        }
+      }
+
+      /**
+       * Watch state changes on the store.
+       * Same API as Vue's $watch, except when watching a function,
+       * the function gets the state as the first argument.
+       *
+       * @param {Function} fn
+       * @param {Function} cb
+       * @param {Object} [options]
+       */
+
+    }, {
+      key: 'watch',
+      value: function watch(fn, cb, options) {
+        var _this3 = this;
+
+        if (typeof fn !== 'function') {
+          console.error('Vuex store.watch only accepts function.');
+          return;
+        }
+        return this._vm.$watch(function () {
+          return fn(_this3.state);
+        }, cb, options);
+      }
+
+      /**
+       * Subscribe to state changes. Fires after every mutation.
+       */
+
+    }, {
+      key: 'subscribe',
+      value: function subscribe(fn) {
+        var subs = this._subscribers;
+        if (subs.indexOf(fn) < 0) {
+          subs.push(fn);
+        }
+        return function () {
+          var i = subs.indexOf(fn);
+          if (i > -1) {
+            subs.splice(i, 1);
+          }
+        };
+      }
+
+      /**
+       * Hot update mutations & modules.
+       *
+       * @param {Object} options
+       *        - {Object} [mutations]
+       *        - {Object} [modules]
+       */
+
+    }, {
+      key: 'hotUpdate',
+      value: function hotUpdate() {
+        var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        var mutations = _ref2.mutations;
+        var modules = _ref2.modules;
+
+        this._rootMutations = this._mutations = mutations || this._rootMutations;
+        this._setupModuleMutations(modules || this._modules);
+      }
+
+      /**
+       * Attach sub state tree of each module to the root tree.
+       *
+       * @param {Object} state
+       * @param {Object} modules
+       */
+
+    }, {
+      key: '_setupModuleState',
+      value: function _setupModuleState(state, modules) {
+        var _this4 = this;
+
+        if (!isObject(modules)) return;
+
+        Object.keys(modules).forEach(function (key) {
+          var module = modules[key];
+
+          // set this module's state
+          Vue.set(state, key, module.state || {});
+
+          // retrieve nested modules
+          _this4._setupModuleState(state[key], module.modules);
+        });
+      }
+
+      /**
+       * Bind mutations for each module to its sub tree and
+       * merge them all into one final mutations map.
+       *
+       * @param {Object} updatedModules
+       */
+
+    }, {
+      key: '_setupModuleMutations',
+      value: function _setupModuleMutations(updatedModules) {
+        var modules = this._modules;
+        Object.keys(updatedModules).forEach(function (key) {
+          modules[key] = updatedModules[key];
+        });
+        var updatedMutations = this._createModuleMutations(modules, []);
+        this._mutations = mergeObjects([this._rootMutations].concat(toConsumableArray(updatedMutations)));
+      }
+
+      /**
+       * Helper method for _setupModuleMutations.
+       * The method retrieve nested sub modules and
+       * bind each mutations to its sub tree recursively.
+       *
+       * @param {Object} modules
+       * @param {Array<String>} nestedKeys
+       * @return {Array<Object>}
+       */
+
+    }, {
+      key: '_createModuleMutations',
+      value: function _createModuleMutations(modules, nestedKeys) {
+        var _this5 = this;
+
+        if (!isObject(modules)) return [];
+
+        return Object.keys(modules).map(function (key) {
+          var module = modules[key];
+          var newNestedKeys = nestedKeys.concat(key);
+
+          // retrieve nested modules
+          var nestedMutations = _this5._createModuleMutations(module.modules, newNestedKeys);
+
+          if (!module || !module.mutations) {
+            return mergeObjects(nestedMutations);
+          }
+
+          // bind mutations to sub state tree
+          var mutations = {};
+          Object.keys(module.mutations).forEach(function (name) {
+            var original = module.mutations[name];
+            mutations[name] = function (state) {
+              for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                args[_key3 - 1] = arguments[_key3];
+              }
+
+              original.apply(undefined, [getNestedState(state, newNestedKeys)].concat(args));
+            };
+          });
+
+          // merge mutations of this module and nested modules
+          return mergeObjects([mutations].concat(toConsumableArray(nestedMutations)));
+        });
+      }
+
+      /**
+       * Setup mutation check: if the vuex instance's state is mutated
+       * outside of a mutation handler, we throw en error. This effectively
+       * enforces all mutations to the state to be trackable and hot-reloadble.
+       * However, this comes at a run time cost since we are doing a deep
+       * watch on the entire state tree, so it is only enalbed with the
+       * strict option is set to true.
+       */
+
+    }, {
+      key: '_setupMutationCheck',
+      value: function _setupMutationCheck() {
+        var _this6 = this;
+
+        var Watcher = getWatcher(this._vm);
+        /* eslint-disable no-new */
+        new Watcher(this._vm, 'state', function () {
+          if (!_this6._dispatching) {
+            throw new Error('[vuex] Do not mutate vuex store state outside mutation handlers.');
+          }
+        }, { deep: true, sync: true });
+        /* eslint-enable no-new */
+      }
+    }, {
+      key: 'state',
+      get: function get() {
+        return this._vm.state;
+      },
+      set: function set(v) {
+        throw new Error('[vuex] Use store.replaceState() to explicit replace store state.');
+      }
+    }]);
+    return Store;
+  }();
+
+  function install(_Vue) {
+    if (Vue) {
+      console.warn('[vuex] already installed. Vue.use(Vuex) should be called only once.');
+      return;
+    }
+    Vue = _Vue;
+    override(Vue);
+  }
+
+  // auto install in dist mode
+  if (typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  var index = {
+    Store: Store,
+    install: install
+  };
+
+  return index;
+
+}));
+},{}],7:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 "use strict";
@@ -11691,12 +12354,12 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-6e70c3f1", module.exports)
+    hotAPI.createRecord("_v-1c0867d1", module.exports)
   } else {
-    hotAPI.update("_v-6e70c3f1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-1c0867d1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],7:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 "use strict";
@@ -11726,12 +12389,12 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-01b41a16", module.exports)
+    hotAPI.createRecord("_v-76d9ddf6", module.exports)
   } else {
-    hotAPI.update("_v-01b41a16", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-76d9ddf6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 "use strict";
@@ -11761,12 +12424,12 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-4557247a", module.exports)
+    hotAPI.createRecord("_v-081b705a", module.exports)
   } else {
-    hotAPI.update("_v-4557247a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-081b705a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],9:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],10:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 "use strict";
@@ -11796,14 +12459,213 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-0c24b53e", module.exports)
+    hotAPI.createRecord("_v-7d19155e", module.exports)
   } else {
-    hotAPI.update("_v-0c24b53e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-7d19155e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],10:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],11:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Modal = require('./Modal.vue');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _actions = require('../../vuex/actions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {
+            addRegular: _actions.addRegular
+        }
+    },
+
+    data: function data() {
+        return {
+            formModel: {
+                name: ''
+            }
+        };
+    },
+    components: {
+        Modal: _Modal2.default
+    },
+    methods: {
+        addNew: function addNew(e) {
+            if (e) e.preventDefault();
+
+            this.$http.post(window.location.origin + '/api/regulars/create/', this.formModel).then(function (response) {
+                this.addRegular(response.data);
+                console.log(response.data);
+                $.smallBox({
+                    title: "Regular Successfully Added",
+                    content: "",
+                    color: "#739E73",
+                    iconSmall: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+
+                this.clearFields();
+                $("#AddRegularModal").modal('hide');
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Error",
+                    content: response.data.name,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 7000
+                });
+            });
+        },
+        clearFields: function clearFields() {
+            for (var item in this.formModel) {
+                this.formModel[item] = '';
+            }
+        }
+    },
+    ready: function ready() {
+        $('#AddRegularModal').on('hidden.bs.modal', function () {
+            this.clearFields();
+        }.bind(this));
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"AddRegularModal\">\n    <div slot=\"title\">Add A Regular</div>\n\n    <div slot=\"body\">\n        <form>\n            <!-- row -->\n            <div class=\"row\">\n                <div class=\"col-md-12\">\n                    <div class=\"form-group\">\n                        <input class=\"form-control\" type=\"text\" @keydown.enter.prevent=\"addNew()\" v-model=\"formModel.name\" placeholder=\"Twitch User ...\" required=\"\">\n                    </div>\n                </div>\n            </div>\n        </form>\n    </div> <!-- end body -->\n\n    <div slot=\"footer\">\n        <button @click=\"clearFields()\" type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">\n            Cancel\n        </button>\n        <button @click=\"addNew()\" type=\"button\" class=\"btn btn-primary\">\n            Add\n        </button>\n    </div> <!-- end footer -->\n</modal>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-7f28238b", module.exports)
+  } else {
+    hotAPI.update("_v-7f28238b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../vuex/actions":22,"./Modal.vue":13,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],12:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Modal = require('./Modal.vue');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _getters = require('../../vuex/getters');
+
+var _actions = require('../../vuex/actions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {
+            toggleCommandActive: _actions.toggleCommandActive
+        },
+        getters: {
+            commands: _getters.getCommands
+        }
+    },
+    data: function data() {
+        return {};
+    },
+    components: {
+        Modal: _Modal2.default
+    },
+    methods: {
+        Update: function Update(item) {
+            this.$http.patch(window.location.origin + '/api/commands/' + item.id + '/edit/', {
+                active: !item.active
+            }).then(function (response) {
+                this.toggleCommandActive(item.id, item.active);
+
+                $.smallBox({
+                    title: "Command Successfully Updated",
+                    content: "",
+                    color: "#739E73",
+                    iconSmall: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Critical Error",
+                    content: response,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 6000
+                });
+            });
+        }
+    },
+    ready: function ready() {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"CommandsModal\">\n    <div slot=\"title\">Custom Commands</div>\n    <div slot=\"body\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                Editing\n            </div>\n            <div class=\"panel-body\">\n                <form class=\"smart-form\">\n                    <label class=\"select select-multiple\">\n                        <select multiple=\"\" class=\"custom-scroll\">\n                            <option value=\"1\">Alexandra</option>\n                            <option value=\"2\">Alice</option>\n                            <option value=\"3\">Anastasia</option>\n                            <option value=\"4\">Avelina</option>\n                            <option value=\"5\">Basilia</option>\n                            <option value=\"6\">Beatrice</option>\n                            <option value=\"7\">Cassandra</option>\n                            <option value=\"8\">Clemencia</option>\n                            <option value=\"9\">Desiderata</option>\n                        </select>\n                    </label>\n                </form>\n            </div>\n            <div class=\"panel-footer pull-right\">\n                <button class=\"btn btn-default\">Cancel</button>\n                <button class=\"btn btn-primary\">Save</button>\n            </div>\n        </div>\n        <table class=\"table table-striped table-bordered table-hover\">\n            <thead>\n            <tr>\n                <th>Command</th>\n                <th>Text</th>\n                <th></th>\n                <th></th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr v-for=\"item in commands\">\n                <td class=\"vcenter\">{{ item.name }}</td>\n                <td>{{ item.text }}</td>\n                <td style=\"padding-right: 20px\">\n                    <form class=\"smart-form\">\n                        <label class=\"toggle pull-left\">\n                            <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                            <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                        </label>\n                    </form>\n                </td>\n                <td width=\"105px\" class=\"vcenter\">\n                    <div class=\"btn-group\">\n                        <button class=\"btn btn-default btn-xs\">\n                            Actions\n                        </button>\n                        <button class=\"btn btn-default btn-xs dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\n                            <span class=\"caret\"></span>\n                        </button>\n                        <ul class=\"dropdown-menu\">\n                            <li>\n                                <a href=\"javascript:void(0);\">Action</a>\n                            </li>\n                            <li>\n                                <a href=\"javascript:void(0);\">Another action</a>\n                            </li>\n                            <li>\n                                <a href=\"javascript:void(0);\">Something else here</a>\n                            </li>\n                            <li class=\"divider\"></li>\n                            <li>\n                                <a href=\"javascript:void(0);\">Separated link</a>\n                            </li>\n                        </ul>\n                    </div>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n    <div slot=\"footer\"></div>\n</modal>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-570d039e", module.exports)
+  } else {
+    hotAPI.update("_v-570d039e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../vuex/actions":22,"../../vuex/getters":23,"./Modal.vue":13,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: {
+        modalId: {
+            required: true
+        },
+        closebutton: {
+            default: true
+        }
+    },
+    data: function data() {
+        return {};
+    },
+    components: {},
+    methods: {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Modal -->\n<div class=\"modal fade\" id=\"{{modalId}}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"{{modalId}}Label\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button v-if=\"closebutton\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">\n                    ×\n                </button>\n                <h4 class=\"modal-title\" id=\"{{modalId}}Label\">\n                    <slot name=\"title\"></slot>\n                </h4>\n            </div>\n            <div class=\"modal-body\">\n                <slot name=\"body\"></slot>\n            </div>\n            <div class=\"modal-footer\">\n                <slot name=\"footer\"></slot>\n            </div>\n        </div><!-- /.modal-content -->\n    </div><!-- /.modal-dialog -->\n</div><!-- /.modal -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-4be6b374", module.exports)
+  } else {
+    hotAPI.update("_v-4be6b374", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":4,"vue-hot-reload-api":2}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11814,37 +12676,169 @@ var _CommandsWidget = require('../widgets/CommandsWidget.vue');
 
 var _CommandsWidget2 = _interopRequireDefault(_CommandsWidget);
 
+var _RegularsWidget = require('../widgets/RegularsWidget.vue');
+
+var _RegularsWidget2 = _interopRequireDefault(_RegularsWidget);
+
 var _SmartChat = require('../widgets/SmartChat.vue');
 
 var _SmartChat2 = _interopRequireDefault(_SmartChat);
 
+var _TwitchChat = require('../widgets/TwitchChat.vue');
+
+var _TwitchChat2 = _interopRequireDefault(_TwitchChat);
+
+var _CommandsModal = require('../modals/CommandsModal.vue');
+
+var _CommandsModal2 = _interopRequireDefault(_CommandsModal);
+
+var _AddRegularModal = require('../modals/AddRegularModal.vue');
+
+var _AddRegularModal2 = _interopRequireDefault(_AddRegularModal);
+
+var _actions = require('../../vuex/actions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    props: ['user'],
+    vuex: {
+        actions: {
+            setRegulars: _actions.setRegulars,
+            setCommands: _actions.setCommands
+        }
+    },
+    components: {
+        Commands: _CommandsWidget2.default,
+        Regulars: _RegularsWidget2.default,
+        SmartChat: _SmartChat2.default,
+        TwitchChat: _TwitchChat2.default,
+        CommandsModal: _CommandsModal2.default,
+        AddRegularModal: _AddRegularModal2.default
+    },
 
+    computed: {},
+
+    methods: {
+        setRegularsStore: function setRegularsStore() {
+            this.$http.get(window.location.origin + '/api/regulars/').then(function (response) {
+                this.setRegulars(response.data.results);
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Critical Error",
+                    content: response,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 6000
+                });
+            }.bind(this));
+        },
+        setCommandsStore: function setCommandsStore() {
+            this.$http.get(window.location.origin + '/api/commands/').then(function (response) {
+                this.setCommands(response.data.results);
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Critical Error",
+                    content: response,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 6000
+                });
+            }.bind(this));
+        }
+    },
+    ready: function ready() {
+        this.setRegularsStore();
+        this.setCommandsStore();
+    }
+};
+
+// vuex
+
+
+// Modals
+
+
+// Widgets
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\">\n        <h1 class=\"page-title txt-color-blueDark\"><i class=\"fa-fw fa fa-home\"></i> Dashboard <span>&gt; My Dashboard</span></h1>\n    </div>\n</div>\n\n<!-- widget grid -->\n<section id=\"widget-grid\" class=\"\">\n\n    <!-- row -->\n    <div class=\"row\">\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <smart-chat></smart-chat>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <twitch-chat></twitch-chat>\n        </article>\n    </div>\n\n    <!-- end row -->\n\n    <div class=\"row\">\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <commands></commands>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <regulars></regulars>\n        </article>\n    </div>\n</section>\n<!-- end widget grid -->\n\n<!-- Modals Here -->\n<commands-modal></commands-modal>\n<add-regular-modal></add-regular-modal>\n<!-- End Modals -->\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-bcbaee06", module.exports)
+  } else {
+    hotAPI.update("_v-bcbaee06", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../vuex/actions":22,"../modals/AddRegularModal.vue":11,"../modals/CommandsModal.vue":12,"../widgets/CommandsWidget.vue":15,"../widgets/RegularsWidget.vue":16,"../widgets/SmartChat.vue":17,"../widgets/TwitchChat.vue":18,"vue":4,"vue-hot-reload-api":2}],15:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+var _getters = require('../../vuex/getters');
+
+var _actions = require('../../vuex/actions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {
+            toggleCommandActive: _actions.toggleCommandActive
+        },
+        getters: {
+            commands: _getters.getCommands
+        }
+    },
     data: function data() {
         return {};
     },
     components: {
-        Commands: _CommandsWidget2.default,
-        SmartChat: _SmartChat2.default
+        Widget: _Widget2.default
     },
+    methods: {
+        Update: function Update(item) {
+            this.$http.patch(window.location.origin + '/api/commands/' + item.id + '/edit/', {
+                active: !item.active
+            }).then(function (response) {
+                this.toggleCommandActive(item.id, item.active);
 
-    computed: {
-        TwitchURL: function TwitchURL() {
-            if (this.user != null) {
-                return 'http://www.twitch.tv/' + this.user.username + '/chat';
-            }
-
-            return null;
+                $.smallBox({
+                    title: "Command Successfully Updated",
+                    content: "",
+                    color: "#739E73",
+                    iconSmall: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Critical Error",
+                    content: response,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 6000
+                });
+            });
         }
     },
+    computed: {},
 
-    methods: {}
+    ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\">\n        <h1 class=\"page-title txt-color-blueDark\"><i class=\"fa-fw fa fa-home\"></i> Dashboard <span>&gt; My Dashboard</span></h1>\n    </div>\n</div>\n\n<!-- widget grid -->\n<section id=\"widget-grid\" class=\"\">\n\n    <!-- row -->\n    <div class=\"row\">\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <smart-chat static_path=\"{% static 'compiled' %}\"></smart-chat>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n\n            <!-- new widget -->\n            <div class=\"jarviswidget jarviswidget-color-blue\" id=\"wid-id-0\" data-widget-editbutton=\"false\" data-widget-colorbutton=\"false\" data-widget-deletebutton=\"false\" data-widget-fullscreenbutton=\"false\">\n\n                <!-- widget options:\n                usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n                data-widget-colorbutton=\"false\"\n                data-widget-editbutton=\"false\"\n                data-widget-togglebutton=\"false\"\n                data-widget-deletebutton=\"false\"\n                data-widget-fullscreenbutton=\"false\"\n                data-widget-custombutton=\"false\"\n                data-widget-collapsed=\"true\"\n                data-widget-sortable=\"false\"\n\n                -->\n\n                <header>\n                    <span class=\"widget-icon\"> <i class=\"fa fa-check txt-color-white\"></i> </span>\n                    <h2> Twitch Chat </h2>\n                    <!-- <div class=\"widget-toolbar\">\n                    add: non-hidden - to disable auto hide\n\n                    </div>-->\n                </header>\n\n                <!-- widget div-->\n                <div>\n                    <div class=\"widget-body no-padding smart-form\">\n                        <!-- content goes here -->\n\n                        <div v-if=\"TwitchURL\" class=\"panel panel-default\">\n                            <div class=\"panel-body text-center\">\n                                <iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" :src=\"TwitchURL\" height=\"410\" width=\"100%\">\n                                </iframe>\n                            </div>\n                        </div>\n\n                        <!-- end content -->\n                    </div>\n\n                </div>\n                <!-- end widget div -->\n            </div>\n            <!-- end widget -->\n\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <commands></commands>\n        </article>\n    </div>\n\n    <!-- end row -->\n\n    <div class=\"row\">\n\n    </div>\n</section>\n<!-- end widget grid -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"61737\" fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-blue\" data-toggle=\"modal\" data-target=\"#CommandsModal\">\n                    <i class=\"fa fa-pencil\"></i>\n                </button>\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddRegularModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Commands Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th>Cooldown Min</th>\n                    <th>Active</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in commands\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.cooldown_min }}</td>\n                    <td>\n                        <form class=\"smart-form\">\n                            <label class=\"toggle pull-left\">\n                                <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                                <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                            </label>\n                        </form>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11854,12 +12848,174 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-db8055c6", module.exports)
+    hotAPI.createRecord("_v-48b96470", module.exports)
   } else {
-    hotAPI.update("_v-db8055c6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-48b96470", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../widgets/CommandsWidget.vue":11,"../widgets/SmartChat.vue":12,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],11:[function(require,module,exports){
+},{"../../vuex/actions":22,"../../vuex/getters":23,"./Widget.vue":19,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],16:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+var _getters = require('../../vuex/getters');
+
+var _actions = require('../../vuex/actions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {
+            deleteRegular: _actions.deleteRegular
+        },
+        getters: {
+            regulars: _getters.getRegulars
+        }
+    },
+    components: {
+        Widget: _Widget2.default
+    },
+    methods: {
+        remove: function remove(id) {
+            $.SmartMessageBox({
+                title: "Warning!",
+                content: "Are you sure you want to delete this user from the Regulars list?",
+                buttons: '[No][Yes]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "Yes") {
+                    this.$http.delete(window.location.origin + '/api/regulars/' + id + '/delete/').then(function (response) {
+                        this.deleteRegular(id);
+                        $.smallBox({
+                            title: "Regular Successfully Removed",
+                            content: "",
+                            color: "#739E73",
+                            iconSmall: "fa fa-thumbs-up bounce animated",
+                            timeout: 4000
+                        });
+                    }.bind(this)).catch(function (response) {
+                        $.bigBox({
+                            title: "Critical Error",
+                            content: response,
+                            color: "#C46A69",
+                            icon: "fa fa-warning shake animated",
+                            //number : "",
+                            timeout: 6000
+                        });
+                    });
+                }
+            }.bind(this));
+        }
+    },
+    computed: {},
+    ready: function ready() {}
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"37691\" fullscreen=\"true\">\n    <div slot=\"title\">Regulars</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddRegularModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Regulars Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th></th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in regulars\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>\n                        <button @click=\"remove(item.id)\" class=\"btn btn-danger btn-xs\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-7ad73e52", module.exports)
+  } else {
+    hotAPI.update("_v-7ad73e52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../vuex/actions":22,"../../vuex/getters":23,"./Widget.vue":19,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: function data() {
+        return {};
+    },
+
+    components: {
+        Widget: _Widget2.default
+    },
+
+    methods: {},
+    ready: function ready() {
+        $.filter_input = $('#filter-chat-list');
+        $.chat_users_container = $('#chat-container > .chat-list-body');
+        $.chat_users = $('#chat-users');
+        $.chat_list_btn = $('#chat-container > .chat-list-open-close');
+        $.chat_body = $('#chat-body');
+
+        // custom css expression for a case-insensitive contains()
+        jQuery.expr[':'].Contains = function (a, i, m) {
+            return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        function listFilter(list) {
+            // header is any element, list is an unordered list
+            // create and add the filter form to the header
+
+            $.filter_input.change(function () {
+                var filter = $(this).val();
+                if (filter) {
+                    // this finds all links in a list that contain the input,
+                    // and hide the ones not containing the input while showing the ones that do
+                    $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
+                    $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
+                } else {
+                    $.chat_users.find("li").slideDown();
+                }
+                return false;
+            }).keyup(function () {
+                // fire the above change event after every letter
+                $(this).change();
+            });
+        }
+
+        // on dom ready
+        listFilter($.chat_users);
+
+        // open chat list
+        $.chat_list_btn.click(function () {
+            $(this).parent('#chat-container').toggleClass('open');
+        });
+
+        $.chat_body.animate({
+            scrollTop: $.chat_body[0].scrollHeight
+        }, 500);
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"30539\" fullscreen=\"true\">\n    <div slot=\"title\">SmartChat</div>\n    <div slot=\"icon\"><i class=\"fa fa-comments txt-color-white\"></i> </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <!-- end toolbars -->\n\n    <div slot=\"body\">\n        <div class=\"alert alert-info no-margin fade in\">\n            <i class=\"fa-fw fa fa-info\"></i>\n            SmartChat Widget v1.0 Beta\n        </div>\n\n        <!-- CHAT CONTAINER -->\n        <div id=\"chat-container\">\n            <span class=\"chat-list-open-close\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n            <div class=\"chat-list-body custom-scroll\">\n                <ul id=\"chat-users\">\n                    <li>\n                        <a href=\"#\">\n                            <img src=\"\" alt=\"\">\n                            Robin Berry\n                            <span class=\"badge badge-inverse\">23</span>\n                            <span class=\"state\">\n                                <i class=\"fa fa-circle txt-color-green pull-right\"></i>\n                            </span>\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"chat-list-footer\">\n\n                <div class=\"control-group\">\n\n                    <form class=\"smart-form\">\n\n                        <section>\n                            <label class=\"input\">\n                                <input type=\"text\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                            </label>\n                        </section>\n\n                    </form>\n                </div>\n            </div>\n\n        </div>\n\n        <!-- CHAT BODY -->\n        <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n            <ul>\n                <li class=\"message\">\n                    <img src=\"\" class=\"online\" alt=\"\">\n                    <div class=\"message-text\">\n                        <time>\n                            2014-01-13\n                        </time>\n\n                        <a href=\"#\" class=\"username\">\n                            Sadi Orlaf\n                        </a>\n\n                        Hey did you meet the new board of director?\n                        He's a bit of an arse if you ask me...anyway here is the report you requested.\n                        I am off to launch with Lisa and Andrew, you wanna join?\n                    </div>\n                </li>\n            </ul>\n        </div>\n\n        <!-- CHAT FOOTER -->\n        <div class=\"chat-footer\">\n\n            <!-- CHAT TEXTAREA -->\n            <div class=\"textarea-div\">\n\n                <div class=\"typearea\">\n                    <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\" class=\"custom-scroll\"></textarea>\n                </div>\n\n            </div>\n\n            <!-- CHAT REPLY/SEND -->\n            <span class=\"textarea-controls\">\n                <button class=\"btn btn-sm btn-primary pull-right\">\n                    Reply\n                </button>\n                <span class=\"pull-right smart-form\" style=\"margin-top: 3px; margin-right: 10px;\">\n                    <label class=\"checkbox pull-right\">\n                        <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                        <i></i>Press <strong> ENTER </strong> to send\n                    </label>\n                </span>\n                <a href=\"#\" class=\"pull-left\"><i class=\"fa fa-camera fa-fw fa-lg\"></i></a>\n            </span>\n        </div>\n    </div>\n    <!-- end body -->\n</widget>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-020c7a15", module.exports)
+  } else {
+    hotAPI.update("_v-020c7a15", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Widget.vue":19,"vue":4,"vue-hot-reload-api":2}],18:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -11875,21 +13031,45 @@ var _Widget2 = _interopRequireDefault(_Widget);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    props: ['user'],
-
     data: function data() {
         return {
-            RandomID: RandomNum()
+            username: null
         };
     },
     components: {
         Widget: _Widget2.default
     },
-    methods: {},
-    computed: {}
+    methods: {
+        getUsername: function getUsername() {
+            this.$http.get(window.location.origin + '/api/users/' + USER_ID + '/').then(function (response) {
+                this.username = response.data.username;
+            }.bind(this)).catch(function (response) {
+                $.bigBox({
+                    title: "Critical Error",
+                    content: response,
+                    color: "#C46A69",
+                    icon: "fa fa-warning shake animated",
+                    //number : "",
+                    timeout: 6000
+                });
+            });
+        }
+    },
+    computed: {
+        TwitchURL: function TwitchURL() {
+            if (this.username != null) {
+                return 'http://www.twitch.tv/' + this.username + '/chat';
+            }
+
+            return null;
+        }
+    },
+    ready: function ready() {
+        this.getUsername();
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Add custom colors to your TR and TD <code>&lt;tr&gt;</code> by adding <code>.success</code>, <code>.danger</code>,\n            <code>.warning</code> and <code>.info</code> respectively\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th><i class=\"fa fa-building\"></i> Product</th>\n                    <th><i class=\"fa fa-calendar\"></i> Payment Taken</th>\n                    <th><i class=\"glyphicon glyphicon-send\"></i> Status</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr class=\"success\">\n                    <td>1</td>\n                    <td>TB - Monthly</td>\n                    <td>01/04/2012</td>\n                    <td>Approved</td>\n                </tr>\n                <tr class=\"danger\">\n                    <td>2</td>\n                    <td>TB - Monthly</td>\n                    <td>02/04/2012</td>\n                    <td>Declined</td>\n                </tr>\n                <tr class=\"warning\">\n                    <td>3</td>\n                    <td>TB - Monthly</td>\n                    <td>03/04/2012</td>\n                    <td>Pending</td>\n                </tr>\n                <tr class=\"info\">\n                    <td>4</td>\n                    <td>TB - Monthly</td>\n                    <td>04/04/2012</td>\n                    <td>Call in to confirm</td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"58974\" fullscreen=\"true\">\n    <div slot=\"title\">Twitch Chat</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n    </div>\n\n    <div slot=\"toolbars\">\n        <!-- all your toolbars can go here -->\n    </div>\n    <!-- end toolbars -->\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <iframe v-if=\"TwitchURL\" frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" :src=\"TwitchURL\" height=\"410\" width=\"100%\"></iframe>\n            </div>\n        </div>\n    </div>\n    <!-- end body -->\n</widget>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11899,48 +13079,12 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-45de1da8", module.exports)
+    hotAPI.createRecord("_v-60e6b327", module.exports)
   } else {
-    hotAPI.update("_v-45de1da8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-60e6b327", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Widget.vue":13,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],12:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Widget = require('./Widget.vue');
-
-var _Widget2 = _interopRequireDefault(_Widget);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    data: function data() {
-        return {};
-    },
-
-    components: {
-        Widget: _Widget2.default
-    },
-
-    methods: {}
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget fullscreen=\"true\">\n    <div slot=\"title\">SmartChat</div>\n    <div slot=\"icon\"><i class=\"fa fa-comments txt-color-white\"></i> </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn dropdown-toggle btn-xs btn-success\" data-toggle=\"dropdown\">\n                    Status <i class=\"fa fa-caret-down\"></i>\n                </button>\n                <ul class=\"dropdown-menu pull-right js-status-update\">\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-green\"></i> Online</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-red\"></i> Busy</a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-circle txt-color-orange\"></i> Away</a>\n                    </li>\n                    <li class=\"divider\"></li>\n                    <li>\n                        <a href=\"javascript:void(0);\"><i class=\"fa fa-power-off\"></i> Log Off</a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n    <!-- end toolbars -->\n\n    <div slot=\"body\">\n        <!-- CHAT CONTAINER -->\n        <div id=\"chat-container\">\n            <span class=\"chat-list-open-close\"><i class=\"fa fa-user\"></i><b>!</b></span>\n\n            <div class=\"chat-list-body custom-scroll\">\n                <ul id=\"chat-users\">\n                    <li>\n                        <a href=\"#\">\n                            <img src=\"\" alt=\"\">\n                            Robin Berry\n                            <span class=\"badge badge-inverse\">23</span>\n                            <span class=\"state\">\n                                <i class=\"fa fa-circle txt-color-green pull-right\"></i>\n                            </span>\n                        </a>\n                    </li>\n                </ul>\n            </div>\n            <div class=\"chat-list-footer\">\n\n                <div class=\"control-group\">\n\n                    <form class=\"smart-form\">\n\n                        <section>\n                            <label class=\"input\">\n                                <input type=\"text\" id=\"filter-chat-list\" placeholder=\"Filter\">\n                            </label>\n                        </section>\n\n                    </form>\n                </div>\n            </div>\n\n        </div>\n\n        <!-- CHAT BODY -->\n        <div id=\"chat-body\" class=\"chat-body custom-scroll\">\n            <ul>\n                <li class=\"message\">\n                    <img src=\"\" class=\"online\" alt=\"\">\n                    <div class=\"message-text\">\n                        <time>\n                            2014-01-13\n                        </time>\n\n                        <a href=\"#\" class=\"username\">\n                            Sadi Orlaf\n                        </a>\n\n                        Hey did you meet the new board of director?\n                        He's a bit of an arse if you ask me...anyway here is the report you requested.\n                        I am off to launch with Lisa and Andrew, you wanna join?\n                    </div>\n                </li>\n            </ul>\n        </div>\n\n        <!-- CHAT FOOTER -->\n        <div class=\"chat-footer\">\n\n            <!-- CHAT TEXTAREA -->\n            <div class=\"textarea-div\">\n\n                <div class=\"typearea\">\n                    <textarea placeholder=\"Write a reply...\" id=\"textarea-expand\" class=\"custom-scroll\"></textarea>\n                </div>\n\n            </div>\n\n            <!-- CHAT REPLY/SEND -->\n            <span class=\"textarea-controls\">\n                <button class=\"btn btn-sm btn-primary pull-right\">\n                    Reply\n                </button>\n                <span class=\"pull-right smart-form\" style=\"margin-top: 3px; margin-right: 10px;\">\n                    <label class=\"checkbox pull-right\">\n                        <input type=\"checkbox\" name=\"subscription\" id=\"subscription\">\n                        <i></i>Press <strong> ENTER </strong> to send\n                    </label>\n                </span>\n                <a href=\"#\" class=\"pull-left\"><i class=\"fa fa-camera fa-fw fa-lg\"></i></a>\n            </span>\n        </div>\n    </div>\n    <!-- end body -->\n</widget>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-40873e35", module.exports)
-  } else {
-    hotAPI.update("_v-40873e35", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"./Widget.vue":13,"vue":4,"vue-hot-reload-api":2}],13:[function(require,module,exports){
+},{"./Widget.vue":19,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11955,7 +13099,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     props: {
-        user: {},
+        widId: {
+            required: true
+        },
         colorpicker: {
             default: true
         },
@@ -11972,9 +13118,7 @@ exports.default = {
     },
 
     data: function data() {
-        return {
-            RandomID: RandomNum()
-        };
+        return {};
     },
     components: {
         ColorPicker: _ToolbarColorPicker2.default
@@ -11982,74 +13126,273 @@ exports.default = {
     methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n<!-- Widget ID (each widget will need unique ID)-->\n<div class=\"jarviswidget jarviswidget-color-blueDark jarviswidget-sortable\" :id=\"RandomID\" data-widget-editbutton=\"false\" role=\"widget\">\n\n    <header role=\"heading\">\n        <div class=\"jarviswidget-ctrls\" role=\"menu\">\n\n            <a v-if=\"collapse\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-toggle-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Collapse\">\n                <i class=\"fa fa-minus \"></i>\n            </a>\n\n            <a v-if=\"fullscreen\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-fullscreen-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Fullscreen\">\n                <i class=\"fa fa-expand \"></i>\n            </a>\n\n            <a v-if=\"deletebtn\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-delete-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Delete\">\n                <i class=\"fa fa-times\"></i>\n            </a>\n\n        </div>\n\n        <slot name=\"toolbars\"></slot>\n\n        <div class=\"widget-toolbar\" role=\"menu\">\n            <color-picker v-if=\"colorpicker\"></color-picker>\n        </div>\n\n        <span class=\"widget-icon\">\n            <slot name=\"icon\"></slot>\n        </span>\n\n        <!-- widget title -->\n        <h2>\n            <slot name=\"title\"></slot>\n        </h2>\n        <!-- end title -->\n\n        <span class=\"jarviswidget-loader\"><i class=\"fa fa-refresh fa-spin\"></i></span>\n    </header>\n\n    <!-- widget div-->\n    <div role=\"content\">\n\n        <!-- widget content -->\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <slot name=\"body\"></slot>\n        </div>\n        <!-- end widget content -->\n\n    </div>\n    <!-- end widget div -->\n\n</div>\n<!-- end widget -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n<!-- Widget ID (each widget will need unique ID)-->\n<div class=\"jarviswidget jarviswidget-color-blueDark jarviswidget-sortable\" id=\"{{widId}}\" data-widget-editbutton=\"false\" role=\"widget\">\n\n    <header role=\"heading\">\n        <div class=\"jarviswidget-ctrls\" role=\"menu\">\n\n            <a v-if=\"collapse\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-toggle-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Collapse\">\n                <i class=\"fa fa-minus \"></i>\n            </a>\n\n            <a v-if=\"fullscreen\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-fullscreen-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Fullscreen\">\n                <i class=\"fa fa-expand \"></i>\n            </a>\n\n            <a v-if=\"deletebtn\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-delete-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Delete\">\n                <i class=\"fa fa-times\"></i>\n            </a>\n\n        </div>\n\n        <div class=\"widget-toolbar\" role=\"menu\">\n            <color-picker v-if=\"colorpicker\"></color-picker>\n        </div>\n\n        <slot name=\"toolbars\"></slot>\n\n        <span class=\"widget-icon\">\n            <slot name=\"icon\"></slot>\n        </span>\n\n        <!-- widget title -->\n        <h2>\n            <slot name=\"title\"></slot>\n        </h2>\n        <!-- end title -->\n\n        <span class=\"jarviswidget-loader\"><i class=\"fa fa-refresh fa-spin\"></i></span>\n    </header>\n\n    <!-- widget div-->\n    <div role=\"content\">\n\n        <!-- widget content -->\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <slot name=\"body\"></slot>\n        </div>\n        <!-- end widget content -->\n\n    </div>\n    <!-- end widget div -->\n\n</div>\n<!-- end widget -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-03d62500", module.exports)
+    hotAPI.createRecord("_v-255d7520", module.exports)
   } else {
-    hotAPI.update("_v-03d62500", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-255d7520", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./partials/ToolbarColorPicker.vue":14,"vue":4,"vue-hot-reload-api":2}],14:[function(require,module,exports){
+},{"./partials/ToolbarColorPicker.vue":20,"vue":4,"vue-hot-reload-api":2}],20:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<a data-toggle=\"dropdown\" class=\"dropdown-toggle color-box selector\" href=\"javascript:void(0);\"></a>\n<ul class=\"dropdown-menu arrow-box-up-right color-select pull-right\">\n    <li><span class=\"bg-color-green\" data-widget-setstyle=\"jarviswidget-color-green\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Green Grass\"></span></li>\n    <li><span class=\"bg-color-greenDark\" data-widget-setstyle=\"jarviswidget-color-greenDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Dark Green\"></span></li>\n    <li><span class=\"bg-color-greenLight\" data-widget-setstyle=\"jarviswidget-color-greenLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Green\"></span></li>\n    <li><span class=\"bg-color-purple\" data-widget-setstyle=\"jarviswidget-color-purple\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Purple\"></span></li>\n    <li><span class=\"bg-color-magenta\" data-widget-setstyle=\"jarviswidget-color-magenta\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Magenta\"></span></li>\n    <li><span class=\"bg-color-pink\" data-widget-setstyle=\"jarviswidget-color-pink\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Pink\"></span></li>\n    <li><span class=\"bg-color-pinkDark\" data-widget-setstyle=\"jarviswidget-color-pinkDark\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Fade Pink\"></span></li>\n    <li><span class=\"bg-color-blueLight\" data-widget-setstyle=\"jarviswidget-color-blueLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Blue\"></span></li>\n    <li><span class=\"bg-color-teal\" data-widget-setstyle=\"jarviswidget-color-teal\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Teal\"></span></li>\n    <li><span class=\"bg-color-blue\" data-widget-setstyle=\"jarviswidget-color-blue\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Ocean Blue\"></span></li>\n    <li><span class=\"bg-color-blueDark\" data-widget-setstyle=\"jarviswidget-color-blueDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Night Sky\"></span></li>\n    <li><span class=\"bg-color-darken\" data-widget-setstyle=\"jarviswidget-color-darken\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Night\"></span></li>\n    <li><span class=\"bg-color-yellow\" data-widget-setstyle=\"jarviswidget-color-yellow\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Day Light\"></span></li>\n    <li><span class=\"bg-color-orange\" data-widget-setstyle=\"jarviswidget-color-orange\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Orange\"></span></li>\n    <li><span class=\"bg-color-orangeDark\" data-widget-setstyle=\"jarviswidget-color-orangeDark\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Dark Orange\"></span></li>\n    <li><span class=\"bg-color-red\" data-widget-setstyle=\"jarviswidget-color-red\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Red Rose\"></span></li>\n    <li><span class=\"bg-color-redLight\" data-widget-setstyle=\"jarviswidget-color-redLight\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Light Red\"></span></li>\n    <li><span class=\"bg-color-white\" data-widget-setstyle=\"jarviswidget-color-white\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Purity\"></span></li>\n    <li>\n        <a href=\"javascript:void(0);\" class=\"jarviswidget-remove-colors\" data-widget-setstyle=\"\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Reset widget color to default\">Remove</a>\n    </li>\n</ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-1d9dc794", module.exports)
+    hotAPI.createRecord("_v-bd006918", module.exports)
   } else {
-    hotAPI.update("_v-1d9dc794", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-bd006918", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2}],15:[function(require,module,exports){
+},{"vue":4,"vue-hot-reload-api":2}],21:[function(require,module,exports){
+'use strict';
+
+var _store = require('./vuex/store');
+
+var _store2 = _interopRequireDefault(_store);
+
+var _Dashboard = require('./components/pages/Dashboard.vue');
+
+var _Dashboard2 = _interopRequireDefault(_Dashboard);
+
+var _SiteSearch = require('./components/SiteSearch.vue');
+
+var _SiteSearch2 = _interopRequireDefault(_SiteSearch);
+
+var _DevActivityDropdown = require('./components/DevActivityDropdown.vue');
+
+var _DevActivityDropdown2 = _interopRequireDefault(_DevActivityDropdown);
+
+var _Breadcrumbs = require('./components/Breadcrumbs.vue');
+
+var _Breadcrumbs2 = _interopRequireDefault(_Breadcrumbs);
+
+var _NotificationsDropdown = require('./components/NotificationsDropdown.vue');
+
+var _NotificationsDropdown2 = _interopRequireDefault(_NotificationsDropdown);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var Vue = require('vue');
 
 Vue.use(require('vue-resource'));
 
 Vue.http.headers.common['X-CSRFToken'] = document.querySelector('#token').getAttribute('value');
 
-var dashboard = require('./components/pages/Dashboard.vue')
-var SiteSearch = require('./components/SiteSearch.vue')
-var DevActivityDropdown = require('./components/DevActivityDropdown.vue')
-var Breadcrumbs = require('./components/Breadcrumbs.vue')
-var NotificationsDropdown = require('./components/NotificationsDropdown.vue')
+// vuex Store
+
+
+// components
+
 
 new Vue({
     el: 'body',
 
     components: {
-        dashboard,
-        SiteSearch,
-        DevActivityDropdown,
-        Breadcrumbs,
-        NotificationsDropdown
-
+        dashboard: _Dashboard2.default,
+        SiteSearch: _SiteSearch2.default,
+        DevActivityDropdown: _DevActivityDropdown2.default,
+        Breadcrumbs: _Breadcrumbs2.default,
+        NotificationsDropdown: _NotificationsDropdown2.default
     },
+
+    store: _store2.default,
 
     data: {
-        currentView: 'dashboard',
-        User: null
+        currentView: 'dashboard'
     },
 
-    methods: {
-        getUserObject: function() {
-            this.$http.get(window.location.origin + '/api/users/'+USER_ID+'/')
-                .then(function(response) {
-                    console.log(response)
-                    this.User = response.data
-                }.bind(this)).catch(function(response) {
-                    alert(response)
-                });
-        }
-    },
+    methods: {},
 
-    ready() {
-        this.getUserObject()
+    ready: function ready() {}
+});
+
+},{"./components/Breadcrumbs.vue":7,"./components/DevActivityDropdown.vue":8,"./components/NotificationsDropdown.vue":9,"./components/SiteSearch.vue":10,"./components/pages/Dashboard.vue":14,"./vuex/store":27,"vue":4,"vue-resource":3}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Regulars
+var setRegulars = exports.setRegulars = makeAction('SET_REGULARS');
+var addRegular = exports.addRegular = makeAction('ADD_REGULAR');
+var deleteRegular = exports.deleteRegular = makeAction('DELETE_REGULAR');
+
+// Commands
+var setCommands = exports.setCommands = makeAction('SET_COMMANDS');
+var addCommand = exports.addCommand = makeAction('ADD_COMMAND');
+var updateCommand = exports.updateCommand = makeAction('UPDATE_COMMAND');
+var deleteCommand = exports.deleteCommand = makeAction('DELETE_COMMAND');
+var toggleCommandActive = exports.toggleCommandActive = makeAction('TOGGLE_COMMAND_ACTIVE');
+
+function makeAction(type) {
+  return function (_ref) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
     }
 
+    var dispatch = _ref.dispatch;
+    return dispatch.apply(undefined, [type].concat(args));
+  };
+}
+
+},{}],23:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-},{"./components/Breadcrumbs.vue":6,"./components/DevActivityDropdown.vue":7,"./components/NotificationsDropdown.vue":8,"./components/SiteSearch.vue":9,"./components/pages/Dashboard.vue":10,"vue":4,"vue-resource":3}]},{},[15]);
+exports.getRegulars = getRegulars;
+exports.getCommands = getCommands;
+function getRegulars(state) {
+  return state.regulars.list;
+}
+
+function getCommands(state) {
+  return state.commands.list;
+}
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mutations;
+
+var _mutationTypes = require('../mutation-types');
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// initial state
+var state = {
+    list: []
+};
+
+// mutations
+var mutations = (_mutations = {}, _defineProperty(_mutations, _mutationTypes.SET_COMMANDS, function (state, data) {
+    state.list = data;
+}), _defineProperty(_mutations, _mutationTypes.ADD_COMMAND, function (state, data) {
+    state.list.push(data);
+}), _defineProperty(_mutations, _mutationTypes.UPDATE_COMMAND, function (state, id, data) {
+    for (var i in state.list) {
+        if (state.list[i].id == id) {
+            state.list.splice(i, 1, data);
+            break;
+        }
+    }
+}), _defineProperty(_mutations, _mutationTypes.DELETE_COMMAND, function (state, id) {
+    for (var i in state.list) {
+        if (state.list[i].id == id) {
+            state.list.splice(i, 1);
+            break;
+        }
+    }
+}), _defineProperty(_mutations, _mutationTypes.TOGGLE_COMMAND_ACTIVE, function (state, id, active) {
+    for (var i in state.list) {
+        if (state.list[i].id == id) {
+            state.list[i].active = !active;
+            break;
+        }
+    }
+}), _mutations);
+
+exports.default = {
+    state: state,
+    mutations: mutations
+};
+
+},{"../mutation-types":26}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mutations;
+
+var _mutationTypes = require('../mutation-types');
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// initial state
+var state = {
+    list: []
+};
+
+// mutations
+var mutations = (_mutations = {}, _defineProperty(_mutations, _mutationTypes.SET_REGULARS, function (state, data) {
+    state.list = data;
+}), _defineProperty(_mutations, _mutationTypes.ADD_REGULAR, function (state, data) {
+    state.list.push(data);
+}), _defineProperty(_mutations, _mutationTypes.DELETE_REGULAR, function (state, id) {
+    for (var i in state.list) {
+        if (state.list[i].id == id) {
+            state.list.splice(i, 1);
+        }
+    }
+}), _mutations);
+
+exports.default = {
+    state: state,
+    mutations: mutations
+};
+
+},{"../mutation-types":26}],26:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SET_REGULARS = exports.SET_REGULARS = 'SET_REGULARS';
+var ADD_REGULAR = exports.ADD_REGULAR = 'ADD_REGULAR';
+var DELETE_REGULAR = exports.DELETE_REGULAR = 'DELETE_REGULAR';
+
+var SET_COMMANDS = exports.SET_COMMANDS = 'SET_COMMANDS';
+var ADD_COMMAND = exports.ADD_COMMAND = 'ADD_COMMAND';
+var UPDATE_COMMAND = exports.UPDATE_COMMAND = 'UPDATE_COMMAND';
+var DELETE_COMMAND = exports.DELETE_COMMAND = 'DELETE_COMMAND';
+var TOGGLE_COMMAND_ACTIVE = exports.TOGGLE_COMMAND_ACTIVE = 'TOGGLE_COMMAND_ACTIVE';
+
+},{}],27:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vuex = require('vuex');
+
+var _vuex2 = _interopRequireDefault(_vuex);
+
+var _regulars = require('./modules/regulars');
+
+var _regulars2 = _interopRequireDefault(_regulars);
+
+var _commands = require('./modules/commands');
+
+var _commands2 = _interopRequireDefault(_commands);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Make vue aware of Vuex
+_vue2.default.use(_vuex2.default);
+
+exports.default = new _vuex2.default.Store({
+    modules: {
+        regulars: _regulars2.default,
+        commands: _commands2.default
+    }
+});
+
+},{"./modules/commands":24,"./modules/regulars":25,"vue":4,"vuex":6}]},{},[21]);

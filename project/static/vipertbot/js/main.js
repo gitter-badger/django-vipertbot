@@ -4,11 +4,15 @@ Vue.use(require('vue-resource'));
 
 Vue.http.headers.common['X-CSRFToken'] = document.querySelector('#token').getAttribute('value');
 
-var dashboard = require('./components/pages/Dashboard.vue')
-var SiteSearch = require('./components/SiteSearch.vue')
-var DevActivityDropdown = require('./components/DevActivityDropdown.vue')
-var Breadcrumbs = require('./components/Breadcrumbs.vue')
-var NotificationsDropdown = require('./components/NotificationsDropdown.vue')
+// vuex Store
+import store from './vuex/store'
+
+// components
+import dashboard from './components/pages/Dashboard.vue'
+import SiteSearch from './components/SiteSearch.vue'
+import DevActivityDropdown from './components/DevActivityDropdown.vue'
+import Breadcrumbs from './components/Breadcrumbs.vue'
+import NotificationsDropdown from './components/NotificationsDropdown.vue'
 
 new Vue({
     el: 'body',
@@ -19,27 +23,20 @@ new Vue({
         DevActivityDropdown,
         Breadcrumbs,
         NotificationsDropdown
-
     },
+
+    store,
 
     data: {
         currentView: 'dashboard',
-        User: null
     },
 
     methods: {
-        getUserObject: function() {
-            this.$http.get(window.location.origin + '/api/users/'+USER_ID+'/')
-                .then(function(response) {
-                    this.User = response.data
-                }.bind(this)).catch(function(response) {
-                    alert(response)
-                });
-        }
+
     },
 
     ready() {
-        this.getUserObject()
+
     }
 
 });

@@ -9,6 +9,7 @@ var watchify = require('watchify');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var assign = require('lodash.assign');
+var babelify = require('babelify');
 
 // Bootstrap
 var bootstrap_css_path = './node_modules/bootstrap/dist/css';
@@ -98,7 +99,7 @@ gulp.task('fa_fonts', function() {
         .pipe(gulp.dest(fonts_compiled_path))
 });
 
-gulp.task('watch', function() {
+gulp.task('watchCSS', function() {
     gulp.watch([
         css_root_path + '/*.css'
     ], ['styles']);
@@ -112,6 +113,7 @@ gulp.task('watchify', function() {
       plugin: [watchify]
     });
     b.transform(vueify);
+    b.transform(babelify, {presets: ["es2015"]});
 
     b.on('update', bundle);
     b.on('log', gutil.log);

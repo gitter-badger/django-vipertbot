@@ -2,6 +2,10 @@ body {
     background-color: #BABABA;
 }
 
+.vcenter {
+    vertical-align: middle !important;
+}
+
 .main_content_wrapper {
     padding-left: 50px;
     padding-right: 50px;

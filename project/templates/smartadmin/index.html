@@ -16,7 +16,7 @@
 
 			<!-- MAIN CONTENT -->
 			<div id="content">
-                <component :is="currentView" :user="User"></component>
+                <component :is="currentView"></component>
 			</div>
 			<!-- END MAIN CONTENT -->
 
@@ -24,58 +24,7 @@
 		<!-- END MAIN PANEL -->
 
 		<!-- PAGE FOOTER -->
-		<div class="page-footer">
-			<div class="row">
-				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">SmartyBot 1.8.2 <span class="hidden-xs"> - Twitch Bot</span> © 2016</span>
-				</div>
-
-				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
-					<div class="txt-color-white inline-block">
-						<i class="txt-color-blueLight hidden-mobile">Last account activity <i class="fa fa-clock-o"></i> <strong>52 mins ago &nbsp;</strong> </i>
-						<div class="btn-group dropup">
-							<button class="btn btn-xs dropdown-toggle bg-color-blue txt-color-white" data-toggle="dropdown">
-								<i class="fa fa-link"></i> <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu pull-right text-left">
-								<li>
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Download Progress</p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-success" style="width: 50%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Server Load</p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-success" style="width: 20%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<div class="padding-5">
-										<p class="txt-color-darken font-sm no-margin">Memory Load <span class="text-danger">*critical*</span></p>
-										<div class="progress progress-micro no-margin">
-											<div class="progress-bar progress-bar-danger" style="width: 70%;"></div>
-										</div>
-									</div>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<div class="padding-5">
-										<button class="btn btn-block btn-default">refresh</button>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		{% include 'smartadmin/partials/footer.html' %}
 		<!-- END PAGE FOOTER -->
 
 		<!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
@@ -111,51 +60,6 @@
         <script type="application/javascript">
             $(document).ready(function() {
                 pageSetUp();
-
-                $.filter_input = $('#filter-chat-list');
-                $.chat_users_container = $('#chat-container > .chat-list-body');
-                $.chat_users = $('#chat-users');
-                $.chat_list_btn = $('#chat-container > .chat-list-open-close');
-                $.chat_body = $('#chat-body');
-
-                // custom css expression for a case-insensitive contains()
-                jQuery.expr[':'].Contains = function(a, i, m) {
-                    return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-                };
-
-                function listFilter(list) {// header is any element, list is an unordered list
-                    // create and add the filter form to the header
-
-                    $.filter_input.change(function() {
-                        var filter = $(this).val();
-                        if (filter) {
-                            // this finds all links in a list that contain the input,
-                            // and hide the ones not containing the input while showing the ones that do
-                            $.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
-                            $.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
-                        } else {
-                            $.chat_users.find("li").slideDown();
-                        }
-                        return false;
-                    }).keyup(function() {
-                        // fire the above change event after every letter
-                        $(this).change();
-
-                    });
-
-                }
-
-                // on dom ready
-                listFilter($.chat_users);
-
-                // open chat list
-                $.chat_list_btn.click(function() {
-                    $(this).parent('#chat-container').toggleClass('open');
-                });
-
-                $.chat_body.animate({
-                    scrollTop : $.chat_body[0].scrollHeight
-                }, 500);
             });
         </script>
 	</body>
