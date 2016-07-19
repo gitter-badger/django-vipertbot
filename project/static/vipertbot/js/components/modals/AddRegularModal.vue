@@ -92,10 +92,13 @@
                 }
             }
         },
-        ready: function() {
-            $('#AddRegularModal').on('hidden.bs.modal', function () {
+        events: {
+            'ModalClosing': function() {
                 this.clearFields()
-            }.bind(this))
+            }
+        },
+        ready: function() {
+
         }
     }
 </script>

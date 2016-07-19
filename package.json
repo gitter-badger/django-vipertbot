@@ -27,5 +27,8 @@
     "vueify": "^8.6.0",
     "vuex": "^1.0.0-rc.2",
     "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "vue-multiselect": "^0.3.1"
   }
 }

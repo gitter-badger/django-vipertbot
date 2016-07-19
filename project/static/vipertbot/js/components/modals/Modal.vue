@@ -42,6 +42,11 @@
         },
         methods: {
         
+        },
+        ready: function () {
+            $('#'+ this.modalId).on('hidden.bs.modal', function () {
+                this.$dispatch('ModalClosing')
+            }.bind(this))
         }
     }
 </script>

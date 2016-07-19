@@ -143,7 +143,7 @@
 
                 for (var k in this.RoleObjects) {
                     if (this.RoleObjects.hasOwnProperty(k)) {
-                        if(jQuery.inArray(this.RoleObjects[k].name, this.ItemRoles) !== -1) {
+                        if($.inArray(this.RoleObjects[k].name, this.ItemRoles) !== -1) {
                             this.UpdatedRoleObjects.push(this.RoleObjects[k])
                         }
                     }

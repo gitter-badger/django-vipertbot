@@ -8,16 +8,15 @@ from rest_framework.serializers import (
 from project.apps.vipertbot.models import Role
 
 class RoleListSerializer(ModelSerializer):
-    url = HyperlinkedIdentityField(
-        view_name='roles-detail',
-        lookup_field='id'
-    )
+    # url = HyperlinkedIdentityField(
+    #     view_name='roles-detail',
+    #     lookup_field='id'
+    # )
 
     class Meta:
         model = Role
         fields = [
             'id',
-            'url',
             'name',
         ]
 

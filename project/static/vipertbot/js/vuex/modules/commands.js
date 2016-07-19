@@ -21,11 +21,14 @@ const mutations = {
         state.list.push(data)
     },
 
-    [UPDATE_COMMAND] (state, id, data) {
-        for (var i in state.list) {
-            if (state.list[i].id == id) {
-                state.list.splice(i, 1, data);
-                break
+    [UPDATE_COMMAND] (state, data) {
+        console.log(data)
+        if(data) {
+            for (var i in state.list) {
+                if (state.list[i].id == data.id) {
+                    state.list.splice(i, 1, data);
+                    break
+                }
             }
         }
     },

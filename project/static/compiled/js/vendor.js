@@ -243,8 +243,8 @@ d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active"
 					
 			'show dashboard' : function() { $('#dashboard').trigger("click"); },
 			'show inbox' : function() { $('nav a[href="inbox.php"]').trigger("click"); },
-			'show graphs' : function() { $('nav a[href="flot.php"]').trigger("click"); },
-			'show flotchart' : function() { $('nav a[href="flot.php"]').trigger("click"); },
+			'show custom commands' : function() { $('#CommandsModal').modal('show'); },
+			'close custom commands' : function() { $('#CommandsModal').modal('hide'); },
 			'show morris chart' : function() { $('nav a[href="morris.php"]').trigger("click"); },
 			'show inline chart' : function() { $('nav a[href="inline-charts.php"]').trigger("click"); },
 			'show dygraphs' : function() { $('nav a[href="dygraphs.php"]').trigger("click"); },
