@@ -62,6 +62,12 @@
 </style>
 <script type="text/babel">
     import Widget from './Widget.vue'
+
+    import {
+        AlertSuccess,
+        AlertError
+    } from '../../modules/alerts'
+
     import { getRegulars } from '../../vuex/getters'
     import { deleteRegular } from '../../vuex/actions'
 
@@ -79,6 +85,7 @@
         },
         methods: {
             remove: function (id) {
+                // todo: add messagebox funtion to modules/alerts.js
                 $.SmartMessageBox({
                     title: "Warning!",
                     content: "Are you sure you want to delete this user from the Regulars list?",
@@ -87,22 +94,9 @@
                     if (ButtonPressed === "Yes") {
                         this.$http.delete(window.location.origin + '/api/regulars/' + id + '/delete/').then(function (response) {
                             this.deleteRegular(id)
-                            $.smallBox({
-                                title: "Regular Successfully Removed",
-                                content: "",
-                                color: "#739E73",
-                                iconSmall: "fa fa-thumbs-up bounce animated",
-                                timeout: 4000
-                            });
+                            AlertSuccess("Regular removed!")
                         }.bind(this)).catch(function (response) {
-                            $.bigBox({
-                                title: "Critical Error",
-                                content: response,
-                                color: "#C46A69",
-                                icon: "fa fa-warning shake animated",
-                                //number : "",
-                                timeout: 6000
-                            });
+                            AlertError(response.data.error, response.statusText, response.status)
                         });
                     }
                 }.bind(this));

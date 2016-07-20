@@ -4,7 +4,7 @@
         <div slot="body">
 
             <!-- EDITING SHOW EDIT FORM -->
-            <div v-if="Editing" class="panel panel-default">
+            <div v-if="Editing" :transition="editTransition" transition-mode="out-in" class="panel panel-default">
                 <div class="panel-body">
                     <form>
                         <legend>
@@ -14,7 +14,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <label class="label">Command Trigger</label>
-                                <input type="text" class="form-control" v-model="formModel.name">
+                                <input @keydown.enter.prevent="updateEdit()" type="text" class="form-control" v-model="formModel.name">
 
                                 <div class="note text-danger">
                                     <strong>Note:</strong> Must start with ! example: !gamertag
@@ -23,7 +23,7 @@
 
                             <div class="form-group">
                                 <label class="label">Command Output Text</label>
-                                <textarea rows="4" class="form-control" v-model="formModel.text"></textarea>
+                                <textarea @keydown.enter.prevent="updateEdit()" rows="4" class="form-control" v-model="formModel.text"></textarea>
 
                                 <div class="note">
                                     <strong>Tip:</strong> Check out the <a href="#">Public Variables</a>.
@@ -44,13 +44,13 @@
                                 ></multiselect>
 
                                 <div class="note">
-                                    <strong>Usage:</strong> &lt;select multiple style="width:100%" class="select2" &gt;...&lt;/select&gt;
+                                    <strong>Note:</strong> Click the box to reveal available roles.
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="label">Cooldown In Minutes</label>
-                                <input type="number" min="0" class="form-control" v-model="formModel.cooldown_min">
+                                <input @keydown.enter.prevent="updateEdit()" type="number" min="0" class="form-control" v-model="formModel.cooldown_min">
 
                                 <div class="note text-danger">
                                     <strong>Note:</strong> 0 is disabled
@@ -64,7 +64,7 @@
                                     <button @click.prevent="cancelEdit()" class="btn btn-default">
                                         Cancel
                                     </button>
-                                    <button @click.prevent="updateEdit()" class="btn btn-primary">
+                                    <button id="SaveCommandEdit" @click.prevent="updateEdit()" class="btn btn-primary">
                                         <i class="fa fa-save"></i>
                                         Save
                                     </button>
@@ -79,6 +79,7 @@
             <table v-else class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th>Command</th>
                     <th>Text</th>
                     <th></th>
@@ -87,6 +88,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in commands">
+                    <td>{{ item.id }}</td>
                     <td class="vcenter">{{ item.name }}</td>
                     <td>{{ item.text }}</td>
                     <td style="padding-right: 20px">
@@ -100,10 +102,10 @@
                     </td>
                     <td width="105px" class="vcenter">
                         <div class="btn-group">
-                            <button @click="Edit(item)" class="btn btn-default btn-sm">
+                            <button id="EditCommand{{ item.id }}" @click="Edit(item)" class="btn btn-default btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm">
+                            <button @click="removeCommand(item.id)" class="btn btn-danger btn-sm">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -112,23 +114,54 @@
                 </tbody>
             </table>
         </div>
-        <div slot="footer">
-
-        </div>
     </modal>
 </template>
 
 <script type="text/babel">
+    import Vue from 'vue'
     import Modal from './Modal.vue'
     import Multiselect from 'vue-multiselect'
+
+    import {
+            AlertSuccess,
+            AlertError
+    } from '../../modules/alerts'
+
     import { getCommands } from '../../vuex/getters'
-    import { toggleCommandActive, updateCommand } from '../../vuex/actions'
+
+    import {
+            toggleCommandActive,
+            updateCommand,
+            deleteCommand
+    } from '../../vuex/actions'
+
+    Vue.transition('fade', {
+        css: false,
+        enter: function (el, done) {
+            // element is already inserted into the DOM
+            // call done when animation finishes.
+            $(el)
+                    .css('opacity', 0)
+                    .animate({opacity: 1}, 500, done)
+        },
+        enterCancelled: function (el) {
+            $(el).stop()
+        },
+        leave: function (el, done) {
+            // same as enter
+            $(el).animate({opacity: 0}, 500, done)
+        },
+        leaveCancelled: function (el) {
+            $(el).stop()
+        }
+    });
 
     export default {
         vuex: {
             actions: {
                 toggleCommandActive,
-                updateCommand
+                updateCommand,
+                deleteCommand
             },
             getters: {
                 commands: getCommands
@@ -137,6 +170,7 @@
         data: function () {
             return {
                 Editing: false,
+                editTransition: 'fade',
                 allRoles: [],
 
                 formModel: {
@@ -156,9 +190,10 @@
         methods: {
             clearFields: function () {
                 this.Editing = false
-                //for (var item in this.formModel) {
-                //    this.formModel[item] = null
-                //}
+
+                for (var item in this.formModel) {
+                    this.formModel[item] = null
+                }
             },
             Edit: function (item) {
                 this.Editing = true
@@ -174,27 +209,13 @@
             },
             updateEdit: function () {
                 this.$http.put(window.location.origin + '/api/commands/' + this.formModel.id + '/edit/', this.formModel).then(function (response) {
-                    // todo: add update to vuex store
-                    this.updateCommand(this.formModel)
+                    this.updateCommand(response.data)
 
-                    $.smallBox({
-                        title: "Command Successfully Updated",
-                        content: "",
-                        color: "#739E73",
-                        iconSmall: "fa fa-thumbs-up bounce animated",
-                        timeout: 4000
-                    });
+                    AlertSuccess("Command has been updated!")
 
                     this.clearFields()
                 }.bind(this)).catch(function (response) {
-                    $.bigBox({
-                        title: "Critical Error",
-                        content: response,
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        //number : "",
-                        timeout: 6000
-                    });
+                    AlertError(response.data.error, response.statusText, response.status)
                 });
             },
             updateActive: function (item) {
@@ -202,42 +223,37 @@
                     active: !item.active,
                 }).then(function (response) {
                     this.toggleCommandActive(item.id, item.active)
-
-                    $.smallBox({
-                        title: "Command Successfully Updated",
-                        content: "",
-                        color: "#739E73",
-                        iconSmall: "fa fa-thumbs-up bounce animated",
-                        timeout: 4000
-                    });
+                    AlertSuccess("Command has been updated!")
                 }.bind(this)).catch(function (response) {
-                    $.bigBox({
-                        title: "Critical Error",
-                        content: response.data,
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        //number : "",
-                        timeout: 6000
-                    });
+                    AlertError(response.data.error, response.statusText, response.status)
                 });
+            },
+            removeCommand: function (id) {
+                $.SmartMessageBox({
+                    title: "Warning!",
+                    content: "Are you sure you want to delete this Command?",
+                    buttons: '[No][Yes]'
+                }, function (ButtonPressed) {
+                    if (ButtonPressed === "Yes") {
+                        this.$http.delete(window.location.origin + '/api/commands/' + id + '/delete/').then(function (response) {
+                            this.deleteCommand(id)
+                            AlertSuccess("Command has been removed!")
+                        }.bind(this)).catch(function (response) {
+                            AlertError(response.data.error, response.statusText, response.status)
+                        });
+                    }
+                }.bind(this));
             },
             getAllRoles: function () {
                 this.$http.get(window.location.origin + '/api/roles/').then(function (response) {
                     this.allRoles = response.data.results;
                 }).catch(function (response) {
-                    $.bigBox({
-                        title: "Critical Error:",
-                        content: response.data,
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        //number : "",
-                        timeout: 6000
-                    });
+                    AlertError(response.data.error, response.statusText, response.status)
                 });
             },
         },
         events: {
-            'ModalClosing': function() {
+            'ModalClosing': function () {
                 this.clearFields()
             }
         },

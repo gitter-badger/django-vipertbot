@@ -13230,7 +13230,7 @@ if (module.hot) {(function () {  module.hot.accept()
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -13241,13 +13241,39 @@ Object.defineProperty(exports, "__esModule", {
 // import OtherComponent from './components/other.vue'
 exports.default = {
     data: function data() {
-        return {};
+        return {
+            apiURL: 'https://api.github.com/repos/poppabear8883/django-vipertbot/commits?per_page=3&sha=',
+            currentBranch: 'master',
+            commits: null
+        };
     },
     components: {},
-    methods: {}
+    filters: {
+        truncate: function truncate(v) {
+            var newline = v.indexOf('\n');
+            return newline > 0 ? v.slice(0, newline) : v;
+        },
+        formatDate: function formatDate(v) {
+            return v.replace(/T|Z/g, ' ');
+        }
+    },
+    methods: {
+        fetchData: function fetchData() {
+            var xhr = new XMLHttpRequest();
+            var self = this;
+            xhr.open('GET', this.apiURL + self.currentBranch);
+            xhr.onload = function () {
+                self.commits = JSON.parse(xhr.responseText);
+            };
+            xhr.send();
+        }
+    },
+    ready: function ready() {
+        this.fetchData();
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <!-- projects dropdown -->\n<div class=\"project-context hidden-xs\">\n\n    <span class=\"label\">Dev Activity:</span>\n    <span class=\"project-selector dropdown-toggle\" data-toggle=\"dropdown\">Recent Commits <i class=\"fa fa-angle-down\"></i></span>\n\n    <!-- Suggestion: populate this list with fetch and push technique -->\n    <ul class=\"dropdown-menu\">\n        <li>\n            <a href=\"javascript:void(0);\">Online e-merchant management system - attaching integration with the iOS</a>\n        </li>\n        <li>\n            <a href=\"javascript:void(0);\">Notes on pipeline upgradee</a>\n        </li>\n        <li>\n            <a href=\"javascript:void(0);\">Assesment Report for merchant account</a>\n        </li>\n    </ul>\n    <!-- end dropdown-menu-->\n\n</div>\n<!-- end projects dropdown -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- projects dropdown -->\n<div class=\"project-context hidden-xs\">\n\n    <span class=\"label\">Dev Activity:</span>\n    <span class=\"project-selector dropdown-toggle\" data-toggle=\"dropdown\">Recent Commits <i class=\"fa fa-angle-down\"></i></span>\n\n    <!-- Suggestion: populate this list with fetch and push technique -->\n    <ul class=\"dropdown-menu\">\n        <li v-for=\"record in commits\">\n            <a :href=\"record.html_url\" target=\"_blank\" class=\"commit\">{{ record.sha.slice(0, 7) }}\n                - {{ record.commit.message | truncate }}<br>\n                by {{ record.commit.author.name }}\n                at {{ record.commit.author.date | formatDate }}\n            </a>\n        </li>\n    </ul>\n    <!-- end dropdown-menu-->\n\n</div>\n<!-- end projects dropdown -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13345,6 +13371,115 @@ var _Modal = require('./Modal.vue');
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
+var _vueMultiselect = require('vue-multiselect');
+
+var _vueMultiselect2 = _interopRequireDefault(_vueMultiselect);
+
+var _alerts = require('../../modules/alerts');
+
+var _getters = require('../../vuex/getters');
+
+var _actions = require('../../vuex/actions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {
+            toggleCommandActive: _actions.toggleCommandActive,
+            addCommand: _actions.addCommand
+        },
+        getters: {
+            commands: _getters.getCommands
+        }
+    },
+    data: function data() {
+        return {
+            Editing: false,
+            allRoles: [],
+
+            formModel: {
+                name: '',
+                text: '',
+                cooldown_min: 0,
+                roles: [],
+                active: true
+            }
+        };
+    },
+    components: {
+        Modal: _Modal2.default,
+        Multiselect: _vueMultiselect2.default
+    },
+    methods: {
+        clearFields: function clearFields() {
+            this.$broadcast('CloseModal');
+            this.formModel.name = '';
+            this.formModel.text = '';
+            this.formModel.cooldown_min = 0;
+            this.formModel.roles = [];
+            this.formModel.active = true;
+        },
+        cancelAdd: function cancelAdd() {
+            this.clearFields();
+        },
+        addNew: function addNew() {
+            this.$http.post(window.location.origin + '/api/commands/create/', this.formModel).then(function (response) {
+                this.addCommand(response.data);
+                (0, _alerts.AlertSuccess)("Command Created!");
+                this.clearFields();
+            }.bind(this)).catch(function (response) {
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
+            });
+        },
+        getAllRoles: function getAllRoles() {
+            this.$http.get(window.location.origin + '/api/roles/').then(function (response) {
+                this.allRoles = response.data.results;
+            }).catch(function (response) {
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
+            });
+        }
+    },
+    events: {
+        'ModalClosing': function ModalClosing() {
+            this.clearFields();
+        }
+    },
+    ready: function ready() {
+        this.getAllRoles();
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"AddCommandModal\">\n    <div slot=\"title\">New Custom Command</div>\n    <div slot=\"body\">\n\n        <div class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <form>\n                    <legend>\n                        Adding New Command {{ formModel.name }}\n                    </legend>\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Trigger</label>\n                            <input type=\"text\" class=\"form-control\" v-model=\"formModel.name\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> Must start with ! example: !gamertag\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Output Text</label>\n                            <textarea rows=\"4\" class=\"form-control\" v-model=\"formModel.text\"></textarea>\n\n                            <div class=\"note\">\n                                <strong>Tip:</strong> Check out the <a href=\"#\">Public Variables</a>.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label>Roles</label>\n\n                            <multiselect class=\"my-multiselect\" :selected.sync=\"formModel.roles\" :options=\"allRoles\" multiple=\"multiple\" :close-on-select=\"true\" :hide-selected=\"true\" :allow-empty=\"false\" label=\"name\" key=\"id\"></multiselect>\n\n                            <div class=\"note\">\n                                <strong>Note:</strong> Click the box to reveal available roles.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Cooldown In Minutes</label>\n                            <input type=\"number\" min=\"0\" class=\"form-control\" v-model=\"formModel.cooldown_min\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> 0 is disabled\n                            </div>\n                        </div>\n                    </fieldset>\n\n                    <div class=\"form-actions\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                <button @click.prevent=\"cancelAdd()\" class=\"btn btn-default\">\n                                    Cancel\n                                </button>\n                                <button @click.prevent=\"addNew()\" class=\"btn btn-primary\">\n                                    <i class=\"fa fa-save\"></i>\n                                    Save\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</modal>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-ff80ce88", module.exports)
+  } else {
+    hotAPI.update("_v-ff80ce88", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vue-multiselect":3,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Modal = require('./Modal.vue');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
+var _alerts = require('../../modules/alerts');
+
 var _actions = require('../../vuex/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -13372,37 +13507,17 @@ exports.default = {
 
             this.$http.post(window.location.origin + '/api/regulars/create/', this.formModel).then(function (response) {
                 this.addRegular(response.data);
-                console.log(response.data);
-                $.smallBox({
-                    title: "Regular Successfully Added",
-                    content: "",
-                    color: "#739E73",
-                    iconSmall: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
-
+                (0, _alerts.AlertSuccess)("Regular Added!");
                 this.clearFields();
-                $("#AddRegularModal").modal('hide');
             }.bind(this)).catch(function (response) {
-                $.bigBox({
-                    title: "Error",
-                    content: response.data.name,
-                    color: "#C46A69",
-                    icon: "fa fa-warning shake animated",
-                    //number : "",
-                    timeout: 7000
-                });
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
             });
         },
         clearFields: function clearFields() {
+            this.$broadcast('CloseModal');
             for (var item in this.formModel) {
                 this.formModel[item] = '';
             }
-        }
-    },
-    events: {
-        'ModalClosing': function ModalClosing() {
-            this.clearFields();
         }
     },
     ready: function ready() {}
@@ -13423,7 +13538,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7f28238b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../vuex/actions":23,"./Modal.vue":14,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
+},{"../../modules/alerts":26,"../../vuex/actions":27,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -13431,6 +13546,10 @@ var __vueify_style__ = __vueify_insert__.insert("\n\n")
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
 
 var _Modal = require('./Modal.vue');
 
@@ -13440,17 +13559,39 @@ var _vueMultiselect = require('vue-multiselect');
 
 var _vueMultiselect2 = _interopRequireDefault(_vueMultiselect);
 
+var _alerts = require('../../modules/alerts');
+
 var _getters = require('../../vuex/getters');
 
 var _actions = require('../../vuex/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+_vue2.default.transition('fade', {
+    css: false,
+    enter: function enter(el, done) {
+        // element is already inserted into the DOM
+        // call done when animation finishes.
+        $(el).css('opacity', 0).animate({ opacity: 1 }, 500, done);
+    },
+    enterCancelled: function enterCancelled(el) {
+        $(el).stop();
+    },
+    leave: function leave(el, done) {
+        // same as enter
+        $(el).animate({ opacity: 0 }, 500, done);
+    },
+    leaveCancelled: function leaveCancelled(el) {
+        $(el).stop();
+    }
+});
+
 exports.default = {
     vuex: {
         actions: {
             toggleCommandActive: _actions.toggleCommandActive,
-            updateCommand: _actions.updateCommand
+            updateCommand: _actions.updateCommand,
+            deleteCommand: _actions.deleteCommand
         },
         getters: {
             commands: _getters.getCommands
@@ -13459,6 +13600,7 @@ exports.default = {
     data: function data() {
         return {
             Editing: false,
+            editTransition: 'fade',
             allRoles: [],
 
             formModel: {
@@ -13478,9 +13620,10 @@ exports.default = {
     methods: {
         clearFields: function clearFields() {
             this.Editing = false;
-            //for (var item in this.formModel) {
-            //    this.formModel[item] = null
-            //}
+
+            for (var item in this.formModel) {
+                this.formModel[item] = null;
+            }
         },
         Edit: function Edit(item) {
             this.Editing = true;
@@ -13496,27 +13639,13 @@ exports.default = {
         },
         updateEdit: function updateEdit() {
             this.$http.put(window.location.origin + '/api/commands/' + this.formModel.id + '/edit/', this.formModel).then(function (response) {
-                // todo: add update to vuex store
-                this.updateCommand(this.formModel);
+                this.updateCommand(response.data);
 
-                $.smallBox({
-                    title: "Command Successfully Updated",
-                    content: "",
-                    color: "#739E73",
-                    iconSmall: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
+                (0, _alerts.AlertSuccess)("Command has been updated!");
 
                 this.clearFields();
             }.bind(this)).catch(function (response) {
-                $.bigBox({
-                    title: "Critical Error",
-                    content: response,
-                    color: "#C46A69",
-                    icon: "fa fa-warning shake animated",
-                    //number : "",
-                    timeout: 6000
-                });
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
             });
         },
         updateActive: function updateActive(item) {
@@ -13524,37 +13653,32 @@ exports.default = {
                 active: !item.active
             }).then(function (response) {
                 this.toggleCommandActive(item.id, item.active);
-
-                $.smallBox({
-                    title: "Command Successfully Updated",
-                    content: "",
-                    color: "#739E73",
-                    iconSmall: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
+                (0, _alerts.AlertSuccess)("Command has been updated!");
             }.bind(this)).catch(function (response) {
-                $.bigBox({
-                    title: "Critical Error",
-                    content: response.data,
-                    color: "#C46A69",
-                    icon: "fa fa-warning shake animated",
-                    //number : "",
-                    timeout: 6000
-                });
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
             });
+        },
+        removeCommand: function removeCommand(id) {
+            $.SmartMessageBox({
+                title: "Warning!",
+                content: "Are you sure you want to delete this Command?",
+                buttons: '[No][Yes]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "Yes") {
+                    this.$http.delete(window.location.origin + '/api/commands/' + id + '/delete/').then(function (response) {
+                        this.deleteCommand(id);
+                        (0, _alerts.AlertSuccess)("Command has been removed!");
+                    }.bind(this)).catch(function (response) {
+                        (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
+                    });
+                }
+            }.bind(this));
         },
         getAllRoles: function getAllRoles() {
             this.$http.get(window.location.origin + '/api/roles/').then(function (response) {
                 this.allRoles = response.data.results;
             }).catch(function (response) {
-                $.bigBox({
-                    title: "Critical Error:",
-                    content: response.data,
-                    color: "#C46A69",
-                    icon: "fa fa-warning shake animated",
-                    //number : "",
-                    timeout: 6000
-                });
+                (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
             });
         }
     },
@@ -13568,7 +13692,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"CommandsModal\">\n    <div slot=\"title\">Custom Commands</div>\n    <div slot=\"body\">\n\n        <!-- EDITING SHOW EDIT FORM -->\n        <div v-if=\"Editing\" class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <form>\n                    <legend>\n                        Editing {{ formModel.name }} with id: {{ formModel.id }}\n                    </legend>\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Trigger</label>\n                            <input type=\"text\" class=\"form-control\" v-model=\"formModel.name\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> Must start with ! example: !gamertag\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Output Text</label>\n                            <textarea rows=\"4\" class=\"form-control\" v-model=\"formModel.text\"></textarea>\n\n                            <div class=\"note\">\n                                <strong>Tip:</strong> Check out the <a href=\"#\">Public Variables</a>.\n                            </div>\n                        </div>\n                        \n                        <div class=\"form-group\">\n                            <label>Roles</label>\n\n                            <multiselect class=\"my-multiselect\" :selected.sync=\"formModel.roles\" :options=\"allRoles\" multiple=\"multiple\" :close-on-select=\"true\" :hide-selected=\"true\" :allow-empty=\"false\" label=\"name\" key=\"id\"></multiselect>\n\n                            <div class=\"note\">\n                                <strong>Usage:</strong> &lt;select multiple style=\"width:100%\" class=\"select2\" &gt;...&lt;/select&gt;\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Cooldown In Minutes</label>\n                            <input type=\"number\" min=\"0\" class=\"form-control\" v-model=\"formModel.cooldown_min\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> 0 is disabled\n                            </div>\n                        </div>\n                    </fieldset>\n\n                    <div class=\"form-actions\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                <button @click.prevent=\"cancelEdit()\" class=\"btn btn-default\">\n                                    Cancel\n                                </button>\n                                <button @click.prevent=\"updateEdit()\" class=\"btn btn-primary\">\n                                    <i class=\"fa fa-save\"></i>\n                                    Save\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n\n        <!-- NOT EDITING SHOW TABLE DATA -->\n        <table v-else=\"\" class=\"table table-striped table-bordered table-hover\">\n            <thead>\n            <tr>\n                <th>Command</th>\n                <th>Text</th>\n                <th></th>\n                <th></th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr v-for=\"item in commands\">\n                <td class=\"vcenter\">{{ item.name }}</td>\n                <td>{{ item.text }}</td>\n                <td style=\"padding-right: 20px\">\n                    <form class=\"smart-form\">\n                        <label class=\"toggle pull-left\">\n                            <input @click=\"updateActive(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                            <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                        </label>\n                    </form>\n                </td>\n                <td width=\"105px\" class=\"vcenter\">\n                    <div class=\"btn-group\">\n                        <button @click=\"Edit(item)\" class=\"btn btn-default btn-sm\">\n                            <i class=\"fa fa-pencil\"></i>\n                        </button>\n                        <button class=\"btn btn-danger btn-sm\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </div>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n    <div slot=\"footer\">\n\n    </div>\n</modal>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"CommandsModal\">\n    <div slot=\"title\">Custom Commands</div>\n    <div slot=\"body\">\n\n        <!-- EDITING SHOW EDIT FORM -->\n        <div v-if=\"Editing\" :transition=\"editTransition\" transition-mode=\"out-in\" class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <form>\n                    <legend>\n                        Editing {{ formModel.name }} with id: {{ formModel.id }}\n                    </legend>\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Trigger</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"text\" class=\"form-control\" v-model=\"formModel.name\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> Must start with ! example: !gamertag\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Output Text</label>\n                            <textarea @keydown.enter.prevent=\"updateEdit()\" rows=\"4\" class=\"form-control\" v-model=\"formModel.text\"></textarea>\n\n                            <div class=\"note\">\n                                <strong>Tip:</strong> Check out the <a href=\"#\">Public Variables</a>.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label>Roles</label>\n\n                            <multiselect class=\"my-multiselect\" :selected.sync=\"formModel.roles\" :options=\"allRoles\" multiple=\"multiple\" :close-on-select=\"true\" :hide-selected=\"true\" :allow-empty=\"false\" label=\"name\" key=\"id\"></multiselect>\n\n                            <div class=\"note\">\n                                <strong>Note:</strong> Click the box to reveal available roles.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Cooldown In Minutes</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"number\" min=\"0\" class=\"form-control\" v-model=\"formModel.cooldown_min\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> 0 is disabled\n                            </div>\n                        </div>\n                    </fieldset>\n\n                    <div class=\"form-actions\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                <button @click.prevent=\"cancelEdit()\" class=\"btn btn-default\">\n                                    Cancel\n                                </button>\n                                <button id=\"SaveCommandEdit\" @click.prevent=\"updateEdit()\" class=\"btn btn-primary\">\n                                    <i class=\"fa fa-save\"></i>\n                                    Save\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n\n        <!-- NOT EDITING SHOW TABLE DATA -->\n        <table v-else=\"\" class=\"table table-striped table-bordered table-hover\">\n            <thead>\n            <tr>\n                <th>#</th>\n                <th>Command</th>\n                <th>Text</th>\n                <th></th>\n                <th></th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr v-for=\"item in commands\">\n                <td>{{ item.id }}</td>\n                <td class=\"vcenter\">{{ item.name }}</td>\n                <td>{{ item.text }}</td>\n                <td style=\"padding-right: 20px\">\n                    <form class=\"smart-form\">\n                        <label class=\"toggle pull-left\">\n                            <input @click=\"updateActive(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                            <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                        </label>\n                    </form>\n                </td>\n                <td width=\"105px\" class=\"vcenter\">\n                    <div class=\"btn-group\">\n                        <button id=\"EditCommand{{ item.id }}\" @click=\"Edit(item)\" class=\"btn btn-default btn-sm\">\n                            <i class=\"fa fa-pencil\"></i>\n                        </button>\n                        <button @click=\"removeCommand(item.id)\" class=\"btn btn-danger btn-sm\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </div>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n</modal>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13583,7 +13707,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-570d039e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../vuex/actions":23,"../../vuex/getters":24,"./Modal.vue":14,"vue":5,"vue-hot-reload-api":2,"vue-multiselect":3,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
+},{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vue-multiselect":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13602,10 +13726,25 @@ exports.default = {
         return {};
     },
     components: {},
+
     methods: {},
+    events: {
+        'ShowModal': function ShowModal() {
+            $('#' + this.modalId).modal('show');
+        },
+        'CloseModal': function CloseModal() {
+            $('#' + this.modalId).modal('hide');
+        }
+    },
     ready: function ready() {
         $('#' + this.modalId).on('hidden.bs.modal', function () {
             this.$dispatch('ModalClosing');
+        }.bind(this));
+        $('#' + this.modalId).on('shown.bs.modal', function () {
+            this.$dispatch('ModalShown');
+        }.bind(this));
+        $('#' + this.modalId).on('loaded.bs.modal', function () {
+            this.$dispatch('ModalLoaded');
         }.bind(this));
     }
 };
@@ -13621,12 +13760,20 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4be6b374", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2}],15:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _BotControls = require('../widgets/BotControls.vue');
+
+var _BotControls2 = _interopRequireDefault(_BotControls);
+
+var _ChartWidget = require('../widgets/ChartWidget.vue');
+
+var _ChartWidget2 = _interopRequireDefault(_ChartWidget);
 
 var _CommandsWidget = require('../widgets/CommandsWidget.vue');
 
@@ -13648,6 +13795,10 @@ var _CommandsModal = require('../modals/CommandsModal.vue');
 
 var _CommandsModal2 = _interopRequireDefault(_CommandsModal);
 
+var _AddCommandModal = require('../modals/AddCommandModal.vue');
+
+var _AddCommandModal2 = _interopRequireDefault(_AddCommandModal);
+
 var _AddRegularModal = require('../modals/AddRegularModal.vue');
 
 var _AddRegularModal2 = _interopRequireDefault(_AddRegularModal);
@@ -13656,6 +13807,10 @@ var _actions = require('../../vuex/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Modals
+
+
+// Widgets
 exports.default = {
     vuex: {
         actions: {
@@ -13664,11 +13819,14 @@ exports.default = {
         }
     },
     components: {
+        BotControls: _BotControls2.default,
+        Chart: _ChartWidget2.default,
         Commands: _CommandsWidget2.default,
         Regulars: _RegularsWidget2.default,
         SmartChat: _SmartChat2.default,
         TwitchChat: _TwitchChat2.default,
         CommandsModal: _CommandsModal2.default,
+        AddCommandModal: _AddCommandModal2.default,
         AddRegularModal: _AddRegularModal2.default
     },
 
@@ -13711,14 +13869,8 @@ exports.default = {
 };
 
 // vuex
-
-
-// Modals
-
-
-// Widgets
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12 col-sm-7 col-md-7 col-lg-4\">\n        <h1 class=\"page-title txt-color-blueDark\"><i class=\"fa-fw fa fa-home\"></i> Dashboard <span>&gt; My Dashboard</span></h1>\n    </div>\n</div>\n\n<!-- widget grid -->\n<section id=\"widget-grid\" class=\"\">\n\n    <!-- row -->\n    <div class=\"row\">\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <smart-chat></smart-chat>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <twitch-chat></twitch-chat>\n        </article>\n    </div>\n\n    <!-- end row -->\n\n    <div class=\"row\">\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <commands></commands>\n        </article>\n\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <regulars></regulars>\n        </article>\n    </div>\n</section>\n<!-- end widget grid -->\n\n<!-- Modals Here -->\n<commands-modal></commands-modal>\n<add-regular-modal></add-regular-modal>\n<!-- End Modals -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12 col-sm-7 col-md-7 col-lg-8\">\n        <h1 class=\"page-title txt-color-blueDark\"><i class=\"fa-fw fa fa-home\"></i> Dashboard\n            <span>&gt; My Dashboard</span></h1>\n    </div>\n    <div class=\"col-xs-12 col-sm-5 col-md-5 col-lg-4\">\n        <bot-controls></bot-controls>\n    </div>\n</div>\n\n<!-- widget grid -->\n<section id=\"widget-grid\" class=\"\">\n    <div class=\"row\">\n        <!-- LEFT COLUMN -->\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <commands></commands>\n            <regulars></regulars>\n            <smart-chat></smart-chat>\n        </article>\n\n        <!-- RIGHT COLUMN-->\n        <article class=\"col-sm-12 col-md-12 col-lg-6\">\n            <twitch-chat></twitch-chat>\n            <chart></chart>\n        </article>\n    </div>\n\n    <!-- end row -->\n</section>\n<!-- end widget grid -->\n\n<!-- Modals Here -->\n<commands-modal></commands-modal>\n<add-command-modal></add-command-modal>\n<add-regular-modal></add-regular-modal>\n<!-- End Modals -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13729,7 +13881,171 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-bcbaee06", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../vuex/actions":23,"../modals/AddRegularModal.vue":12,"../modals/CommandsModal.vue":13,"../widgets/CommandsWidget.vue":16,"../widgets/RegularsWidget.vue":17,"../widgets/SmartChat.vue":18,"../widgets/TwitchChat.vue":19,"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
+},{"../../vuex/actions":27,"../modals/AddCommandModal.vue":12,"../modals/AddRegularModal.vue":13,"../modals/CommandsModal.vue":14,"../widgets/BotControls.vue":17,"../widgets/ChartWidget.vue":18,"../widgets/CommandsWidget.vue":19,"../widgets/RegularsWidget.vue":20,"../widgets/SmartChat.vue":21,"../widgets/TwitchChat.vue":22,"vue":5,"vue-hot-reload-api":2}],17:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    components: {
+        Widget: _Widget2.default
+    },
+    methods: {
+        processJob: function processJob(job) {
+            this.$http.post(window.location.origin + '/api/jobs/create/', {
+                name: job
+            }).then(function (response) {}.bind(this)).catch(function (response) {
+                alert(response);
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"btn-group btn-group-justified\">\n    <a href=\"#\" @click.prevent=\"processJob('join')\" class=\"btn btn-default bg-color-red txt-color-white\">\n        <strong>Join</strong>\n    </a>\n    <a href=\"#\" @click.prevent=\"processJob('part')\" class=\"btn btn-default\">Part</a>\n    <a href=\"#\" @click.prevent=\"processJob('rejoin')\" class=\"btn btn-default\">Rejoin</a>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-2126adf1", module.exports)
+  } else {
+    hotAPI.update("_v-2126adf1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Widget = require('./Widget.vue');
+
+var _Widget2 = _interopRequireDefault(_Widget);
+
+var _alerts = require('../../modules/alerts');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    vuex: {
+        actions: {},
+        getters: {}
+    },
+    components: {
+        Widget: _Widget2.default
+    },
+    methods: {},
+    computed: {},
+    ready: function ready() {
+        // For the demo we use generated data, but normally it would be coming from the server
+        var data = [],
+            totalPoints = 200;
+
+        function getRandomData() {
+            if (data.length > 0) data = data.slice(1);
+
+            // do a random walk
+            while (data.length < totalPoints) {
+                var prev = data.length > 0 ? data[data.length - 1] : 50;
+                var y = prev + Math.random() * 10 - 5;
+                if (y < 0) y = 0;
+                if (y > 100) y = 100;
+                data.push(y);
+            }
+
+            // zip the generated y values with the x values
+            var res = [];
+            for (var i = 0; i < data.length; ++i) {
+                res.push([i, data[i]]);
+            }return res;
+        }
+
+        // setup control widget
+        var updateInterval = 1000;
+        $("#updating-chart").val(updateInterval).change(function () {
+            var v = $(this).val();
+            if (v && !isNaN(+v)) {
+                updateInterval = +v;
+                if (updateInterval < 1) updateInterval = 1;
+                if (updateInterval > 2000) updateInterval = 2000;
+                $(this).val("" + updateInterval);
+            }
+        });
+
+        // setup plot
+        var options = {
+            yaxis: {
+                min: 0,
+                max: 100
+            },
+            xaxis: {
+                min: 0,
+                max: 100
+            },
+            colors: ['#7e9d3a'],
+            series: {
+                lines: {
+                    lineWidth: 1,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 0.4
+                        }, {
+                            opacity: 0
+                        }]
+                    },
+                    steps: false
+
+                }
+            }
+        };
+        var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+
+        function update() {
+            plot.setData([getRandomData()]);
+            // since the axes don't change, we don't need to call plot.setupGrid()
+            plot.draw();
+
+            setTimeout(update, updateInterval);
+        }
+
+        update();
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"37691\" fullscreen=\"true\">\n    <div slot=\"icon\">\n        <span class=\"widget-icon\"> <i class=\"fa fa-bar-chart-o\"></i> </span>\n    </div>\n\n    <div slot=\"title\">\n        <h2>Updating Chart (Demo of implementation)</h2>\n    </div>\n\n    <div slot=\"body\">\n        <div id=\"updating-chart\" class=\"chart\" style=\"padding: 0px; position: relative;\">\n            <canvas class=\"flot-base\" width=\"798\" height=\"220\" style=\"direction: ltr; position: absolute; left: 0px; top: 0px; width: 798px; height: 220px;\"></canvas>\n            <div class=\"flot-text\" style=\"position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);\">\n                <div class=\"flot-x-axis flot-x1-axis xAxis x1Axis\" style=\"position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;\">\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 26px; text-align: center;\">0\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 99px; text-align: center;\">10\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 175px; text-align: center;\">\n                        20\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 251px; text-align: center;\">\n                        30\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 327px; text-align: center;\">\n                        40\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 403px; text-align: center;\">\n                        50\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 478px; text-align: center;\">\n                        60\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 554px; text-align: center;\">\n                        70\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 630px; text-align: center;\">\n                        80\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 706px; text-align: center;\">\n                        90\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; max-width: 72px; top: 205px; left: 779px; text-align: center;\">\n                        100\n                    </div>\n                </div>\n                <div class=\"flot-y-axis flot-y1-axis yAxis y1Axis\" style=\"position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;\">\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 188px; left: 13px; text-align: right;\">0\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 151px; left: 7px; text-align: right;\">20\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 114px; left: 7px; text-align: right;\">40\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 77px; left: 7px; text-align: right;\">60\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 40px; left: 7px; text-align: right;\">80\n                    </div>\n                    <div class=\"flot-tick-label tickLabel\" style=\"position: absolute; top: 3px; left: 0px; text-align: right;\">100\n                    </div>\n                </div>\n            </div>\n            <canvas class=\"flot-overlay\" width=\"798\" height=\"220\" style=\"direction: ltr; position: absolute; left: 0px; top: 0px; width: 798px; height: 220px;\"></canvas>\n        </div>\n    </div>\n</widget>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-395ce196", module.exports)
+  } else {
+    hotAPI.update("_v-395ce196", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../modules/alerts":26,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],19:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -13794,7 +14110,7 @@ exports.default = {
     ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"61737\" fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-blue\" data-toggle=\"modal\" data-target=\"#CommandsModal\">\n                    <i class=\"fa fa-pencil\"></i>\n                </button>\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddRegularModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Commands Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th>Cooldown Min</th>\n                    <th>Active</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in commands\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.cooldown_min }}</td>\n                    <td>\n                        <form class=\"smart-form\">\n                            <label class=\"toggle pull-left\">\n                                <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                                <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                            </label>\n                        </form>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"61737\" fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-blue\" data-toggle=\"modal\" data-target=\"#CommandsModal\">\n                    <i class=\"fa fa-pencil\"></i>\n                </button>\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddCommandModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Commands Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th>Cooldown Min</th>\n                    <th>Active</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in commands\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.cooldown_min }}</td>\n                    <td>\n                        <form class=\"smart-form\">\n                            <label class=\"toggle pull-left\">\n                                <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                                <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                            </label>\n                        </form>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13809,7 +14125,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-48b96470", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../vuex/actions":23,"../../vuex/getters":24,"./Widget.vue":20,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
+},{"../../vuex/actions":27,"../../vuex/getters":28,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -13821,6 +14137,8 @@ Object.defineProperty(exports, "__esModule", {
 var _Widget = require('./Widget.vue');
 
 var _Widget2 = _interopRequireDefault(_Widget);
+
+var _alerts = require('../../modules/alerts');
 
 var _getters = require('../../vuex/getters');
 
@@ -13842,6 +14160,7 @@ exports.default = {
     },
     methods: {
         remove: function remove(id) {
+            // todo: add messagebox funtion to modules/alerts.js
             $.SmartMessageBox({
                 title: "Warning!",
                 content: "Are you sure you want to delete this user from the Regulars list?",
@@ -13850,22 +14169,9 @@ exports.default = {
                 if (ButtonPressed === "Yes") {
                     this.$http.delete(window.location.origin + '/api/regulars/' + id + '/delete/').then(function (response) {
                         this.deleteRegular(id);
-                        $.smallBox({
-                            title: "Regular Successfully Removed",
-                            content: "",
-                            color: "#739E73",
-                            iconSmall: "fa fa-thumbs-up bounce animated",
-                            timeout: 4000
-                        });
+                        (0, _alerts.AlertSuccess)("Regular removed!");
                     }.bind(this)).catch(function (response) {
-                        $.bigBox({
-                            title: "Critical Error",
-                            content: response,
-                            color: "#C46A69",
-                            icon: "fa fa-warning shake animated",
-                            //number : "",
-                            timeout: 6000
-                        });
+                        (0, _alerts.AlertError)(response.data.error, response.statusText, response.status);
                     });
                 }
             }.bind(this));
@@ -13890,7 +14196,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7ad73e52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../vuex/actions":23,"../../vuex/getters":24,"./Widget.vue":20,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
+},{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13971,7 +14277,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-020c7a15", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Widget.vue":20,"vue":5,"vue-hot-reload-api":2}],19:[function(require,module,exports){
+},{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2}],22:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n")
 'use strict';
@@ -14040,7 +14346,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-60e6b327", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Widget.vue":20,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
+},{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14093,7 +14399,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-255d7520", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./partials/ToolbarColorPicker.vue":21,"vue":5,"vue-hot-reload-api":2}],21:[function(require,module,exports){
+},{"./partials/ToolbarColorPicker.vue":24,"vue":5,"vue-hot-reload-api":2}],24:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<a data-toggle=\"dropdown\" class=\"dropdown-toggle color-box selector\" href=\"javascript:void(0);\"></a>\n<ul class=\"dropdown-menu arrow-box-up-right color-select pull-right\">\n    <li><span class=\"bg-color-green\" data-widget-setstyle=\"jarviswidget-color-green\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Green Grass\"></span></li>\n    <li><span class=\"bg-color-greenDark\" data-widget-setstyle=\"jarviswidget-color-greenDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Dark Green\"></span></li>\n    <li><span class=\"bg-color-greenLight\" data-widget-setstyle=\"jarviswidget-color-greenLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Green\"></span></li>\n    <li><span class=\"bg-color-purple\" data-widget-setstyle=\"jarviswidget-color-purple\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Purple\"></span></li>\n    <li><span class=\"bg-color-magenta\" data-widget-setstyle=\"jarviswidget-color-magenta\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Magenta\"></span></li>\n    <li><span class=\"bg-color-pink\" data-widget-setstyle=\"jarviswidget-color-pink\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Pink\"></span></li>\n    <li><span class=\"bg-color-pinkDark\" data-widget-setstyle=\"jarviswidget-color-pinkDark\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Fade Pink\"></span></li>\n    <li><span class=\"bg-color-blueLight\" data-widget-setstyle=\"jarviswidget-color-blueLight\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Light Blue\"></span></li>\n    <li><span class=\"bg-color-teal\" data-widget-setstyle=\"jarviswidget-color-teal\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Teal\"></span></li>\n    <li><span class=\"bg-color-blue\" data-widget-setstyle=\"jarviswidget-color-blue\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Ocean Blue\"></span></li>\n    <li><span class=\"bg-color-blueDark\" data-widget-setstyle=\"jarviswidget-color-blueDark\" rel=\"tooltip\" data-placement=\"top\" data-original-title=\"Night Sky\"></span></li>\n    <li><span class=\"bg-color-darken\" data-widget-setstyle=\"jarviswidget-color-darken\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Night\"></span></li>\n    <li><span class=\"bg-color-yellow\" data-widget-setstyle=\"jarviswidget-color-yellow\" rel=\"tooltip\" data-placement=\"left\" data-original-title=\"Day Light\"></span></li>\n    <li><span class=\"bg-color-orange\" data-widget-setstyle=\"jarviswidget-color-orange\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Orange\"></span></li>\n    <li><span class=\"bg-color-orangeDark\" data-widget-setstyle=\"jarviswidget-color-orangeDark\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Dark Orange\"></span></li>\n    <li><span class=\"bg-color-red\" data-widget-setstyle=\"jarviswidget-color-red\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Red Rose\"></span></li>\n    <li><span class=\"bg-color-redLight\" data-widget-setstyle=\"jarviswidget-color-redLight\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Light Red\"></span></li>\n    <li><span class=\"bg-color-white\" data-widget-setstyle=\"jarviswidget-color-white\" rel=\"tooltip\" data-placement=\"right\" data-original-title=\"Purity\"></span></li>\n    <li>\n        <a href=\"javascript:void(0);\" class=\"jarviswidget-remove-colors\" data-widget-setstyle=\"\" rel=\"tooltip\" data-placement=\"bottom\" data-original-title=\"Reset widget color to default\">Remove</a>\n    </li>\n</ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -14105,7 +14411,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-bd006918", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2}],22:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2}],25:[function(require,module,exports){
 'use strict';
 
 var _store = require('./vuex/store');
@@ -14168,7 +14474,47 @@ new Vue({
     ready: function ready() {}
 });
 
-},{"./components/Breadcrumbs.vue":8,"./components/DevActivityDropdown.vue":9,"./components/NotificationsDropdown.vue":10,"./components/SiteSearch.vue":11,"./components/pages/Dashboard.vue":15,"./vuex/store":28,"vue":5,"vue-resource":4}],23:[function(require,module,exports){
+},{"./components/Breadcrumbs.vue":8,"./components/DevActivityDropdown.vue":9,"./components/NotificationsDropdown.vue":10,"./components/SiteSearch.vue":11,"./components/pages/Dashboard.vue":16,"./vuex/store":32,"vue":5,"vue-resource":4}],26:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AlertSuccess = AlertSuccess;
+exports.AlertError = AlertError;
+function AlertSuccess(content) {
+    var title = arguments.length <= 1 || arguments[1] === undefined ? "Success" : arguments[1];
+    var timeout = arguments.length <= 2 || arguments[2] === undefined ? 4000 : arguments[2];
+    var color = arguments.length <= 3 || arguments[3] === undefined ? "#739E73" : arguments[3];
+    var icon = arguments.length <= 4 || arguments[4] === undefined ? "fa fa-thumbs-up bounce animated" : arguments[4];
+
+    $.smallBox({
+        title: title,
+        content: content,
+        color: color,
+        iconSmall: icon,
+        timeout: 4000
+    });
+}
+
+function AlertError(content) {
+    var title = arguments.length <= 1 || arguments[1] === undefined ? "Error" : arguments[1];
+    var num = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+    var timeout = arguments.length <= 3 || arguments[3] === undefined ? 6000 : arguments[3];
+    var color = arguments.length <= 4 || arguments[4] === undefined ? "#C46A69" : arguments[4];
+    var icon = arguments.length <= 5 || arguments[5] === undefined ? "fa fa-warning shake animated" : arguments[5];
+
+    $.bigBox({
+        title: title,
+        content: content,
+        color: color,
+        icon: icon,
+        number: num,
+        timeout: timeout
+    });
+}
+
+},{}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14197,7 +14543,7 @@ function makeAction(type) {
   };
 }
 
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14213,7 +14559,7 @@ function getCommands(state) {
   return state.commands.list;
 }
 
-},{}],25:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14267,7 +14613,7 @@ exports.default = {
     mutations: mutations
 };
 
-},{"../mutation-types":27}],26:[function(require,module,exports){
+},{"../mutation-types":31}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14303,7 +14649,7 @@ exports.default = {
     mutations: mutations
 };
 
-},{"../mutation-types":27}],27:[function(require,module,exports){
+},{"../mutation-types":31}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14319,7 +14665,7 @@ var UPDATE_COMMAND = exports.UPDATE_COMMAND = 'UPDATE_COMMAND';
 var DELETE_COMMAND = exports.DELETE_COMMAND = 'DELETE_COMMAND';
 var TOGGLE_COMMAND_ACTIVE = exports.TOGGLE_COMMAND_ACTIVE = 'TOGGLE_COMMAND_ACTIVE';
 
-},{}],28:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14354,4 +14700,4 @@ exports.default = new _vuex2.default.Store({
     }
 });
 
-},{"./modules/commands":25,"./modules/regulars":26,"vue":5,"vuex":7}]},{},[22]);
+},{"./modules/commands":29,"./modules/regulars":30,"vue":5,"vuex":7}]},{},[25]);

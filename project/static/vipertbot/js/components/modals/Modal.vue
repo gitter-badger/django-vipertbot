@@ -40,12 +40,27 @@
         components:{
             
         },
+
         methods: {
         
+        },
+        events: {
+            'ShowModal': function() {
+                $('#'+this.modalId).modal('show');
+            },
+            'CloseModal': function() {
+                $('#'+this.modalId).modal('hide');
+            }
         },
         ready: function () {
             $('#'+ this.modalId).on('hidden.bs.modal', function () {
                 this.$dispatch('ModalClosing')
+            }.bind(this))
+            $('#'+ this.modalId).on('shown.bs.modal', function () {
+                this.$dispatch('ModalShown')
+            }.bind(this))
+            $('#'+ this.modalId).on('loaded.bs.modal', function () {
+                this.$dispatch('ModalLoaded')
             }.bind(this))
         }
     }

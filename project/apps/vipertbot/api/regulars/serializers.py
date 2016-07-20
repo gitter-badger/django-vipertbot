@@ -1,4 +1,5 @@
-from rest_framework.exceptions import ValidationError
+from project.apps.vipertbot.api.helpers.validation import ApiValidationError
+
 from rest_framework.serializers import (
     ModelSerializer,
     SerializerMethodField,
@@ -70,14 +71,14 @@ class RegularCreateUpdateSerializer(ModelSerializer):
         request = self.context['request']
 
         if request.user.username.lower() == value.lower():
-            raise ValidationError('You can not add yourself!')
+            raise ApiValidationError('You can not add yourself!')
 
         if Regular.objects.filter(name__iexact=value).exists():
-            raise ValidationError('Regular already exists.')
+            raise ApiValidationError('Regular already exists.')
 
         try:
             data = twitch.users.by_name(value)
         except ResourceUnavailableException:
-            raise ValidationError("Not a valid Twitch User.")
+            raise ApiValidationError("Not a valid Twitch User.")
 
         return value

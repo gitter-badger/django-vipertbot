@@ -1,29 +1,22 @@
-from rest_framework.exceptions import ValidationError
+from project.apps.vipertbot.api.helpers.validation import ApiValidationError
+
 from rest_framework.serializers import (
     ModelSerializer,
-    SerializerMethodField,
-    HyperlinkedIdentityField
 )
 from project.apps.vipertbot.api.users.serializers import UserDetailSerializer
 from project.apps.vipertbot.api.roles.serializers import RoleDetailSerializer
-
 from project.apps.vipertbot.models import Command
 from project.apps.vipertbot.models import Role
+
 
 class CommandListSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)
     roles = RoleDetailSerializer(read_only=True, many=True)
 
-    url = HyperlinkedIdentityField(
-        view_name='commands-detail',
-        lookup_field='id'
-    )
-
     class Meta:
         model = Command
         fields = [
             'id',
-            'url',
             'name',
             'text',
             'cooldown_min',
@@ -34,6 +27,7 @@ class CommandListSerializer(ModelSerializer):
 
     def get_user(self, obj):
         return obj.user.username
+
 
 class CommandDetailSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)
@@ -54,20 +48,15 @@ class CommandDetailSerializer(ModelSerializer):
     def get_user(self, obj):
         return obj.user.username
 
+
 class CommandCreateUpdateSerializer(ModelSerializer):
     user = UserDetailSerializer(read_only=True)
     roles = RoleDetailSerializer(many=True)
-
-    url = HyperlinkedIdentityField(
-        view_name='commands-detail',
-        lookup_field='id'
-    )
 
     class Meta:
         model = Command
         fields = [
             'id',
-            'url',
             'name',
             'text',
             'cooldown_min',
@@ -77,6 +66,36 @@ class CommandCreateUpdateSerializer(ModelSerializer):
         ]
 
         read_only_fields = ('id', 'url')
+
+    def validate_name(self, value):
+        if ' ' in value:
+            raise ApiValidationError('Command can not contain spaces!')
+
+        if not str(value).startswith('!'):
+            raise ApiValidationError('Command must start with !')
+
+        return value
+
+    def create(self, validated_data):
+        request = self.context['request']
+        cmd = Command(
+            name=validated_data.get('name'),
+            text=validated_data.get('text'),
+            cooldown_min=validated_data.get('cooldown_min'),
+            active=validated_data.get('active'),
+            user_id=request.user.id
+        )
+        cmd.save()
+
+        try:
+            roles = validated_data['roles']
+            for item in roles:
+                name = item.get('name')
+                cmd.roles.add(Role.objects.get(name=name))
+        except KeyError:
+            pass
+
+        return cmd
 
     def update(self, instance, validated_data):
         try:
@@ -89,7 +108,6 @@ class CommandCreateUpdateSerializer(ModelSerializer):
 
         except KeyError:
             pass
-
 
         instance.name = validated_data.get('name', instance.name)
         instance.text = validated_data.get('text', instance.text)

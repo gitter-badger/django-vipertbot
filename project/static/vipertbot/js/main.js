@@ -31,9 +31,7 @@ new Vue({
         currentView: 'dashboard',
     },
 
-    methods: {
-
-    },
+    methods: {},
 
     ready() {
 

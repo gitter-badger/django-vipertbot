@@ -36,6 +36,11 @@
 </style>
 <script type="text/babel">
     import Modal from './Modal.vue'
+    import {
+        AlertSuccess,
+        AlertError
+    } from '../../modules/alerts'
+
     import { addRegular } from '../../vuex/actions'
 
     export default{
@@ -59,42 +64,19 @@
             addNew: function (e) {
                 if(e) e.preventDefault()
 
-                this.$http.post(window.location.origin + '/api/regulars/create/', this.formModel)
-                        .then(function (response) {
-                            this.addRegular(response.data)
-                            console.log(response.data)
-                            $.smallBox({
-                                title: "Regular Successfully Added",
-                                content: "",
-                                color: "#739E73",
-                                iconSmall: "fa fa-thumbs-up bounce animated",
-                                timeout: 4000
-                            });
-
-                            this.clearFields()
-                            $("#AddRegularModal").modal('hide');
-                        }.bind(this))
-
-                        .catch(function (response) {
-                            $.bigBox({
-                                title: "Error",
-                                content: response.data.name,
-                                color: "#C46A69",
-                                icon: "fa fa-warning shake animated",
-                                //number : "",
-                                timeout: 7000
-                            });
+                this.$http.post(window.location.origin + '/api/regulars/create/', this.formModel).then(function (response) {
+                    this.addRegular(response.data)
+                    AlertSuccess("Regular Added!")
+                    this.clearFields()
+                }.bind(this)).catch(function (response) {
+                    AlertError(response.data.error, response.statusText, response.status)
                 });
             },
             clearFields: function() {
+                this.$broadcast('CloseModal')
                 for (var item in this.formModel) {
                     this.formModel[item] = ''
                 }
-            }
-        },
-        events: {
-            'ModalClosing': function() {
-                this.clearFields()
             }
         },
         ready: function() {

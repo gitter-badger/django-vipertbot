@@ -18,7 +18,7 @@
                     </button>
                     <button class="btn btn-xs bg-color-greenLight"
                             data-toggle="modal"
-                            data-target="#AddRegularModal"
+                            data-target="#AddCommandModal"
                     >
                         <i class="fa fa-plus"></i>
                     </button>
