@@ -35,7 +35,26 @@
                 <i class="fa-fw fa fa-info"></i>
                 Commands Widget v1.0 Beta
             </div>
-            <div class="table-responsive">
+
+            <!-- Body Toolbars -->
+            <div class="widget-body-toolbar">
+
+                <div class="row">
+
+                    <div class="col-xs-9 col-sm-5 col-md-5 col-lg-5">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input class="form-control"
+                                   v-model="searchFilter"
+                                   placeholder="Filter"
+                                   type="text"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-scroll table-responsive" style="height:200px; overflow-y: scroll;">
 
                 <table class="table">
                     <thead>
@@ -47,7 +66,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in commands">
+                    <tr v-for="item in commands | filterBy searchFilter in 'name'">
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.cooldown_min }}</td>
@@ -87,7 +106,9 @@
             }
         },
         data: function () {
-            return {}
+            return {
+                searchFilter: ''
+            }
         },
         components: {
             Widget

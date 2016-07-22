@@ -9,7 +9,7 @@ import {
 // initial state
 const state = {
     list: []
-}
+};
 
 // mutations
 const mutations = {
@@ -22,7 +22,6 @@ const mutations = {
     },
 
     [UPDATE_COMMAND] (state, data) {
-        console.log(data)
         if(data) {
             for (var i in state.list) {
                 if (state.list[i].id == data.id) {
@@ -49,8 +48,8 @@ const mutations = {
                 break
             }
         }
-    },
-}
+    }
+};
 
 export default {
     state,

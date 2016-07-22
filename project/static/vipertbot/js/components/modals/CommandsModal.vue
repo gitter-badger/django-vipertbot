@@ -114,6 +114,14 @@
                 </tbody>
             </table>
         </div>
+        <div slot="footer">
+            <button class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#AddCommandModal"
+            >
+                Add New
+            </button>
+        </div>
     </modal>
 </template>
 

@@ -182,7 +182,7 @@ SOCIAL_AUTH_TWITCH_SCOPE = env_settings.SOCIAL_AUTH_TWITCH_SCOPE
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
-    'PAGE_SIZE': 50
+    'PAGE_SIZE': 15
 }
 
 def show_toolbar(request):

@@ -70,7 +70,10 @@
 
             <!-- widget content -->
             <div class="widget-body widget-hide-overflow no-padding">
-                <slot name="body"></slot>
+                <slot name="body">
+
+                    <slot name="footer"></slot>
+                </slot>
             </div>
             <!-- end widget content -->
 

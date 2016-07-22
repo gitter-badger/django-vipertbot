@@ -13222,9 +13222,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-1c0867d1", module.exports)
+    hotAPI.createRecord("_v-4f69e9b8", module.exports)
   } else {
-    hotAPI.update("_v-1c0867d1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-4f69e9b8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
@@ -13283,9 +13283,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-76d9ddf6", module.exports)
+    hotAPI.createRecord("_v-75f97e49", module.exports)
   } else {
-    hotAPI.update("_v-76d9ddf6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-75f97e49", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
@@ -13318,9 +13318,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-081b705a", module.exports)
+    hotAPI.createRecord("_v-84577026", module.exports)
   } else {
-    hotAPI.update("_v-081b705a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-84577026", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
@@ -13353,9 +13353,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-7d19155e", module.exports)
+    hotAPI.createRecord("_v-411b3bab", module.exports)
   } else {
-    hotAPI.update("_v-7d19155e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-411b3bab", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],12:[function(require,module,exports){
@@ -13460,9 +13460,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-ff80ce88", module.exports)
+    hotAPI.createRecord("_v-fcbc98ee", module.exports)
   } else {
-    hotAPI.update("_v-ff80ce88", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-fcbc98ee", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vue-multiselect":3,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
@@ -13533,9 +13533,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-7f28238b", module.exports)
+    hotAPI.createRecord("_v-feeb8350", module.exports)
   } else {
-    hotAPI.update("_v-7f28238b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-feeb8350", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../modules/alerts":26,"../../vuex/actions":27,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
@@ -13692,7 +13692,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"CommandsModal\">\n    <div slot=\"title\">Custom Commands</div>\n    <div slot=\"body\">\n\n        <!-- EDITING SHOW EDIT FORM -->\n        <div v-if=\"Editing\" :transition=\"editTransition\" transition-mode=\"out-in\" class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <form>\n                    <legend>\n                        Editing {{ formModel.name }} with id: {{ formModel.id }}\n                    </legend>\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Trigger</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"text\" class=\"form-control\" v-model=\"formModel.name\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> Must start with ! example: !gamertag\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Output Text</label>\n                            <textarea @keydown.enter.prevent=\"updateEdit()\" rows=\"4\" class=\"form-control\" v-model=\"formModel.text\"></textarea>\n\n                            <div class=\"note\">\n                                <strong>Tip:</strong> Check out the <a href=\"#\">Public Variables</a>.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label>Roles</label>\n\n                            <multiselect class=\"my-multiselect\" :selected.sync=\"formModel.roles\" :options=\"allRoles\" multiple=\"multiple\" :close-on-select=\"true\" :hide-selected=\"true\" :allow-empty=\"false\" label=\"name\" key=\"id\"></multiselect>\n\n                            <div class=\"note\">\n                                <strong>Note:</strong> Click the box to reveal available roles.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Cooldown In Minutes</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"number\" min=\"0\" class=\"form-control\" v-model=\"formModel.cooldown_min\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> 0 is disabled\n                            </div>\n                        </div>\n                    </fieldset>\n\n                    <div class=\"form-actions\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                <button @click.prevent=\"cancelEdit()\" class=\"btn btn-default\">\n                                    Cancel\n                                </button>\n                                <button id=\"SaveCommandEdit\" @click.prevent=\"updateEdit()\" class=\"btn btn-primary\">\n                                    <i class=\"fa fa-save\"></i>\n                                    Save\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n\n        <!-- NOT EDITING SHOW TABLE DATA -->\n        <table v-else=\"\" class=\"table table-striped table-bordered table-hover\">\n            <thead>\n            <tr>\n                <th>#</th>\n                <th>Command</th>\n                <th>Text</th>\n                <th></th>\n                <th></th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr v-for=\"item in commands\">\n                <td>{{ item.id }}</td>\n                <td class=\"vcenter\">{{ item.name }}</td>\n                <td>{{ item.text }}</td>\n                <td style=\"padding-right: 20px\">\n                    <form class=\"smart-form\">\n                        <label class=\"toggle pull-left\">\n                            <input @click=\"updateActive(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                            <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                        </label>\n                    </form>\n                </td>\n                <td width=\"105px\" class=\"vcenter\">\n                    <div class=\"btn-group\">\n                        <button id=\"EditCommand{{ item.id }}\" @click=\"Edit(item)\" class=\"btn btn-default btn-sm\">\n                            <i class=\"fa fa-pencil\"></i>\n                        </button>\n                        <button @click=\"removeCommand(item.id)\" class=\"btn btn-danger btn-sm\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </div>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n</modal>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<modal modal-id=\"CommandsModal\">\n    <div slot=\"title\">Custom Commands</div>\n    <div slot=\"body\">\n\n        <!-- EDITING SHOW EDIT FORM -->\n        <div v-if=\"Editing\" :transition=\"editTransition\" transition-mode=\"out-in\" class=\"panel panel-default\">\n            <div class=\"panel-body\">\n                <form>\n                    <legend>\n                        Editing {{ formModel.name }} with id: {{ formModel.id }}\n                    </legend>\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Trigger</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"text\" class=\"form-control\" v-model=\"formModel.name\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> Must start with ! example: !gamertag\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Command Output Text</label>\n                            <textarea @keydown.enter.prevent=\"updateEdit()\" rows=\"4\" class=\"form-control\" v-model=\"formModel.text\"></textarea>\n\n                            <div class=\"note\">\n                                <strong>Tip:</strong> Check out the <a href=\"#\">Public Variables</a>.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label>Roles</label>\n\n                            <multiselect class=\"my-multiselect\" :selected.sync=\"formModel.roles\" :options=\"allRoles\" multiple=\"multiple\" :close-on-select=\"true\" :hide-selected=\"true\" :allow-empty=\"false\" label=\"name\" key=\"id\"></multiselect>\n\n                            <div class=\"note\">\n                                <strong>Note:</strong> Click the box to reveal available roles.\n                            </div>\n                        </div>\n\n                        <div class=\"form-group\">\n                            <label class=\"label\">Cooldown In Minutes</label>\n                            <input @keydown.enter.prevent=\"updateEdit()\" type=\"number\" min=\"0\" class=\"form-control\" v-model=\"formModel.cooldown_min\">\n\n                            <div class=\"note text-danger\">\n                                <strong>Note:</strong> 0 is disabled\n                            </div>\n                        </div>\n                    </fieldset>\n\n                    <div class=\"form-actions\">\n                        <div class=\"row\">\n                            <div class=\"col-md-12\">\n                                <button @click.prevent=\"cancelEdit()\" class=\"btn btn-default\">\n                                    Cancel\n                                </button>\n                                <button id=\"SaveCommandEdit\" @click.prevent=\"updateEdit()\" class=\"btn btn-primary\">\n                                    <i class=\"fa fa-save\"></i>\n                                    Save\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n\n        <!-- NOT EDITING SHOW TABLE DATA -->\n        <table v-else=\"\" class=\"table table-striped table-bordered table-hover\">\n            <thead>\n            <tr>\n                <th>#</th>\n                <th>Command</th>\n                <th>Text</th>\n                <th></th>\n                <th></th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr v-for=\"item in commands\">\n                <td>{{ item.id }}</td>\n                <td class=\"vcenter\">{{ item.name }}</td>\n                <td>{{ item.text }}</td>\n                <td style=\"padding-right: 20px\">\n                    <form class=\"smart-form\">\n                        <label class=\"toggle pull-left\">\n                            <input @click=\"updateActive(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                            <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                        </label>\n                    </form>\n                </td>\n                <td width=\"105px\" class=\"vcenter\">\n                    <div class=\"btn-group\">\n                        <button id=\"EditCommand{{ item.id }}\" @click=\"Edit(item)\" class=\"btn btn-default btn-sm\">\n                            <i class=\"fa fa-pencil\"></i>\n                        </button>\n                        <button @click=\"removeCommand(item.id)\" class=\"btn btn-danger btn-sm\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </div>\n                </td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n    <div slot=\"footer\">\n        <button class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#AddCommandModal\">\n            Add New\n        </button>\n    </div>\n</modal>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13702,9 +13702,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-570d039e", module.exports)
+    hotAPI.createRecord("_v-3be16dab", module.exports)
   } else {
-    hotAPI.update("_v-570d039e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-3be16dab", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Modal.vue":15,"vue":5,"vue-hot-reload-api":2,"vue-multiselect":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
@@ -13755,9 +13755,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-4be6b374", module.exports)
+    hotAPI.createRecord("_v-b3c3255a", module.exports)
   } else {
-    hotAPI.update("_v-4be6b374", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-b3c3255a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],16:[function(require,module,exports){
@@ -13876,9 +13876,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-bcbaee06", module.exports)
+    hotAPI.createRecord("_v-6a6d4ad0", module.exports)
   } else {
-    hotAPI.update("_v-bcbaee06", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-6a6d4ad0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../vuex/actions":27,"../modals/AddCommandModal.vue":12,"../modals/AddRegularModal.vue":13,"../modals/CommandsModal.vue":14,"../widgets/BotControls.vue":17,"../widgets/ChartWidget.vue":18,"../widgets/CommandsWidget.vue":19,"../widgets/RegularsWidget.vue":20,"../widgets/SmartChat.vue":21,"../widgets/TwitchChat.vue":22,"vue":5,"vue-hot-reload-api":2}],17:[function(require,module,exports){
@@ -13921,9 +13921,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-2126adf1", module.exports)
+    hotAPI.createRecord("_v-20464e44", module.exports)
   } else {
-    hotAPI.update("_v-2126adf1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-20464e44", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
@@ -14040,9 +14040,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-395ce196", module.exports)
+    hotAPI.createRecord("_v-387c81e9", module.exports)
   } else {
-    hotAPI.update("_v-395ce196", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-387c81e9", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../modules/alerts":26,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],19:[function(require,module,exports){
@@ -14074,7 +14074,9 @@ exports.default = {
         }
     },
     data: function data() {
-        return {};
+        return {
+            searchFilter: ''
+        };
     },
     components: {
         Widget: _Widget2.default
@@ -14110,7 +14112,7 @@ exports.default = {
     ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"61737\" fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-blue\" data-toggle=\"modal\" data-target=\"#CommandsModal\">\n                    <i class=\"fa fa-pencil\"></i>\n                </button>\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddCommandModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Commands Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th>Cooldown Min</th>\n                    <th>Active</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in commands\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.cooldown_min }}</td>\n                    <td>\n                        <form class=\"smart-form\">\n                            <label class=\"toggle pull-left\">\n                                <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                                <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                            </label>\n                        </form>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"61737\" fullscreen=\"true\">\n    <div slot=\"title\">Commands</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-blue\" data-toggle=\"modal\" data-target=\"#CommandsModal\">\n                    <i class=\"fa fa-pencil\"></i>\n                </button>\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddCommandModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Commands Widget v1.0 Beta\n        </div>\n\n        <!-- Body Toolbars -->\n        <div class=\"widget-body-toolbar\">\n\n            <div class=\"row\">\n\n                <div class=\"col-xs-9 col-sm-5 col-md-5 col-lg-5\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>\n                        <input class=\"form-control\" v-model=\"searchFilter\" placeholder=\"Filter\" type=\"text\">\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"custom-scroll table-responsive\" style=\"height:200px; overflow-y: scroll;\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th>Cooldown Min</th>\n                    <th>Active</th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in commands | filterBy searchFilter in 'name'\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>{{ item.cooldown_min }}</td>\n                    <td>\n                        <form class=\"smart-form\">\n                            <label class=\"toggle pull-left\">\n                                <input @click=\"Update(item)\" type=\"checkbox\" name=\"checkbox-toggle\" checked=\"{{ item.active }}\">\n                                <i data-swchon-text=\"ON\" data-swchoff-text=\"OFF\"></i>\n                            </label>\n                        </form>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14120,9 +14122,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-48b96470", module.exports)
+    hotAPI.createRecord("_v-45f52ed6", module.exports)
   } else {
-    hotAPI.update("_v-48b96470", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-45f52ed6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../vuex/actions":27,"../../vuex/getters":28,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
@@ -14155,6 +14157,11 @@ exports.default = {
             regulars: _getters.getRegulars
         }
     },
+    data: function data() {
+        return {
+            searchFilter: ''
+        };
+    },
     components: {
         Widget: _Widget2.default
     },
@@ -14181,7 +14188,7 @@ exports.default = {
     ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"37691\" fullscreen=\"true\">\n    <div slot=\"title\">Regulars</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddRegularModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Regulars Widget v1.0 Beta\n        </div>\n        <div class=\"table-responsive\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th></th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in regulars\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>\n                        <button @click=\"remove(item.id)\" class=\"btn btn-danger btn-xs\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<widget wid-id=\"37691\" fullscreen=\"true\">\n    <div slot=\"title\">Regulars</div>\n    <div slot=\"icon\">\n        <!-- add a icon example: <i class=\"fa fa-comments txt-color-white\"></i> -->\n        <i class=\"fa fa-table\"></i>\n    </div>\n\n    <div slot=\"toolbars\">\n        <div class=\"widget-toolbar\">\n            <!-- add: non-hidden - to disable auto hide -->\n            <div class=\"btn-group\">\n                <button class=\"btn btn-xs bg-color-greenLight\" data-toggle=\"modal\" data-target=\"#AddRegularModal\">\n                    <i class=\"fa fa-plus\"></i>\n                </button>\n            </div>\n        </div>\n    </div>\n\n    <div slot=\"body\">\n        <!-- MAIN CONTAINER -->\n        <div class=\"alert alert-info no-margin fade in\">\n            <button class=\"close\" data-dismiss=\"alert\">\n                ×\n            </button>\n            <i class=\"fa-fw fa fa-info\"></i>\n            Regulars Widget v1.0 Beta\n        </div>\n\n        <div class=\"widget-body-toolbar\">\n\n            <div class=\"row\">\n\n                <div class=\"col-xs-9 col-sm-5 col-md-5 col-lg-5\">\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>\n                        <input class=\"form-control\" v-model=\"searchFilter\" placeholder=\"Filter\" type=\"text\">\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"custom-scroll table-responsive\" style=\"height:200px; overflow-y: scroll;\">\n\n            <table class=\"table\">\n                <thead>\n                <tr>\n                    <th>#</th>\n                    <th>Name</th>\n                    <th></th>\n                </tr>\n                </thead>\n                <tbody>\n                <tr v-for=\"item in regulars | filterBy searchFilter in 'name'\">\n                    <td>{{ item.id }}</td>\n                    <td>{{ item.name }}</td>\n                    <td>\n                        <button @click=\"remove(item.id)\" class=\"btn btn-danger btn-xs\">\n                            <i class=\"fa fa-trash\"></i>\n                        </button>\n                    </td>\n                </tr>\n                </tbody>\n            </table>\n        </div>\n\n    </div>\n    <!-- end body -->\n</widget>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14191,9 +14198,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-7ad73e52", module.exports)
+    hotAPI.createRecord("_v-781308b8", module.exports)
   } else {
-    hotAPI.update("_v-7ad73e52", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-781308b8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"../../modules/alerts":26,"../../vuex/actions":27,"../../vuex/getters":28,"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],21:[function(require,module,exports){
@@ -14272,9 +14279,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-020c7a15", module.exports)
+    hotAPI.createRecord("_v-79a3d9b0", module.exports)
   } else {
-    hotAPI.update("_v-020c7a15", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-79a3d9b0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2}],22:[function(require,module,exports){
@@ -14341,9 +14348,9 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-60e6b327", module.exports)
+    hotAPI.createRecord("_v-780f8718", module.exports)
   } else {
-    hotAPI.update("_v-60e6b327", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-780f8718", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./Widget.vue":23,"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],23:[function(require,module,exports){
@@ -14388,15 +14395,15 @@ exports.default = {
     methods: {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n<!-- Widget ID (each widget will need unique ID)-->\n<div class=\"jarviswidget jarviswidget-color-blueDark jarviswidget-sortable\" id=\"{{widId}}\" data-widget-editbutton=\"false\" role=\"widget\">\n\n    <header role=\"heading\">\n        <div class=\"jarviswidget-ctrls\" role=\"menu\">\n\n            <a v-if=\"collapse\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-toggle-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Collapse\">\n                <i class=\"fa fa-minus \"></i>\n            </a>\n\n            <a v-if=\"fullscreen\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-fullscreen-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Fullscreen\">\n                <i class=\"fa fa-expand \"></i>\n            </a>\n\n            <a v-if=\"deletebtn\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-delete-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Delete\">\n                <i class=\"fa fa-times\"></i>\n            </a>\n\n        </div>\n\n        <div class=\"widget-toolbar\" role=\"menu\">\n            <color-picker v-if=\"colorpicker\"></color-picker>\n        </div>\n\n        <slot name=\"toolbars\"></slot>\n\n        <span class=\"widget-icon\">\n            <slot name=\"icon\"></slot>\n        </span>\n\n        <!-- widget title -->\n        <h2>\n            <slot name=\"title\"></slot>\n        </h2>\n        <!-- end title -->\n\n        <span class=\"jarviswidget-loader\"><i class=\"fa fa-refresh fa-spin\"></i></span>\n    </header>\n\n    <!-- widget div-->\n    <div role=\"content\">\n\n        <!-- widget content -->\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <slot name=\"body\"></slot>\n        </div>\n        <!-- end widget content -->\n\n    </div>\n    <!-- end widget div -->\n\n</div>\n<!-- end widget -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- widget options:\n    usage: <div class=\"jarviswidget\" id=\"wid-id-0\" data-widget-editbutton=\"false\">\n\n    data-widget-colorbutton=\"false\"\n    data-widget-editbutton=\"false\"\n    data-widget-togglebutton=\"false\"\n    data-widget-deletebutton=\"false\"\n    data-widget-fullscreenbutton=\"false\"\n    data-widget-custombutton=\"false\"\n    data-widget-collapsed=\"true\"\n    data-widget-sortable=\"false\"\n\n    -->\n\n<!-- Widget ID (each widget will need unique ID)-->\n<div class=\"jarviswidget jarviswidget-color-blueDark jarviswidget-sortable\" id=\"{{widId}}\" data-widget-editbutton=\"false\" role=\"widget\">\n\n    <header role=\"heading\">\n        <div class=\"jarviswidget-ctrls\" role=\"menu\">\n\n            <a v-if=\"collapse\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-toggle-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Collapse\">\n                <i class=\"fa fa-minus \"></i>\n            </a>\n\n            <a v-if=\"fullscreen\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-fullscreen-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Fullscreen\">\n                <i class=\"fa fa-expand \"></i>\n            </a>\n\n            <a v-if=\"deletebtn\" href=\"javascript:void(0);\" class=\"button-icon jarviswidget-delete-btn\" rel=\"tooltip\" title=\"\" data-placement=\"bottom\" data-original-title=\"Delete\">\n                <i class=\"fa fa-times\"></i>\n            </a>\n\n        </div>\n\n        <div class=\"widget-toolbar\" role=\"menu\">\n            <color-picker v-if=\"colorpicker\"></color-picker>\n        </div>\n\n        <slot name=\"toolbars\"></slot>\n\n        <span class=\"widget-icon\">\n            <slot name=\"icon\"></slot>\n        </span>\n\n        <!-- widget title -->\n        <h2>\n            <slot name=\"title\"></slot>\n        </h2>\n        <!-- end title -->\n\n        <span class=\"jarviswidget-loader\"><i class=\"fa fa-refresh fa-spin\"></i></span>\n    </header>\n\n    <!-- widget div-->\n    <div role=\"content\">\n\n        <!-- widget content -->\n        <div class=\"widget-body widget-hide-overflow no-padding\">\n            <slot name=\"body\">\n\n                <slot name=\"footer\"></slot>\n            </slot>\n        </div>\n        <!-- end widget content -->\n\n    </div>\n    <!-- end widget div -->\n\n</div>\n<!-- end widget -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-255d7520", module.exports)
+    hotAPI.createRecord("_v-3419aced", module.exports)
   } else {
-    hotAPI.update("_v-255d7520", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-3419aced", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"./partials/ToolbarColorPicker.vue":24,"vue":5,"vue-hot-reload-api":2}],24:[function(require,module,exports){
@@ -14406,9 +14413,9 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-bd006918", module.exports)
+    hotAPI.createRecord("_v-571b3472", module.exports)
   } else {
-    hotAPI.update("_v-bd006918", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-571b3472", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":2}],25:[function(require,module,exports){
@@ -14583,7 +14590,6 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, _mutationTypes.SET
 }), _defineProperty(_mutations, _mutationTypes.ADD_COMMAND, function (state, data) {
     state.list.push(data);
 }), _defineProperty(_mutations, _mutationTypes.UPDATE_COMMAND, function (state, data) {
-    console.log(data);
     if (data) {
         for (var i in state.list) {
             if (state.list[i].id == data.id) {
